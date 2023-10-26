@@ -19,6 +19,9 @@ public class CollisionChecker {
         int entityTopWorldY = entity.worldY + entity.solidArea.y;
         int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
 
+        System.out.println(entity.worldX);
+        System.out.println(entity.worldY);
+
         int entityLeftCol = entityLeftWorldX / gamePanel.tileSize;
         int entityRightCol = entityRightWorldX / gamePanel.tileSize;
 
