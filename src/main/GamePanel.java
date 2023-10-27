@@ -1,10 +1,12 @@
 package main;
 
 import entity.Player;
+import object.Object;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -31,6 +33,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldHeight = tileSize * maxWorldRow;
 
     public CollisionChecker collisionChecker = new CollisionChecker(this);
+
+    public Object[] objects = new Object[10];
+
+    public AssetSetter assetSetter = new AssetSetter(this);
 
     TileManager tileManager = new TileManager(this);
 
@@ -61,6 +67,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void setupGame() {
+
+        assetSetter.setObject();
     }
 
     @Override
@@ -98,6 +109,11 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D graphics2D = ( Graphics2D ) graphics;
 
         tileManager.draw(graphics2D);
+        Arrays.stream(objects).forEach(object -> {
+            if ( object != null ) {
+                object.draw(graphics2D, this);
+            }
+        });
         player.draw(graphics2D);
 
         graphics2D.dispose();
