@@ -15,6 +15,8 @@ public class Door extends Object {
 
         name = "Door";
 
+        collision = true;
+
         try {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/objects/door.png")));
         } catch ( IOException error ) {

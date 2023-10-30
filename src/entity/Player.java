@@ -19,6 +19,8 @@ public class Player extends Entity {
 
     KeyHandler keyHandler;
 
+    int keys = 0;
+
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
 
         this.gamePanel = gamePanel;
@@ -30,6 +32,8 @@ public class Player extends Entity {
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.height = 28;
         solidArea.width = 28;
 
@@ -78,6 +82,10 @@ public class Player extends Entity {
             collisionOn = false;
             gamePanel.collisionChecker.checkTile(this);
 
+            int index = gamePanel.collisionChecker.checkObject(this, true);
+
+            objectInteraction(index);
+
             if ( !collisionOn ) {
                 switch ( direction ) {
                     case "up":
@@ -103,6 +111,26 @@ public class Player extends Entity {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
+            }
+        }
+    }
+
+    public void objectInteraction(int index) {
+
+        if ( index != 999 ) {
+            String objectName = gamePanel.objects[index].name;
+
+            switch ( objectName ) {
+                case "Key":
+                    gamePanel.objects[index] = null;
+                    keys++;
+                    break;
+                case "Door":
+                    if ( keys > 0 ) {
+                        gamePanel.objects[index] = null;
+                        keys--;
+                    }
+                    break;
             }
         }
     }
