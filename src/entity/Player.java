@@ -122,14 +122,21 @@ public class Player extends Entity {
 
             switch ( objectName ) {
                 case "Key":
+                    gamePanel.playSoundEffect(1);
                     gamePanel.objects[index] = null;
                     keys++;
                     break;
                 case "Door":
                     if ( keys > 0 ) {
+                        gamePanel.playSoundEffect(3);
                         gamePanel.objects[index] = null;
                         keys--;
                     }
+                    break;
+                case "Boots":
+                    gamePanel.playSoundEffect(2);
+                    speed += 2;
+                    gamePanel.objects[index] = null;
                     break;
             }
         }
