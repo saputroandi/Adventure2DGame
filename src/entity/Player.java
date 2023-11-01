@@ -15,11 +15,11 @@ public class Player extends Entity {
 
     public final int screenY;
 
+    public int keys = 0;
+
     GamePanel gamePanel;
 
     KeyHandler keyHandler;
-
-    int keys = 0;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
 
