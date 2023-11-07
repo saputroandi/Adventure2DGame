@@ -1,9 +1,11 @@
 package tile;
 
 import main.GamePanel;
+import main.Utility;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,39 +23,86 @@ public class TileManager {
     public TileManager(GamePanel gamePanel) {
 
         this.gamePanel = gamePanel;
-        tiles = new Tile[10];
+        init();
+    }
+
+    public void init() {
+
+        tiles = new Tile[50];
         mapTileNum = new int[gamePanel.maxWorldCol][gamePanel.maxWorldRow];
 
         getTileImage();
-        loadMaps("/maps/world01.txt");
+        loadMaps("/maps/worldV2.txt");
+//        Tile tile = getTile("road00", false);
+//        System.out.println(tile);
+
     }
 
     public void getTileImage() {
 
+//        placeholder
+        tiles[0] = getTile("grass00", false);
+        tiles[1] = getTile("grass00", false);
+        tiles[2] = getTile("grass00", false);
+        tiles[3] = getTile("grass00", false);
+        tiles[4] = getTile("grass00", false);
+        tiles[5] = getTile("grass00", false);
+        tiles[6] = getTile("grass00", false);
+        tiles[7] = getTile("grass00", false);
+        tiles[8] = getTile("grass00", false);
+        tiles[9] = getTile("grass00", false);
+
+//        used tiles
+        tiles[10] = getTile("grass00", false);
+        tiles[11] = getTile("grass01", false);
+        tiles[12] = getTile("water00", true);
+        tiles[13] = getTile("water01", true);
+        tiles[14] = getTile("water02", true);
+        tiles[15] = getTile("water03", true);
+        tiles[16] = getTile("water04", true);
+        tiles[17] = getTile("water05", true);
+        tiles[18] = getTile("water06", true);
+        tiles[19] = getTile("water07", true);
+        tiles[20] = getTile("water08", true);
+        tiles[21] = getTile("water09", true);
+        tiles[22] = getTile("water10", true);
+        tiles[23] = getTile("water11", true);
+        tiles[24] = getTile("water12", true);
+        tiles[25] = getTile("water13", true);
+        tiles[26] = getTile("road00", false);
+        tiles[27] = getTile("road01", false);
+        tiles[28] = getTile("road02", false);
+        tiles[29] = getTile("road03", false);
+        tiles[30] = getTile("road04", false);
+        tiles[31] = getTile("road05", false);
+        tiles[32] = getTile("road06", false);
+        tiles[33] = getTile("road07", false);
+        tiles[34] = getTile("road08", false);
+        tiles[35] = getTile("road09", false);
+        tiles[36] = getTile("road10", false);
+        tiles[37] = getTile("road11", false);
+        tiles[38] = getTile("road12", false);
+        tiles[39] = getTile("earth", false);
+        tiles[40] = getTile("wall", true);
+        tiles[41] = getTile("tree", true);
+
+
+    }
+
+    public Tile getTile(String ImageName, boolean collision) {
+
+        Utility utility = new Utility();
+        Tile tile = new Tile();
         try {
-            tiles[0] = new Tile();
-            tiles[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/grass.png")));
+            tile.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/" + ImageName + ".png")));
+            tile.image = utility.scaleImage(tile.image, gamePanel.tileSize, gamePanel.tileSize);
+            tile.collision = collision;
 
-            tiles[1] = new Tile();
-            tiles[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/wall.png")));
-            tiles[1].collision = true;
-
-            tiles[2] = new Tile();
-            tiles[2].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/water.png")));
-            tiles[2].collision = true;
-
-            tiles[3] = new Tile();
-            tiles[3].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/earth.png")));
-
-            tiles[4] = new Tile();
-            tiles[4].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/tree.png")));
-            tiles[4].collision = true;
-
-            tiles[5] = new Tile();
-            tiles[5].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/sand.png")));
         } catch ( IOException error ) {
             error.printStackTrace();
         }
+
+        return tile;
     }
 
     public void loadMaps(String mapPath) {
@@ -107,7 +156,7 @@ public class TileManager {
                     && worldX - gamePanel.tileSize < gamePanel.player.worldX + gamePanel.player.screenX
                     && worldY + gamePanel.tileSize > gamePanel.player.worldY - gamePanel.player.screenY
                     && worldY - gamePanel.tileSize < gamePanel.player.worldY + gamePanel.player.screenY ) {
-                graphics2D.drawImage(tiles[tileNum].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+                graphics2D.drawImage(tiles[tileNum].image, screenX, screenY, null);
             }
             worldCol++;
 
