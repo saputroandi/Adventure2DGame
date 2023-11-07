@@ -67,14 +67,9 @@ public class Player extends Entity {
         Utility utility = new Utility();
         BufferedImage scaledImage = null;
 
-        try {
-            BufferedImage originalImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/" + image + ".png")));
-            scaledImage = utility.scaleImage(originalImage, gamePanel.tileSize, gamePanel.tileSize);
-
-        } catch ( IOException error ) {
-            error.printStackTrace();
-        }
-
+        BufferedImage originalImage = utility.loadImage("/player/" + image + ".png");
+        scaledImage = utility.scaleImage(originalImage, gamePanel.tileSize, gamePanel.tileSize);
+        
         return scaledImage;
     }
 

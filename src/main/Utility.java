@@ -1,7 +1,10 @@
 package main;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class Utility {
 
@@ -14,5 +17,18 @@ public class Utility {
         graphics2D.dispose();
 
         return scaleImage;
+    }
+
+    public BufferedImage loadImage(String imagePath) {
+
+        BufferedImage originalImage = null;
+        try {
+            originalImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
+
+        } catch ( IOException error ) {
+            error.printStackTrace();
+        }
+
+        return originalImage;
     }
 }

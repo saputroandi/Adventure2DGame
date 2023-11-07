@@ -93,15 +93,11 @@ public class TileManager {
 
         Utility utility = new Utility();
         Tile tile = new Tile();
-        try {
-            tile.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/" + ImageName + ".png")));
-            tile.image = utility.scaleImage(tile.image, gamePanel.tileSize, gamePanel.tileSize);
-            tile.collision = collision;
 
-        } catch ( IOException error ) {
-            error.printStackTrace();
-        }
-
+        tile.image = utility.loadImage("/tiles/" + ImageName + ".png");
+        tile.image = utility.scaleImage(tile.image, gamePanel.tileSize, gamePanel.tileSize);
+        tile.collision = collision;
+        
         return tile;
     }
 
