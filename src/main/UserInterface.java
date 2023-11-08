@@ -13,9 +13,11 @@ public class UserInterface {
 
     GamePanel gamePanel;
 
+    Graphics2D graphics2D;
+
     Font font_40, font_80B;
 
-    BufferedImage keyImage;
+//    BufferedImage keyImage;
 
     boolean messageOn = false;
 
@@ -28,9 +30,8 @@ public class UserInterface {
         this.font_40 = new Font("Arial", Font.PLAIN, 40);
         this.font_80B = new Font("Arial", Font.BOLD, 80);
 
-        Key key = new Key(gamePanel);
-
-        this.keyImage = key.image;
+//        Key key = new Key(gamePanel);
+//        this.keyImage = key.image;
     }
 
     public void drawMessage(String text) {
@@ -42,56 +43,31 @@ public class UserInterface {
 
     public void draw(Graphics2D graphics2D) {
 
-//        need to add messages when finished the game
-        if ( gameFinished ) {
-            String text;
-            int textLength;
-            int x;
-            int y;
+        this.graphics2D = graphics2D;
 
-            graphics2D.setFont(this.font_40);
-            graphics2D.setColor(Color.white);
+        graphics2D.setFont(font_40);
+        graphics2D.setColor(Color.WHITE);
 
-            text = "You found the treasure!";
-            textLength = ( int ) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
+        if ( gamePanel.gameState == gamePanel.playState ) {
 
-            x = gamePanel.maxScreenWidth / 2 - textLength / 2;
-            y = gamePanel.maxScreenHeight / 2 - (gamePanel.tileSize * 3);
-            graphics2D.drawString(text, x, y);
-
-            graphics2D.setFont(this.font_80B);
-            graphics2D.setColor(Color.yellow);
-
-            text = "Congratulation";
-            textLength = ( int ) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
-
-            x = gamePanel.maxScreenWidth / 2 - textLength / 2;
-            y = gamePanel.maxScreenHeight / 2 + (gamePanel.tileSize * 3);
-
-            graphics2D.drawString(text, x, y);
-
-            gamePanel.gameThread = null;
-
-        } else {
-            graphics2D.setFont(this.font_40);
-            graphics2D.setColor(Color.white);
-            graphics2D.drawImage(keyImage, gamePanel.tileSize / 2, gamePanel.tileSize / 2, gamePanel.tileSize, gamePanel.tileSize, null);
-            graphics2D.drawString("x = " + gamePanel.player.keys, 72, 65);
-
-            if ( messageOn ) {
-
-                graphics2D.setFont(gamePanel.getFont().deriveFont(30F));
-                graphics2D.drawString(message, gamePanel.tileSize / 2, gamePanel.tileSize * 5);
-
-                messageCounter++;
-
-                if ( messageCounter > 120 ) {
-                    messageOn = false;
-                    messageCounter = 0;
-                }
-            }
+        } else if ( gamePanel.gameState == gamePanel.pauseState ) {
+            drawPauseScreen();
         }
+    }
 
+    public void drawPauseScreen() {
 
+        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.PLAIN, 80F));
+        String text = "PAUSED";
+        int x = getCenterOfText(text);
+        int y = gamePanel.maxScreenHeight / 2;
+
+        graphics2D.drawString(text, x, y);
+    }
+
+    public int getCenterOfText(String text) {
+
+        int length = ( int ) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
+        return gamePanel.maxScreenWidth / 2 - length / 2;
     }
 }

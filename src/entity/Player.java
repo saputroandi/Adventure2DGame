@@ -16,7 +16,7 @@ public class Player extends Entity {
 
     public final int screenY;
 
-    public int keys = 0;
+//    public int keys = 0;
 
     GamePanel gamePanel;
 
@@ -69,7 +69,7 @@ public class Player extends Entity {
 
         BufferedImage originalImage = utility.loadImage("/player/" + image + ".png");
         scaledImage = utility.scaleImage(originalImage, gamePanel.tileSize, gamePanel.tileSize);
-        
+
         return scaledImage;
     }
 
@@ -125,39 +125,40 @@ public class Player extends Entity {
     public void objectInteraction(int index) {
 
         if ( index != 999 ) {
-            String objectName = gamePanel.objects[index].name;
 
-            switch ( objectName ) {
-                case "Key":
-                    gamePanel.playSoundEffect(1);
-                    gamePanel.objects[index] = null;
-                    keys++;
-
-                    gamePanel.userInterface.drawMessage("You got a key!");
-                    break;
-                case "Door":
-                    if ( keys > 0 ) {
-                        gamePanel.playSoundEffect(3);
-                        gamePanel.objects[index] = null;
-                        keys--;
-                        gamePanel.userInterface.drawMessage("You opened the door!");
-                    } else {
-                        gamePanel.userInterface.drawMessage("You don't have a key!");
-                    }
-                    break;
-                case "Boots":
-                    gamePanel.playSoundEffect(2);
-                    speed += 2;
-                    gamePanel.objects[index] = null;
-                    gamePanel.userInterface.drawMessage("Speed up!");
-
-                    break;
-                case "Chest":
-                    gamePanel.userInterface.gameFinished = true;
-                    gamePanel.stopMusic();
-                    gamePanel.playSoundEffect(4);
-                    break;
-            }
+//            String objectName = gamePanel.objects[index].name;
+//
+//            switch ( objectName ) {
+//                case "Key":
+//                    gamePanel.playSoundEffect(1);
+//                    gamePanel.objects[index] = null;
+//                    keys++;
+//
+//                    gamePanel.userInterface.drawMessage("You got a key!");
+//                    break;
+//                case "Door":
+//                    if ( keys > 0 ) {
+//                        gamePanel.playSoundEffect(3);
+//                        gamePanel.objects[index] = null;
+//                        keys--;
+//                        gamePanel.userInterface.drawMessage("You opened the door!");
+//                    } else {
+//                        gamePanel.userInterface.drawMessage("You don't have a key!");
+//                    }
+//                    break;
+//                case "Boots":
+//                    gamePanel.playSoundEffect(2);
+//                    speed += 2;
+//                    gamePanel.objects[index] = null;
+//                    gamePanel.userInterface.drawMessage("Speed up!");
+//
+//                    break;
+//                case "Chest":
+//                    gamePanel.userInterface.gameFinished = true;
+//                    gamePanel.stopMusic();
+//                    gamePanel.playSoundEffect(4);
+//                    break;
+//            }
         }
     }
 

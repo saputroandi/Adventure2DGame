@@ -18,6 +18,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public final int maxWorldRow = 50;
 
+    public final int playState = 1;
+
+    public final int pauseState = 2;
+
     final int originalTileSize = 16;
 
     final int scale = 3;
@@ -36,9 +40,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     public UserInterface userInterface = new UserInterface(this);
 
+    public int gameState;
+
     TileManager tileManager = new TileManager(this);
 
-    KeyHandler keyHandler = new KeyHandler();
+    KeyHandler keyHandler = new KeyHandler(this);
 
     public Player player = new Player(this, keyHandler);
 
@@ -69,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         assetSetter.setObject();
         playMusic(0);
+        gameState = playState;
     }
 
     @Override
@@ -96,7 +103,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-        player.update();
+        if ( gameState == playState ) {
+            player.update();
+        }
+
+//        if ( gameState == pauseState ) {
+//            System.out.println("paused");
+//        }
     }
 
     public void paintComponent(Graphics graphics) {
