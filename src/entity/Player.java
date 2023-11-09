@@ -4,11 +4,8 @@ import main.GamePanel;
 import main.KeyHandler;
 import main.Utility;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Objects;
 
 public class Player extends Entity {
 
@@ -16,15 +13,12 @@ public class Player extends Entity {
 
     public final int screenY;
 
-//    public int keys = 0;
-
-    GamePanel gamePanel;
-
     KeyHandler keyHandler;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
 
-        this.gamePanel = gamePanel;
+        super(gamePanel);
+
         this.keyHandler = keyHandler;
 
         screenX = gamePanel.maxScreenWidth / 2 - (gamePanel.tileSize / 2);
@@ -52,25 +46,14 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
 
-        up1 = getScaledImage("boy_up_1");
-        up2 = getScaledImage("boy_up_2");
-        down1 = getScaledImage("boy_down_1");
-        down2 = getScaledImage("boy_down_2");
-        right1 = getScaledImage("boy_right_1");
-        right2 = getScaledImage("boy_right_2");
-        left1 = getScaledImage("boy_left_1");
-        left2 = getScaledImage("boy_left_2");
-    }
-
-    public BufferedImage getScaledImage(String image) {
-
-        Utility utility = new Utility();
-        BufferedImage scaledImage = null;
-
-        BufferedImage originalImage = utility.loadImage("/player/" + image + ".png");
-        scaledImage = utility.scaleImage(originalImage, gamePanel.tileSize, gamePanel.tileSize);
-
-        return scaledImage;
+        up1 = getScaledImage("/player/boy_up_1");
+        up2 = getScaledImage("/player/boy_up_2");
+        down1 = getScaledImage("/player/boy_down_1");
+        down2 = getScaledImage("/player/boy_down_2");
+        right1 = getScaledImage("/player/boy_right_1");
+        right2 = getScaledImage("/player/boy_right_2");
+        left1 = getScaledImage("/player/boy_left_1");
+        left2 = getScaledImage("/player/boy_left_2");
     }
 
     public void update() {
@@ -89,9 +72,11 @@ public class Player extends Entity {
             collisionOn = false;
             gamePanel.collisionChecker.checkTile(this);
 
-            int index = gamePanel.collisionChecker.checkObject(this, true);
+            int indexTile = gamePanel.collisionChecker.checkObject(this, true);
+            int indexNpc = gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
 
-            objectInteraction(index);
+            objectInteraction(indexTile);
+            npcInteraction(indexNpc);
 
             if ( !collisionOn ) {
                 switch ( direction ) {
@@ -122,43 +107,21 @@ public class Player extends Entity {
         }
     }
 
-    public void objectInteraction(int index) {
+    private void npcInteraction(int indexNpc) {
 
-        if ( index != 999 ) {
+        if ( indexNpc != 999 ) {
+            if ( gamePanel.keyHandler.enterPressed ) {
+                gamePanel.gameState = gamePanel.dialogueState;
+                gamePanel.npc[indexNpc].speak();
+            }
+        }
+        gamePanel.keyHandler.enterPressed = false;
+    }
 
-//            String objectName = gamePanel.objects[index].name;
+    public void objectInteraction(int indexTile) {
+
+        if ( indexTile != 999 ) {
 //
-//            switch ( objectName ) {
-//                case "Key":
-//                    gamePanel.playSoundEffect(1);
-//                    gamePanel.objects[index] = null;
-//                    keys++;
-//
-//                    gamePanel.userInterface.drawMessage("You got a key!");
-//                    break;
-//                case "Door":
-//                    if ( keys > 0 ) {
-//                        gamePanel.playSoundEffect(3);
-//                        gamePanel.objects[index] = null;
-//                        keys--;
-//                        gamePanel.userInterface.drawMessage("You opened the door!");
-//                    } else {
-//                        gamePanel.userInterface.drawMessage("You don't have a key!");
-//                    }
-//                    break;
-//                case "Boots":
-//                    gamePanel.playSoundEffect(2);
-//                    speed += 2;
-//                    gamePanel.objects[index] = null;
-//                    gamePanel.userInterface.drawMessage("Speed up!");
-//
-//                    break;
-//                case "Chest":
-//                    gamePanel.userInterface.gameFinished = true;
-//                    gamePanel.stopMusic();
-//                    gamePanel.playSoundEffect(4);
-//                    break;
-//            }
         }
     }
 

@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import entity.Player;
 import object.Object;
 import tile.TileManager;
@@ -22,6 +23,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public final int pauseState = 2;
 
+    public final int dialogueState = 3;
+
     final int originalTileSize = 16;
 
     final int scale = 3;
@@ -34,27 +37,29 @@ public class GamePanel extends JPanel implements Runnable {
 
     public CollisionChecker collisionChecker = new CollisionChecker(this);
 
+    public int gameState;
+
     public Object[] objects = new Object[10];
+
+    public Entity[] npc = new Entity[10];
 
     public AssetSetter assetSetter = new AssetSetter(this);
 
     public UserInterface userInterface = new UserInterface(this);
 
-    public int gameState;
-
-    TileManager tileManager = new TileManager(this);
-
-    KeyHandler keyHandler = new KeyHandler(this);
+    public KeyHandler keyHandler = new KeyHandler(this);
 
     public Player player = new Player(this, keyHandler);
+
+    int FPS = 60;
+
+    TileManager tileManager = new TileManager(this);
 
     Sound music = new Sound();
 
     Sound soundEffect = new Sound();
 
     Thread gameThread;
-
-    int FPS = 60;
 
     public GamePanel() {
 
@@ -74,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
 
         assetSetter.setObject();
+        assetSetter.setNpc();
         playMusic(0);
         gameState = playState;
     }
@@ -105,6 +111,12 @@ public class GamePanel extends JPanel implements Runnable {
 
         if ( gameState == playState ) {
             player.update();
+
+            Arrays.stream(npc).forEach(object -> {
+                if ( object != null ) {
+                    object.update();
+                }
+            });
         }
 
 //        if ( gameState == pauseState ) {
@@ -119,11 +131,19 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D graphics2D = ( Graphics2D ) graphics;
 
         tileManager.draw(graphics2D);
+
         Arrays.stream(objects).forEach(object -> {
             if ( object != null ) {
                 object.draw(graphics2D, this);
             }
         });
+
+        Arrays.stream(npc).forEach(object -> {
+            if ( object != null ) {
+                object.draw(graphics2D);
+            }
+        });
+
         player.draw(graphics2D);
 
         userInterface.draw(graphics2D);
