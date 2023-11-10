@@ -1,6 +1,8 @@
 package main;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class UserInterface {
 
@@ -10,21 +12,32 @@ public class UserInterface {
 
     public boolean gameFinished = false;
 
+    Font maruMonica;
+
     GamePanel gamePanel;
 
     Graphics2D graphics2D;
 
-    Font font_40, font_80B;
-
     boolean messageOn = false;
+
+    int commandNum = 0;
 
     public UserInterface(GamePanel gamePanel) {
 
         this.gamePanel = gamePanel;
 
-        this.font_40 = new Font("Arial", Font.PLAIN, 40);
-        this.font_80B = new Font("Arial", Font.BOLD, 80);
+        init();
 
+    }
+
+    public void init() {
+
+        try {
+            InputStream inputStream = getClass().getResourceAsStream("/font/x12y16pxMaruMonica.ttf");
+            maruMonica = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+        } catch ( IOException | FontFormatException e ) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void drawMessage(String text) {
@@ -38,15 +51,67 @@ public class UserInterface {
 
         this.graphics2D = graphics2D;
 
-        graphics2D.setFont(font_40);
+        graphics2D.setFont(maruMonica);
         graphics2D.setColor(Color.WHITE);
 
-        if ( gamePanel.gameState == gamePanel.playState ) {
+        if ( gamePanel.gameState == gamePanel.titleState ) {
+            drawTitleScreen();
+        } else if ( gamePanel.gameState == gamePanel.playState ) {
 
         } else if ( gamePanel.gameState == gamePanel.pauseState ) {
             drawPauseScreen();
         } else if ( gamePanel.gameState == gamePanel.dialogueState ) {
             drawDialogueScreen();
+        }
+    }
+
+    public void drawTitleScreen() {
+
+        String text = "Blue Boy Adventure";
+        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 92F));
+
+        int x = getCenterOfText(text);
+        int y = gamePanel.tileSize * 2;
+
+        graphics2D.setColor(Color.GRAY);
+        graphics2D.drawString(text, x + 3, y + 3);
+
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.drawString(text, x, y);
+
+        x = gamePanel.maxScreenWidth / 2 - ((gamePanel.tileSize * 2) / 2);
+        y += gamePanel.tileSize * 2;
+        graphics2D.drawImage(gamePanel.player.down1, x, y, gamePanel.tileSize * 2, gamePanel.tileSize * 2, null);
+
+//        menu
+        text = "NEW GAME";
+        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 40F));
+
+        x = getCenterOfText(text);
+        y += ( int ) (gamePanel.tileSize * 3.5);
+        graphics2D.drawString(text, x, y);
+        if ( commandNum == 0 ) {
+            graphics2D.drawString(">", x - gamePanel.tileSize, y);
+        }
+
+        text = "LOAD GAME";
+        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 40F));
+
+        x = getCenterOfText(text);
+        y += gamePanel.tileSize;
+        graphics2D.drawString(text, x, y);
+        if ( commandNum == 1 ) {
+            graphics2D.drawString(">", x - gamePanel.tileSize, y);
+        }
+
+        text = "QUIT";
+        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 40F));
+
+        x = getCenterOfText(text);
+        y += gamePanel.tileSize;
+        graphics2D.drawString(text, x, y);
+        if ( commandNum == 2 ) {
+            graphics2D.drawString(">", x - gamePanel.tileSize, y);
         }
     }
 

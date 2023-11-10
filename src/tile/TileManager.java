@@ -3,11 +3,8 @@ package tile;
 import main.GamePanel;
 import main.Utility;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
@@ -97,7 +94,7 @@ public class TileManager {
         tile.image = utility.loadImage("/tiles/" + ImageName + ".png");
         tile.image = utility.scaleImage(tile.image, gamePanel.tileSize, gamePanel.tileSize);
         tile.collision = collision;
-        
+
         return tile;
     }
 

@@ -19,6 +19,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public final int maxWorldRow = 50;
 
+    public final int titleState = 0;
+
     public final int playState = 1;
 
     public final int pauseState = 2;
@@ -80,8 +82,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         assetSetter.setObject();
         assetSetter.setNpc();
-        playMusic(0);
-        gameState = playState;
+//        playMusic(0);
+        gameState = titleState;
     }
 
     @Override
@@ -130,23 +132,27 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D graphics2D = ( Graphics2D ) graphics;
 
-        tileManager.draw(graphics2D);
+        if ( gameState == titleState ) {
+            userInterface.draw(graphics2D);
+        } else {
+            tileManager.draw(graphics2D);
 
-        Arrays.stream(objects).forEach(object -> {
-            if ( object != null ) {
-                object.draw(graphics2D, this);
-            }
-        });
+            Arrays.stream(objects).forEach(object -> {
+                if ( object != null ) {
+                    object.draw(graphics2D, this);
+                }
+            });
 
-        Arrays.stream(npc).forEach(object -> {
-            if ( object != null ) {
-                object.draw(graphics2D);
-            }
-        });
+            Arrays.stream(npc).forEach(object -> {
+                if ( object != null ) {
+                    object.draw(graphics2D);
+                }
+            });
 
-        player.draw(graphics2D);
+            player.draw(graphics2D);
 
-        userInterface.draw(graphics2D);
+            userInterface.draw(graphics2D);
+        }
 
         graphics2D.dispose();
     }
