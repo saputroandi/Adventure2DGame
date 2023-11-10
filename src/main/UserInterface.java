@@ -1,6 +1,10 @@
 package main;
 
+import object.Heart;
+import object.Object;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,6 +26,8 @@ public class UserInterface {
 
     int commandNum = 0;
 
+    BufferedImage heartFull, heartHalf, heartBlank;
+
     public UserInterface(GamePanel gamePanel) {
 
         this.gamePanel = gamePanel;
@@ -38,6 +44,12 @@ public class UserInterface {
         } catch ( IOException | FontFormatException e ) {
             throw new RuntimeException(e);
         }
+
+        Object heart = new Heart(gamePanel);
+
+        heartFull = heart.image;
+        heartHalf = heart.image2;
+        heartBlank = heart.image3;
     }
 
     public void drawMessage(String text) {
@@ -57,11 +69,39 @@ public class UserInterface {
         if ( gamePanel.gameState == gamePanel.titleState ) {
             drawTitleScreen();
         } else if ( gamePanel.gameState == gamePanel.playState ) {
-
+            drawPlayerLife();
         } else if ( gamePanel.gameState == gamePanel.pauseState ) {
+            drawPlayerLife();
             drawPauseScreen();
         } else if ( gamePanel.gameState == gamePanel.dialogueState ) {
+            drawPlayerLife();
             drawDialogueScreen();
+        }
+    }
+
+    public void drawPlayerLife() {
+
+        int x = gamePanel.tileSize / 2;
+        int y = gamePanel.tileSize / 2;
+        int i = 0;
+
+        while ( i < gamePanel.player.maxLife / 2 ) {
+            graphics2D.drawImage(heartBlank, x, y, null);
+            i++;
+            x += gamePanel.tileSize;
+        }
+
+        x = gamePanel.tileSize / 2;
+        i = 0;
+
+        while ( i < gamePanel.player.life ) {
+            graphics2D.drawImage(heartHalf, x, y, null);
+            i++;
+            if ( i < gamePanel.player.life ) {
+                graphics2D.drawImage(heartFull, x, y, null);
+            }
+            i++;
+            x += gamePanel.tileSize;
         }
     }
 

@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 public class Object {
 
-    public BufferedImage image;
+    public BufferedImage image, image2, image3;
 
     public String name;
 
