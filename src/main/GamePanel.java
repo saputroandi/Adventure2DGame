@@ -2,65 +2,50 @@ package main;
 
 import entity.Entity;
 import entity.Player;
-import object.Object;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    public final int maxScreenCol = 16;
-
-    public final int maxScreenRow = 12;
-
-    public final int maxWorldCol = 50;
-
-    public final int maxWorldRow = 50;
-
-    public final int titleState = 0;
-
-    public final int playState = 1;
-
-    public final int pauseState = 2;
-
-    public final int dialogueState = 3;
-
-    final int originalTileSize = 16;
-
-    final int scale = 3;
-
-    public final int tileSize = originalTileSize * scale;
-
-    public final int maxScreenWidth = tileSize * maxScreenCol;
-
-    public final int maxScreenHeight = tileSize * maxScreenRow;
-
-    public CollisionChecker collisionChecker = new CollisionChecker(this);
-
-    public int gameState;
-
-    public Object[] objects = new Object[10];
-
-    public Entity[] npc = new Entity[10];
-
-    public AssetSetter assetSetter = new AssetSetter(this);
-
-    public UserInterface userInterface = new UserInterface(this);
-
-    public KeyHandler keyHandler = new KeyHandler(this);
-
-    public Player player = new Player(this, keyHandler);
-
     int FPS = 60;
 
+    final int originalTileSize = 16;
+    final int scale = 3;
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int tileSize = originalTileSize * scale;
+    public final int maxScreenWidth = tileSize * maxScreenCol;
+    public final int maxScreenHeight = tileSize * maxScreenRow;
+
+    public int gameState;
+    public final int titleState = 0;
+    public final int playState = 1;
+    public final int pauseState = 2;
+    public final int dialogueState = 3;
+
+
+    public Entity[] objects = new Entity[10];
+    public Entity[] npc = new Entity[10];
+    ArrayList<Entity> entities = new ArrayList<>();
+
+    public AssetSetter assetSetter = new AssetSetter(this);
+    public UserInterface userInterface = new UserInterface(this);
+    public KeyHandler keyHandler = new KeyHandler(this);
+    public Player player = new Player(this, keyHandler);
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
+    public EventHandler eventHandler = new EventHandler(this);
+
     TileManager tileManager = new TileManager(this);
-
     Sound music = new Sound();
-
     Sound soundEffect = new Sound();
-
     Thread gameThread;
 
     public GamePanel() {
@@ -137,19 +122,35 @@ public class GamePanel extends JPanel implements Runnable {
         } else {
             tileManager.draw(graphics2D);
 
-            Arrays.stream(objects).forEach(object -> {
-                if ( object != null ) {
-                    object.draw(graphics2D, this);
+            entities.add(player);
+
+            for ( int i = 0; i < npc.length; i++ ) {
+                if ( npc[i] != null ) {
+                    entities.add(npc[i]);
+                }
+            }
+
+            for ( int i = 0; i < objects.length; i++ ) {
+                if ( objects[i] != null ) {
+                    entities.add(objects[i]);
+                }
+            }
+
+            entities.sort(new Comparator<Entity>() {
+                @Override
+                public int compare(Entity e1, Entity e2) {
+
+                    return Integer.compare(e1.worldY, e2.worldY);
                 }
             });
 
-            Arrays.stream(npc).forEach(object -> {
-                if ( object != null ) {
-                    object.draw(graphics2D);
-                }
-            });
+            for ( Entity entity : entities ) {
+                entity.draw(graphics2D);
+            }
 
-            player.draw(graphics2D);
+            for ( int i = 0; i < entities.size(); i++ ) {
+                entities.remove(i);
+            }
 
             userInterface.draw(graphics2D);
         }

@@ -1,30 +1,22 @@
 package object;
 
+import entity.Entity;
 import main.GamePanel;
-import main.Utility;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Objects;
-
-public class Heart extends Object {
+public class Heart extends Entity {
 
     public Heart(GamePanel gamePanel) {
 
-        init(gamePanel);
+        super(gamePanel);
+        init();
     }
 
-    public void init(GamePanel gamePanel) {
+    public void init() {
 
         name = "Heart";
 
-        BufferedImage bufferedImage = utility.loadImage("/objects/heart_full.png");
-        BufferedImage bufferedImage2 = utility.loadImage("/objects/heart_half.png");
-        BufferedImage bufferedImage3 = utility.loadImage("/objects/heart_blank.png");
-
-        image = utility.scaleImage(bufferedImage, gamePanel.tileSize, gamePanel.tileSize);
-        image2 = utility.scaleImage(bufferedImage2, gamePanel.tileSize, gamePanel.tileSize);
-        image3 = utility.scaleImage(bufferedImage3, gamePanel.tileSize, gamePanel.tileSize);
+        image = getScaledImage("/objects/heart_full");
+        image2 = getScaledImage("/objects/heart_half");
+        image3 = getScaledImage("/objects/heart_blank");
     }
 }

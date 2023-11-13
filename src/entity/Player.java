@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 public class Player extends Entity {
 
     public final int screenX;
-
     public final int screenY;
 
     KeyHandler keyHandler;
@@ -77,6 +76,8 @@ public class Player extends Entity {
 
             int indexTile = gamePanel.collisionChecker.checkObject(this, true);
             int indexNpc = gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
+
+            gamePanel.eventHandler.checkEvent();
 
             objectInteraction(indexTile);
             npcInteraction(indexNpc);

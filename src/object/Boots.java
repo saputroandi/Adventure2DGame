@@ -1,27 +1,19 @@
 package object;
 
+import entity.Entity;
 import main.GamePanel;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import java.util.Objects;
-
-public class Boots extends Object {
+public class Boots extends Entity {
 
     public Boots(GamePanel gamePanel) {
 
-        init(gamePanel);
+        super(gamePanel);
+        init();
     }
 
-    public void init(GamePanel gamePanel) {
+    public void init() {
 
         name = "Boots";
-
-        try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/objects/boots.png")));
-            utility.scaleImage(image, gamePanel.tileSize, gamePanel.tileSize);
-        } catch ( IOException error ) {
-            error.printStackTrace();
-        }
+        down1 = getScaledImage("/objects/boots");
     }
 }

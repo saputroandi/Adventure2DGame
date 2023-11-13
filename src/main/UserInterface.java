@@ -1,7 +1,7 @@
 package main;
 
+import entity.Entity;
 import object.Heart;
-import object.Object;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,19 +10,13 @@ import java.io.InputStream;
 
 public class UserInterface {
 
-    public String message = "";
-
-    public String currentDialogue = "";
-
-    public boolean gameFinished = false;
-
+    GamePanel gamePanel;
+    Graphics2D graphics2D;
     Font maruMonica;
 
-    GamePanel gamePanel;
-
-    Graphics2D graphics2D;
-
     boolean messageOn = false;
+    public String message = "";
+    public String currentDialogue = "";
 
     int commandNum = 0;
 
@@ -45,7 +39,7 @@ public class UserInterface {
             throw new RuntimeException(e);
         }
 
-        Object heart = new Heart(gamePanel);
+        Entity heart = new Heart(gamePanel);
 
         heartFull = heart.image;
         heartHalf = heart.image2;
