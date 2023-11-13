@@ -5,7 +5,6 @@ import main.GamePanel;
 
 public class Key extends Entity {
 
-
     public Key(GamePanel gamePanel) {
 
         super(gamePanel);
@@ -15,6 +14,6 @@ public class Key extends Entity {
     public void init() {
 
         name = "Key";
-        down1 = getScaledImage("/objects/key");
+        down1 = getScaledImage("/objects/key", gamePanel.tileSize, gamePanel.tileSize);
     }
 }

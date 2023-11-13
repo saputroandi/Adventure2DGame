@@ -14,6 +14,6 @@ public class Boots extends Entity {
     public void init() {
 
         name = "Boots";
-        down1 = getScaledImage("/objects/boots");
+        down1 = getScaledImage("/objects/boots", gamePanel.tileSize, gamePanel.tileSize);
     }
 }

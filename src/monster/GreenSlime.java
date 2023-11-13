@@ -33,14 +33,14 @@ public class GreenSlime extends Entity {
 
     public void getImage() {
 
-        up1 = getScaledImage("/monster/greenslime_down_1");
-        up2 = getScaledImage("/monster/greenslime_down_2");
-        down1 = getScaledImage("/monster/greenslime_down_1");
-        down2 = getScaledImage("/monster/greenslime_down_2");
-        right1 = getScaledImage("/monster/greenslime_down_1");
-        right2 = getScaledImage("/monster/greenslime_down_2");
-        left1 = getScaledImage("/monster/greenslime_down_1");
-        left2 = getScaledImage("/monster/greenslime_down_2");
+        up1 = getScaledImage("/monster/greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
+        up2 = getScaledImage("/monster/greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
+        down1 = getScaledImage("/monster/greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
+        down2 = getScaledImage("/monster/greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
+        right1 = getScaledImage("/monster/greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
+        right2 = getScaledImage("/monster/greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
+        left1 = getScaledImage("/monster/greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
+        left2 = getScaledImage("/monster/greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
     }
 
     @Override

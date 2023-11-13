@@ -14,6 +14,6 @@ public class Chest extends Entity {
     public void init() {
 
         name = "Chest";
-        down1 = getScaledImage("/objects/chest");
+        down1 = getScaledImage("/objects/chest", gamePanel.tileSize, gamePanel.tileSize);
     }
 }

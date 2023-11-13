@@ -15,6 +15,6 @@ public class Door extends Entity {
 
         name = "Door";
         collision = true;
-        down1 = getScaledImage("/objects/door");
+        down1 = getScaledImage("/objects/door", gamePanel.tileSize, gamePanel.tileSize);
     }
 }

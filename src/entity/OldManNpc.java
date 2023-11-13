@@ -24,14 +24,14 @@ public class OldManNpc extends Entity {
 
     public void getImage() {
 
-        up1 = getScaledImage("/npc/oldman_up_1");
-        up2 = getScaledImage("/npc/oldman_up_2");
-        down1 = getScaledImage("/npc/oldman_down_1");
-        down2 = getScaledImage("/npc/oldman_down_2");
-        right1 = getScaledImage("/npc/oldman_right_1");
-        right2 = getScaledImage("/npc/oldman_right_2");
-        left1 = getScaledImage("/npc/oldman_left_1");
-        left2 = getScaledImage("/npc/oldman_left_2");
+        up1 = getScaledImage("/npc/oldman_up_1", gamePanel.tileSize, gamePanel.tileSize);
+        up2 = getScaledImage("/npc/oldman_up_2", gamePanel.tileSize, gamePanel.tileSize);
+        down1 = getScaledImage("/npc/oldman_down_1", gamePanel.tileSize, gamePanel.tileSize);
+        down2 = getScaledImage("/npc/oldman_down_2", gamePanel.tileSize, gamePanel.tileSize);
+        right1 = getScaledImage("/npc/oldman_right_1", gamePanel.tileSize, gamePanel.tileSize);
+        right2 = getScaledImage("/npc/oldman_right_2", gamePanel.tileSize, gamePanel.tileSize);
+        left1 = getScaledImage("/npc/oldman_left_1", gamePanel.tileSize, gamePanel.tileSize);
+        left2 = getScaledImage("/npc/oldman_left_2", gamePanel.tileSize, gamePanel.tileSize);
     }
 
     @Override

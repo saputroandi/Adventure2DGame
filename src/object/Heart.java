@@ -15,8 +15,8 @@ public class Heart extends Entity {
 
         name = "Heart";
 
-        image = getScaledImage("/objects/heart_full");
-        image2 = getScaledImage("/objects/heart_half");
-        image3 = getScaledImage("/objects/heart_blank");
+        image = getScaledImage("/objects/heart_full", gamePanel.tileSize, gamePanel.tileSize);
+        image2 = getScaledImage("/objects/heart_half", gamePanel.tileSize, gamePanel.tileSize);
+        image3 = getScaledImage("/objects/heart_blank", gamePanel.tileSize, gamePanel.tileSize);
     }
 }

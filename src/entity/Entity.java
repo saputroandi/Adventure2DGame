@@ -8,22 +8,26 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
 
-    GamePanel gamePanel;
+    public GamePanel gamePanel;
     public int worldX, worldY;
     public int speed;
 
     public BufferedImage up1, up2, down1, down2, right1, right2, left1, left2;
+    public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackRight1, attackRight2, attackLeft1, attackLeft2;
     public String direction = "down";
     public int spriteCounter = 0;
     public int spriteNum = 1;
 
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
 
     public int actionLockCounter = 0;
-    public boolean invicible = false;
-    public int invicibleCounter = 0;
+    public boolean invisible = false;
+    public int invisibleCounter = 0;
+
+    public boolean attacking = false;
 
     public int maxLife;
     public int life;
@@ -82,9 +86,9 @@ public class Entity {
         boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
 
         if ( this.type == 2 && contactPlayer ) {
-            if ( !gamePanel.player.invicible ) {
+            if ( !gamePanel.player.invisible ) {
                 gamePanel.player.life -= 1;
-                gamePanel.player.invicible = true;
+                gamePanel.player.invisible = true;
             }
         }
 
@@ -113,6 +117,14 @@ public class Entity {
                 spriteNum = 1;
             }
             spriteCounter = 0;
+        }
+
+        if ( invisible ) {
+            invisibleCounter++;
+            if ( invisibleCounter > 40 ) {
+                invisible = false;
+                invisibleCounter = 0;
+            }
         }
     }
 
@@ -163,17 +175,23 @@ public class Entity {
                     break;
             }
 
+            if ( invisible ) {
+                graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+            }
+
             graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+
+            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         }
     }
 
-    public BufferedImage getScaledImage(String imagePath) {
+    public BufferedImage getScaledImage(String imagePath, int width, int height) {
 
         Utility utility = new Utility();
         BufferedImage scaledImage = null;
 
         BufferedImage originalImage = utility.loadImage(imagePath + ".png");
-        scaledImage = utility.scaleImage(originalImage, gamePanel.tileSize, gamePanel.tileSize);
+        scaledImage = utility.scaleImage(originalImage, width, height);
 
         return scaledImage;
     }
