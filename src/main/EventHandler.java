@@ -51,9 +51,9 @@ public class EventHandler {
         }
 
         if ( canTouchEvent ) {
-            if ( hit(23, 16, "any") ) {
-                damagePit(23, 16, gamePanel.dialogueState);
-            }
+//            if ( hit(23, 16, "any") ) {
+//                damagePit(23, 16, gamePanel.dialogueState);
+//            }
         }
     }
 

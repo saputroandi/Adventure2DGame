@@ -76,11 +76,13 @@ public class Player extends Entity {
 
             int indexTile = gamePanel.collisionChecker.checkObject(this, true);
             int indexNpc = gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
+            int indexMonster = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
 
             gamePanel.eventHandler.checkEvent();
 
             objectInteraction(indexTile);
             npcInteraction(indexNpc);
+            monsterInteraction(indexMonster);
 
             if ( !collisionOn ) {
                 switch ( direction ) {
@@ -107,6 +109,24 @@ public class Player extends Entity {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
+            }
+        }
+
+        if ( invicible ) {
+            invicibleCounter++;
+            if ( invicibleCounter > 60 ) {
+                invicible = false;
+                invicibleCounter = 0;
+            }
+        }
+    }
+
+    public void monsterInteraction(int indexMonster) {
+
+        if ( indexMonster != 999 ) {
+            if ( !invicible ) {
+                life -= 1;
+                invicible = true;
             }
         }
     }
@@ -170,7 +190,12 @@ public class Player extends Entity {
                 break;
         }
 
+        if ( invicible ) {
+            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        }
+
         graphics2D.drawImage(image, screenX, screenY, null);
+        graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
     }
 }

@@ -22,6 +22,8 @@ public class Entity {
     public boolean collisionOn = false;
 
     public int actionLockCounter = 0;
+    public boolean invicible = false;
+    public int invicibleCounter = 0;
 
     public int maxLife;
     public int life;
@@ -32,6 +34,8 @@ public class Entity {
     public BufferedImage image, image2, image3;
     public String name;
     public boolean collision;
+
+    public int type;
 
     public Entity(GamePanel gamePanel) {
 
@@ -73,7 +77,16 @@ public class Entity {
         collisionOn = false;
         gamePanel.collisionChecker.checkTile(this);
         gamePanel.collisionChecker.checkObject(this, false);
-        gamePanel.collisionChecker.checkPlayer(this);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
+        boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
+
+        if ( this.type == 2 && contactPlayer ) {
+            if ( !gamePanel.player.invicible ) {
+                gamePanel.player.life -= 1;
+                gamePanel.player.invicible = true;
+            }
+        }
 
         if ( !collisionOn ) {
             switch ( direction ) {
