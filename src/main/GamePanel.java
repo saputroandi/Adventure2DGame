@@ -107,16 +107,17 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             });
 
-            Arrays.stream(monsters).forEach(object -> {
-                if ( object != null ) {
-                    object.update();
+            for ( int i = 0; i < monsters.length; i++ ) {
+                if ( monsters[i] != null ) {
+                    if ( monsters[i].alive && !monsters[i].dying ) {
+                        monsters[i].update();
+                    }
+                    if ( !monsters[i].alive ) {
+                        monsters[i] = null;
+                    }
                 }
-            });
+            }
         }
-
-//        if ( gameState == pauseState ) {
-//            System.out.println("paused");
-//        }
     }
 
     public void paintComponent(Graphics graphics) {

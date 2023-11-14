@@ -67,17 +67,17 @@ public class Player extends Entity {
         attackUp2 = getScaledImage("/player/boy_attack_up_2", gamePanel.tileSize, gamePanel.tileSize * 2);
         attackDown1 = getScaledImage("/player/boy_attack_down_1", gamePanel.tileSize, gamePanel.tileSize * 2);
         attackDown2 = getScaledImage("/player/boy_attack_down_2", gamePanel.tileSize, gamePanel.tileSize * 2);
-        attackRight1 = getScaledImage("/player/boy_attack_right_1",  gamePanel.tileSize * 2, gamePanel.tileSize);
-        attackRight2 = getScaledImage("/player/boy_attack_right_2",  gamePanel.tileSize * 2, gamePanel.tileSize);
-        attackLeft1 = getScaledImage("/player/boy_attack_left_1",  gamePanel.tileSize * 2, gamePanel.tileSize);
-        attackLeft2 = getScaledImage("/player/boy_attack_left_2",  gamePanel.tileSize * 2, gamePanel.tileSize);
+        attackRight1 = getScaledImage("/player/boy_attack_right_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+        attackRight2 = getScaledImage("/player/boy_attack_right_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+        attackLeft1 = getScaledImage("/player/boy_attack_left_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+        attackLeft2 = getScaledImage("/player/boy_attack_left_2", gamePanel.tileSize * 2, gamePanel.tileSize);
     }
 
     public void update() {
 
-        if ( attacking ){
+        if ( attacking ) {
             attacking();
-        }else if ( keyHandler.upPressed || keyHandler.downPressed || keyHandler.rightPressed || keyHandler.leftPressed || keyHandler.enterPressed ) {
+        } else if ( keyHandler.upPressed || keyHandler.downPressed || keyHandler.rightPressed || keyHandler.leftPressed || keyHandler.enterPressed || keyHandler.spacePressed ) {
 
             if ( keyHandler.upPressed ) {
                 direction = "up";
@@ -141,10 +141,11 @@ public class Player extends Entity {
         }
     }
 
-    public void attacking(){
+    public void attacking() {
+
         spriteCounter++;
 
-        if ( spriteCounter <= 5 ){
+        if ( spriteCounter <= 5 ) {
             spriteNum = 1;
         } else if ( spriteCounter <= 25 ) {
             spriteNum = 2;
@@ -174,27 +175,29 @@ public class Player extends Entity {
 
             int indexMonster = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
 
-            demageMonster(indexMonster);
+            damageMonster(indexMonster);
 
             worldX = currentWorldX;
             worldY = currentWorldY;
             solidArea.width = solidAreaWidth;
             solidArea.height = solidAreaHeight;
-        } else  {
+        } else {
             spriteNum = 1;
             spriteCounter = 0;
             attacking = false;
         }
     }
 
-    public void demageMonster(int indexMonster){
-        if ( indexMonster != 999 ){
-            if ( !gamePanel.monsters[indexMonster].invisible ){
+    public void damageMonster(int indexMonster) {
+
+        if ( indexMonster != 999 ) {
+            if ( !gamePanel.monsters[indexMonster].invisible ) {
                 gamePanel.monsters[indexMonster].life -= 1;
                 gamePanel.monsters[indexMonster].invisible = true;
 
-                if ( gamePanel.monsters[indexMonster].life <= 0 ){
-                    gamePanel.monsters[indexMonster] = null;
+                if ( gamePanel.monsters[indexMonster].life <= 0 ) {
+//                    gamePanel.monsters[indexMonster] = null;
+                    gamePanel.monsters[indexMonster].dying = true;
                 }
             }
         }
@@ -212,10 +215,10 @@ public class Player extends Entity {
 
     private void npcInteraction(int indexNpc) {
 
-        if ( gamePanel.keyHandler.enterPressed ){
+        if ( gamePanel.keyHandler.enterPressed || gamePanel.keyHandler.spacePressed ) {
             if ( indexNpc != 999 ) {
-                    gamePanel.gameState = gamePanel.dialogueState;
-                    gamePanel.npc[indexNpc].speak();
+                gamePanel.gameState = gamePanel.dialogueState;
+                gamePanel.npc[indexNpc].speak();
             } else {
                 attacking = true;
             }
@@ -242,7 +245,7 @@ public class Player extends Entity {
 
         switch ( direction ) {
             case "up":
-                if ( !attacking ){
+                if ( !attacking ) {
                     if ( spriteNum == 1 ) {
                         image = up1;
                     }
@@ -260,7 +263,7 @@ public class Player extends Entity {
                 }
                 break;
             case "down":
-                if ( !attacking ){
+                if ( !attacking ) {
                     if ( spriteNum == 1 ) {
                         image = down1;
                     }
@@ -277,7 +280,7 @@ public class Player extends Entity {
                 }
                 break;
             case "right":
-                if ( !attacking ){
+                if ( !attacking ) {
                     if ( spriteNum == 1 ) {
                         image = right1;
                     }
@@ -294,7 +297,7 @@ public class Player extends Entity {
                 }
                 break;
             case "left":
-                if ( !attacking ){
+                if ( !attacking ) {
                     if ( spriteNum == 1 ) {
                         image = left1;
                     }

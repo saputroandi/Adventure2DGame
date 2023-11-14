@@ -31,6 +31,9 @@ public class Entity {
 
     public int maxLife;
     public int life;
+    public boolean alive = true;
+    public boolean dying = false;
+    public int dyingCounter = 0;
 
     public int dialogueIndex = 0;
     String[] dialogues = new String[20];
@@ -179,10 +182,54 @@ public class Entity {
                 graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
             }
 
+            if ( dying ) {
+                dyingAnimation(graphics2D);
+            }
+
             graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
 
             graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         }
+    }
+
+    public void dyingAnimation(Graphics2D graphics2D) {
+
+        dyingCounter++;
+
+        int i = 10;
+        if ( dyingCounter <= i ) {
+            changeAlpha(graphics2D, 0f);
+        }
+        if ( dyingCounter > i && dyingCounter <= i * 2 ) {
+            changeAlpha(graphics2D, 1f);
+        }
+        if ( dyingCounter > i * 2 && dyingCounter <= i * 3 ) {
+            changeAlpha(graphics2D, 0f);
+        }
+        if ( dyingCounter > i * 3 && dyingCounter <= i * 4 ) {
+            changeAlpha(graphics2D, 1f);
+        }
+        if ( dyingCounter > i * 4 && dyingCounter <= i * 5 ) {
+            changeAlpha(graphics2D, 0f);
+        }
+        if ( dyingCounter > i * 5 && dyingCounter <= i * 6 ) {
+            changeAlpha(graphics2D, 1f);
+        }
+        if ( dyingCounter > i * 6 && dyingCounter <= i * 7 ) {
+            changeAlpha(graphics2D, 0f);
+        }
+        if ( dyingCounter > i * 7 && dyingCounter <= i * 8 ) {
+            changeAlpha(graphics2D, 1f);
+        }
+        if ( dyingCounter > i * 8 ) {
+            dying = false;
+            alive = false;
+        }
+    }
+
+    public void changeAlpha(Graphics2D graphics2D, float alphaValue) {
+
+        graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
     }
 
     public BufferedImage getScaledImage(String imagePath, int width, int height) {
