@@ -26,6 +26,8 @@ public class Entity {
     public int actionLockCounter = 0;
     public boolean invisible = false;
     public int invisibleCounter = 0;
+    boolean hpBarOn = false;
+    int hpBarCounter = 0;
 
     public boolean attacking = false;
 
@@ -73,6 +75,10 @@ public class Entity {
         }
     }
 
+    public void damageReaction(){
+
+    }
+
     public void setAction() {
 
     }
@@ -90,6 +96,7 @@ public class Entity {
 
         if ( this.type == 2 && contactPlayer ) {
             if ( !gamePanel.player.invisible ) {
+                gamePanel.playSoundEffect(6);
                 gamePanel.player.life -= 1;
                 gamePanel.player.invisible = true;
             }
@@ -178,8 +185,28 @@ public class Entity {
                     break;
             }
 
+            if ( type == 2 && hpBarOn ){
+                double oneScale = (double ) gamePanel.tileSize / maxLife;
+                double hpValue = oneScale * life;
+
+                graphics2D.setColor(new Color(35, 35, 35));
+                graphics2D.fillRect(screenX - 1, screenY - 16, gamePanel.tileSize - 2, 12);
+
+                graphics2D.setColor(new Color(255, 0, 30));
+                graphics2D.fillRect(screenX, screenY - 15, (int) hpValue, 10);
+
+                hpBarCounter++;
+
+                if ( hpBarCounter > 600 ){
+                    hpBarCounter = 0;
+                    hpBarOn = false;
+                }
+            }
+
             if ( invisible ) {
-                graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+                hpBarOn = true;
+                hpBarCounter = 0;
+                changeAlpha(graphics2D, 0.4f);
             }
 
             if ( dying ) {
@@ -188,7 +215,7 @@ public class Entity {
 
             graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
 
-            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+            changeAlpha(graphics2D, 1f);
         }
     }
 
@@ -196,7 +223,7 @@ public class Entity {
 
         dyingCounter++;
 
-        int i = 10;
+        int i = 5;
         if ( dyingCounter <= i ) {
             changeAlpha(graphics2D, 0f);
         }

@@ -1,7 +1,5 @@
 package main;
 
-import object.Key;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -40,7 +38,7 @@ public class KeyHandler implements KeyListener {
             } else if ( code == KeyEvent.VK_ENTER ) {
                 if ( gamePanel.userInterface.commandNum == 0 ) {
                     gamePanel.gameState = gamePanel.playState;
-                    gamePanel.playMusic(0);
+//                    gamePanel.playMusic(0);
                 } else if ( gamePanel.userInterface.commandNum == 1 ) {
 //
                 } else if ( gamePanel.userInterface.commandNum == 2 ) {

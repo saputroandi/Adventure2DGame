@@ -192,8 +192,10 @@ public class Player extends Entity {
 
         if ( indexMonster != 999 ) {
             if ( !gamePanel.monsters[indexMonster].invisible ) {
+                gamePanel.playSoundEffect(5);
                 gamePanel.monsters[indexMonster].life -= 1;
                 gamePanel.monsters[indexMonster].invisible = true;
+                gamePanel.monsters[indexMonster].damageReaction();
 
                 if ( gamePanel.monsters[indexMonster].life <= 0 ) {
 //                    gamePanel.monsters[indexMonster] = null;
@@ -207,6 +209,7 @@ public class Player extends Entity {
 
         if ( indexMonster != 999 ) {
             if ( !invisible ) {
+                gamePanel.playSoundEffect(6);
                 life -= 1;
                 invisible = true;
             }
@@ -220,6 +223,7 @@ public class Player extends Entity {
                 gamePanel.gameState = gamePanel.dialogueState;
                 gamePanel.npc[indexNpc].speak();
             } else {
+                gamePanel.playSoundEffect(7);
                 attacking = true;
             }
         }
@@ -252,7 +256,9 @@ public class Player extends Entity {
                     if ( spriteNum == 2 ) {
                         image = up2;
                     }
-                } else {
+                }
+
+                if ( attacking ){
                     tempScreenY = screenY - gamePanel.tileSize;
                     if ( spriteNum == 1 ) {
                         image = attackUp1;
@@ -270,7 +276,8 @@ public class Player extends Entity {
                     if ( spriteNum == 2 ) {
                         image = down2;
                     }
-                } else {
+                }
+                if ( attacking ) {
                     if ( spriteNum == 1 ) {
                         image = attackDown1;
                     }
@@ -287,7 +294,9 @@ public class Player extends Entity {
                     if ( spriteNum == 2 ) {
                         image = right2;
                     }
-                } else {
+                }
+
+                if ( attacking ){
                     if ( spriteNum == 1 ) {
                         image = attackRight1;
                     }
@@ -304,7 +313,9 @@ public class Player extends Entity {
                     if ( spriteNum == 2 ) {
                         image = left2;
                     }
-                } else {
+                }
+
+                if ( attacking ){
                     tempScreenX = screenX - gamePanel.tileSize;
                     if ( spriteNum == 1 ) {
                         image = attackLeft1;
