@@ -45,6 +45,19 @@ public class Entity {
     public boolean collision;
 
     public int type;
+    public int strength;
+    public int dexterity;
+    public int attack;
+    public int defense;
+    public int exp;
+    public int level;
+    public int nextLevelExp;
+    public int coin;
+    public Entity currentWeapon;
+    public Entity currentShield;
+
+    public int attackValue;
+    public int defenseValue;
 
     public Entity(GamePanel gamePanel) {
 

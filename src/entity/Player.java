@@ -2,6 +2,8 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.ShieldWood;
+import object.SwordNormal;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,6 +12,7 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
+    public boolean attackCancel = false;
 
     KeyHandler keyHandler;
 
@@ -47,6 +50,27 @@ public class Player extends Entity {
 
         maxLife = 6;
         life = maxLife;
+
+        level = 1;
+        strength = 1;
+        dexterity = 1;
+        exp = 0;
+        nextLevelExp = 5;
+        coin = 0;
+        currentWeapon = new SwordNormal(gamePanel);
+        currentShield = new ShieldWood(gamePanel);
+
+        attack = getAttack();
+        defense = getDefense();
+
+    }
+
+    public int getAttack(){
+        return strength * currentWeapon.attackValue;
+    }
+
+    public int getDefense(){
+        return dexterity * currentShield.defenseValue;
     }
 
     public void getPlayerImage() {
@@ -119,6 +143,13 @@ public class Player extends Entity {
                 }
             }
 
+            if( (keyHandler.enterPressed || keyHandler.spacePressed) && !attackCancel ){
+                gamePanel.playSoundEffect(7);
+                attacking = true;
+                spriteCounter = 0;
+            }
+
+            attackCancel = false;
             keyHandler.enterPressed = false;
 
             spriteCounter++;
@@ -220,11 +251,9 @@ public class Player extends Entity {
 
         if ( gamePanel.keyHandler.enterPressed || gamePanel.keyHandler.spacePressed ) {
             if ( indexNpc != 999 ) {
+                attackCancel = true;
                 gamePanel.gameState = gamePanel.dialogueState;
                 gamePanel.npc[indexNpc].speak();
-            } else {
-                gamePanel.playSoundEffect(7);
-                attacking = true;
             }
         }
 
