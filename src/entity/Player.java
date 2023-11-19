@@ -223,14 +223,24 @@ public class Player extends Entity {
 
         if ( indexMonster != 999 ) {
             if ( !gamePanel.monsters[indexMonster].invisible ) {
+
                 gamePanel.playSoundEffect(5);
-                gamePanel.monsters[indexMonster].life -= 1;
+                int damage = attack - gamePanel.monsters[indexMonster].defense;
+
+                if ( damage < 0  ){
+                    damage = 0;
+                }
+                gamePanel.monsters[indexMonster].life -= damage;
+
+                gamePanel.userInterface.addMessage(damage + "damage!");
+
                 gamePanel.monsters[indexMonster].invisible = true;
                 gamePanel.monsters[indexMonster].damageReaction();
 
                 if ( gamePanel.monsters[indexMonster].life <= 0 ) {
 //                    gamePanel.monsters[indexMonster] = null;
                     gamePanel.monsters[indexMonster].dying = true;
+                    gamePanel.userInterface.addMessage("killed the " + gamePanel.monsters[indexMonster].name + "!");
                 }
             }
         }
@@ -241,7 +251,14 @@ public class Player extends Entity {
         if ( indexMonster != 999 ) {
             if ( !invisible ) {
                 gamePanel.playSoundEffect(6);
-                life -= 1;
+
+                int damage = gamePanel.monsters[indexMonster].attack - defense;
+
+                if ( damage < 0  ){
+                    damage = 0;
+                }
+
+                life -= damage;
                 invisible = true;
             }
         }

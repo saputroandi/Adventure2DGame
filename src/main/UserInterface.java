@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class UserInterface {
 
@@ -15,8 +16,9 @@ public class UserInterface {
     Font maruMonica;
 
     boolean messageOn = false;
-    public String message = "";
     public String currentDialogue = "";
+    ArrayList<String> messages = new ArrayList<>();
+    ArrayList<Integer> messagesCounter = new ArrayList<>();
 
     int commandNum = 0;
 
@@ -46,11 +48,10 @@ public class UserInterface {
         heartBlank = heart.image3;
     }
 
-    public void drawMessage(String text) {
+    public void addMessage(String text) {
 
-        message = text;
-
-        messageOn = true;
+        messages.add(text);
+        messagesCounter.add(0);
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -64,6 +65,7 @@ public class UserInterface {
             drawTitleScreen();
         } else if ( gamePanel.gameState == gamePanel.playState ) {
             drawPlayerLife();
+            drawMessages();
         } else if ( gamePanel.gameState == gamePanel.pauseState ) {
             drawPlayerLife();
             drawPauseScreen();
@@ -98,6 +100,31 @@ public class UserInterface {
             }
             i++;
             x += gamePanel.tileSize;
+        }
+    }
+
+    public void drawMessages(){
+
+        int messageX = gamePanel.tileSize;
+        int messageY = gamePanel.tileSize * 4;
+
+        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 32F));
+
+        for ( int i = 0; i < messages.size(); i++ ){
+
+            if ( messages.get(i) != null ){
+                graphics2D.setColor(Color.WHITE);
+                graphics2D.drawString(messages.get(i), messageX, messageY);
+
+                int counter = messagesCounter.get(i) + 1;
+                messagesCounter.set(i, counter);
+                messageY += 50;
+
+                if ( messagesCounter.get(i) > 180 ){
+                    messages.remove(i);
+                    messagesCounter.remove(i);
+                }
+            }
         }
     }
 
