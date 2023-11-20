@@ -14,5 +14,6 @@ public class SwordNormal extends Entity {
         name = "NormalSword";
         down1 = getScaledImage("/objects/sword_normal", gamePanel.tileSize, gamePanel.tileSize);
         attackValue = 1;
+        description = "[" + name + "]\nMade by wood.";
     }
 }

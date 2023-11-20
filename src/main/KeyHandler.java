@@ -144,7 +144,7 @@ public class KeyHandler implements KeyListener {
 
         if ( code == KeyEvent.VK_C ) {
             gamePanel.gameState = gamePanel.playState;
-            gamePanel.playSoundEffect(9);
+//            gamePanel.playSoundEffect(9);
         }
 
         if ( code == KeyEvent.VK_UP ) {

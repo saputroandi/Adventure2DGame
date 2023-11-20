@@ -325,15 +325,53 @@ public class UserInterface {
         final int slotYStart = frameY + 20;
         int slotX = slotXStart;
         int slotY = slotYStart;
+        int slotSize = gamePanel.tileSize + 3;
 
-        int cursorX = slotXStart + (gamePanel.tileSize * slotCol);
-        int cursorY = slotYStart + (gamePanel.tileSize * slotRow);
+        for ( int i = 0; i < gamePanel.player.inventory.size(); i++ ){
+            graphics2D.drawImage(gamePanel.player.inventory.get(i).down1, slotX, slotY, null);
+
+            slotX += slotSize;
+            if ( i == 4 || i == 9 || i == 14 ){
+                slotX = slotXStart;
+                slotY += slotSize;
+            }
+        }
+
+        int cursorX = slotXStart + (slotSize * slotCol);
+        int cursorY = slotYStart + (slotSize * slotRow);
         int cursorWidth = gamePanel.tileSize;
         int cursorHeight = gamePanel.tileSize;
 
         graphics2D.setColor(Color.WHITE);
         graphics2D.setStroke(new BasicStroke(3));
         graphics2D.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
+
+        int dFrameX = frameX;
+        int dFrameY = frameY + frameHeight;
+        int dFrameWidth = frameWidth;
+        int dFrameHeight = gamePanel.tileSize * 3;
+
+        drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+
+        int textX = dFrameX + 20;
+        int textY = dFrameY + gamePanel.tileSize;
+
+        graphics2D.setFont(graphics2D.getFont().deriveFont(28F));
+
+        int itemIndex = getItemIndexOnInventory();
+        if ( itemIndex < gamePanel.player.inventory.size() ){
+            String itemDesc = gamePanel.player.inventory.get(itemIndex).description;
+
+            for ( String line: itemDesc.split("\n")){
+                graphics2D.drawString(line, textX, textY);
+                textY += 32;
+            }
+
+        }
+    }
+
+    public int getItemIndexOnInventory(){
+        return slotCol + (slotRow * 5);
     }
 
     public void drawSubWindow(int x, int y, int width, int height) {
