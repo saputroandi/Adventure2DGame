@@ -67,7 +67,8 @@ public class KeyHandler implements KeyListener {
 //        }
     }
 
-    public void titleState(int code){
+    public void titleState(int code) {
+
         if ( code == KeyEvent.VK_W || code == KeyEvent.VK_UP ) {
             gamePanel.userInterface.commandNum--;
             if ( gamePanel.userInterface.commandNum < 0 ) {
@@ -90,7 +91,8 @@ public class KeyHandler implements KeyListener {
         }
     }
 
-    public void playState(int code){
+    public void playState(int code) {
+
         if ( code == KeyEvent.VK_W || code == KeyEvent.VK_UP ) {
             upPressed = true;
         }
@@ -119,26 +121,58 @@ public class KeyHandler implements KeyListener {
             spacePressed = true;
         }
 
-        if ( code == KeyEvent.VK_C ){
+        if ( code == KeyEvent.VK_C ) {
             gamePanel.gameState = gamePanel.characterState;
         }
     }
 
-    public void pauseState(int code){
+    public void pauseState(int code) {
+
         if ( code == KeyEvent.VK_ESCAPE ) {
             gamePanel.gameState = gamePanel.playState;
         }
     }
 
-    public void dialogueState(int code){
+    public void dialogueState(int code) {
+
         if ( code == KeyEvent.VK_ENTER || code == KeyEvent.VK_ESCAPE ) {
             gamePanel.gameState = gamePanel.playState;
         }
     }
 
-    public void characterState(int code){
-        if ( code == KeyEvent.VK_C ){
+    public void characterState(int code) {
+
+        if ( code == KeyEvent.VK_C ) {
             gamePanel.gameState = gamePanel.playState;
+            gamePanel.playSoundEffect(9);
+        }
+
+        if ( code == KeyEvent.VK_UP ) {
+            if ( gamePanel.userInterface.slotRow != 0 ) {
+                gamePanel.userInterface.slotRow--;
+                gamePanel.playSoundEffect(9);
+            }
+        }
+
+        if ( code == KeyEvent.VK_DOWN ) {
+            if ( gamePanel.userInterface.slotRow != 3 ) {
+                gamePanel.userInterface.slotRow++;
+                gamePanel.playSoundEffect(9);
+            }
+        }
+
+        if ( code == KeyEvent.VK_RIGHT ) {
+            if ( gamePanel.userInterface.slotCol != 4 ) {
+                gamePanel.userInterface.slotCol++;
+                gamePanel.playSoundEffect(9);
+            }
+        }
+
+        if ( code == KeyEvent.VK_LEFT ) {
+            if ( gamePanel.userInterface.slotCol != 0 ) {
+                gamePanel.userInterface.slotCol--;
+                gamePanel.playSoundEffect(9);
+            }
         }
     }
 }

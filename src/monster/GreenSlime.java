@@ -22,6 +22,7 @@ public class GreenSlime extends Entity {
         life = maxLife;
         attack = 5;
         defense = 0;
+        exp = 2;
 
         solidArea.x = 3;
         solidArea.y = 18;
@@ -68,7 +69,7 @@ public class GreenSlime extends Entity {
     }
 
     @Override
-    public void damageReaction(){
+    public void damageReaction() {
 
         actionLockCounter = 0;
         direction = gamePanel.player.direction;

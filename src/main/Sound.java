@@ -26,6 +26,8 @@ public class Sound {
         soundUrl[5] = getClass().getResource("/sounds/hitmonster.wav");
         soundUrl[6] = getClass().getResource("/sounds/receivedamage.wav");
         soundUrl[7] = getClass().getResource("/sounds/swingweapon.wav");
+        soundUrl[8] = getClass().getResource("/sounds/fanfare.wav");
+        soundUrl[9] = getClass().getResource("/sounds/cursor.wav");
 
     }
 

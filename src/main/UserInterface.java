@@ -24,6 +24,9 @@ public class UserInterface {
 
     BufferedImage heartFull, heartHalf, heartBlank;
 
+    public int slotCol = 0;
+    public int slotRow = 0;
+
     public UserInterface(GamePanel gamePanel) {
 
         this.gamePanel = gamePanel;
@@ -74,6 +77,7 @@ public class UserInterface {
             drawDialogueScreen();
         } else if ( gamePanel.gameState == gamePanel.characterState ) {
             drawCharacterScreen();
+            drawInventory();
         }
     }
 
@@ -103,16 +107,16 @@ public class UserInterface {
         }
     }
 
-    public void drawMessages(){
+    public void drawMessages() {
 
         int messageX = gamePanel.tileSize;
         int messageY = gamePanel.tileSize * 4;
 
         graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 32F));
 
-        for ( int i = 0; i < messages.size(); i++ ){
+        for ( int i = 0; i < messages.size(); i++ ) {
 
-            if ( messages.get(i) != null ){
+            if ( messages.get(i) != null ) {
                 graphics2D.setColor(Color.WHITE);
                 graphics2D.drawString(messages.get(i), messageX, messageY);
 
@@ -120,7 +124,7 @@ public class UserInterface {
                 messagesCounter.set(i, counter);
                 messageY += 50;
 
-                if ( messagesCounter.get(i) > 180 ){
+                if ( messagesCounter.get(i) > 180 ) {
                     messages.remove(i);
                     messagesCounter.remove(i);
                 }
@@ -208,7 +212,7 @@ public class UserInterface {
         }
     }
 
-    public void drawCharacterScreen(){
+    public void drawCharacterScreen() {
 
         final int frameX = gamePanel.tileSize;
         final int frameY = gamePanel.tileSize;
@@ -308,6 +312,30 @@ public class UserInterface {
 //        graphics2D.drawString(value, textX, textY);
     }
 
+    public void drawInventory() {
+
+        int frameX = gamePanel.tileSize * 9;
+        int frameY = gamePanel.tileSize;
+        int frameWidth = gamePanel.tileSize * 6;
+        int frameHeight = gamePanel.tileSize * 5;
+
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+        final int slotXStart = frameX + 20;
+        final int slotYStart = frameY + 20;
+        int slotX = slotXStart;
+        int slotY = slotYStart;
+
+        int cursorX = slotXStart + (gamePanel.tileSize * slotCol);
+        int cursorY = slotYStart + (gamePanel.tileSize * slotRow);
+        int cursorWidth = gamePanel.tileSize;
+        int cursorHeight = gamePanel.tileSize;
+
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.setStroke(new BasicStroke(3));
+        graphics2D.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
+    }
+
     public void drawSubWindow(int x, int y, int width, int height) {
 
         Color color = new Color(0, 0, 0, 200);
@@ -327,7 +355,7 @@ public class UserInterface {
         return gamePanel.maxScreenWidth / 2 - length / 2;
     }
 
-    public int getXForAlignToRightText(String text, int tailX){
+    public int getXForAlignToRightText(String text, int tailX) {
 
         int length = ( int ) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
         return tailX - length;

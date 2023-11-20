@@ -65,11 +65,13 @@ public class Player extends Entity {
 
     }
 
-    public int getAttack(){
+    public int getAttack() {
+
         return strength * currentWeapon.attackValue;
     }
 
-    public int getDefense(){
+    public int getDefense() {
+
         return dexterity * currentShield.defenseValue;
     }
 
@@ -143,7 +145,7 @@ public class Player extends Entity {
                 }
             }
 
-            if( (keyHandler.enterPressed || keyHandler.spacePressed) && !attackCancel ){
+            if ( (keyHandler.enterPressed || keyHandler.spacePressed) && !attackCancel ) {
                 gamePanel.playSoundEffect(7);
                 attacking = true;
                 spriteCounter = 0;
@@ -227,7 +229,7 @@ public class Player extends Entity {
                 gamePanel.playSoundEffect(5);
                 int damage = attack - gamePanel.monsters[indexMonster].defense;
 
-                if ( damage < 0  ){
+                if ( damage < 0 ) {
                     damage = 0;
                 }
                 gamePanel.monsters[indexMonster].life -= damage;
@@ -240,9 +242,32 @@ public class Player extends Entity {
                 if ( gamePanel.monsters[indexMonster].life <= 0 ) {
 //                    gamePanel.monsters[indexMonster] = null;
                     gamePanel.monsters[indexMonster].dying = true;
-                    gamePanel.userInterface.addMessage("killed the " + gamePanel.monsters[indexMonster].name + "!");
+                    gamePanel.userInterface.addMessage("Killed the " + gamePanel.monsters[indexMonster].name + "!");
+                    exp += gamePanel.monsters[indexMonster].exp;
+                    gamePanel.userInterface.addMessage("Exp + " + gamePanel.monsters[indexMonster].exp);
+                    checkLevelUp();
                 }
             }
+        }
+    }
+
+    public void checkLevelUp() {
+
+        if ( exp >= nextLevelExp ) {
+
+            level++;
+            exp = exp - nextLevelExp;
+            nextLevelExp = nextLevelExp * 2;
+            maxLife += 2;
+            strength++;
+            dexterity++;
+            attack = getAttack();
+            defense = getDefense();
+
+            gamePanel.playSoundEffect(8);
+            gamePanel.gameState = gamePanel.dialogueState;
+            gamePanel.userInterface.currentDialogue = "You are level " + level + " now\n"
+                    + "You become stronger";
         }
     }
 
@@ -254,7 +279,7 @@ public class Player extends Entity {
 
                 int damage = gamePanel.monsters[indexMonster].attack - defense;
 
-                if ( damage < 0  ){
+                if ( damage < 0 ) {
                     damage = 0;
                 }
 
@@ -304,7 +329,7 @@ public class Player extends Entity {
                     }
                 }
 
-                if ( attacking ){
+                if ( attacking ) {
                     tempScreenY = screenY - gamePanel.tileSize;
                     if ( spriteNum == 1 ) {
                         image = attackUp1;
@@ -342,7 +367,7 @@ public class Player extends Entity {
                     }
                 }
 
-                if ( attacking ){
+                if ( attacking ) {
                     if ( spriteNum == 1 ) {
                         image = attackRight1;
                     }
@@ -361,7 +386,7 @@ public class Player extends Entity {
                     }
                 }
 
-                if ( attacking ){
+                if ( attacking ) {
                     tempScreenX = screenX - gamePanel.tileSize;
                     if ( spriteNum == 1 ) {
                         image = attackLeft1;
