@@ -327,11 +327,16 @@ public class UserInterface {
         int slotY = slotYStart;
         int slotSize = gamePanel.tileSize + 3;
 
-        for ( int i = 0; i < gamePanel.player.inventory.size(); i++ ){
+        for ( int i = 0; i < gamePanel.player.inventory.size(); i++ ) {
+            if ( gamePanel.player.inventory.get(i) == gamePanel.player.currentWeapon || gamePanel.player.inventory.get(i) == gamePanel.player.currentShield ) {
+                graphics2D.setColor(new Color(240, 190, 90));
+                graphics2D.fillRoundRect(slotX, slotY, gamePanel.tileSize, gamePanel.tileSize, 10, 10);
+            }
+
             graphics2D.drawImage(gamePanel.player.inventory.get(i).down1, slotX, slotY, null);
 
             slotX += slotSize;
-            if ( i == 4 || i == 9 || i == 14 ){
+            if ( i == 4 || i == 9 || i == 14 ) {
                 slotX = slotXStart;
                 slotY += slotSize;
             }
@@ -351,7 +356,6 @@ public class UserInterface {
         int dFrameWidth = frameWidth;
         int dFrameHeight = gamePanel.tileSize * 3;
 
-        drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
 
         int textX = dFrameX + 20;
         int textY = dFrameY + gamePanel.tileSize;
@@ -359,10 +363,12 @@ public class UserInterface {
         graphics2D.setFont(graphics2D.getFont().deriveFont(28F));
 
         int itemIndex = getItemIndexOnInventory();
-        if ( itemIndex < gamePanel.player.inventory.size() ){
+        if ( itemIndex < gamePanel.player.inventory.size() ) {
+            drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+
             String itemDesc = gamePanel.player.inventory.get(itemIndex).description;
 
-            for ( String line: itemDesc.split("\n")){
+            for ( String line : itemDesc.split("\n") ) {
                 graphics2D.drawString(line, textX, textY);
                 textY += 32;
             }
@@ -370,7 +376,8 @@ public class UserInterface {
         }
     }
 
-    public int getItemIndexOnInventory(){
+    public int getItemIndexOnInventory() {
+
         return slotCol + (slotRow * 5);
     }
 

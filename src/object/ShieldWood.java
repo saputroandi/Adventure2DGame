@@ -10,10 +10,12 @@ public class ShieldWood extends Entity {
         init();
     }
 
-    public void init(){
+    public void init() {
+
+        type = typeShield;
         name = "Wood Shield";
         down1 = getScaledImage("/objects/shield_wood", gamePanel.tileSize, gamePanel.tileSize);
         defenseValue = 1;
-        description = "[" + name + "]\nAn old sword.";
+        description = "[" + name + "]\nMade by wood.";
     }
 }

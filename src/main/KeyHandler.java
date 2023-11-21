@@ -174,5 +174,9 @@ public class KeyHandler implements KeyListener {
                 gamePanel.playSoundEffect(9);
             }
         }
+
+        if ( code == KeyEvent.VK_ENTER ) {
+            gamePanel.player.selectItem();
+        }
     }
 }

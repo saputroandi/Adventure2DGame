@@ -10,10 +10,14 @@ public class SwordNormal extends Entity {
         init();
     }
 
-    public void init(){
+    public void init() {
+
+        type = typeSword;
         name = "NormalSword";
         down1 = getScaledImage("/objects/sword_normal", gamePanel.tileSize, gamePanel.tileSize);
         attackValue = 1;
-        description = "[" + name + "]\nMade by wood.";
+        attackArea.width = 36;
+        attackArea.height = 36;
+        description = "[" + name + "]\nAn old sword.";
     }
 }

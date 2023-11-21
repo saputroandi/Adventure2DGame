@@ -37,8 +37,8 @@ public class Player extends Entity {
         solidArea.height = 28;
         solidArea.width = 28;
 
-        attackArea.width = 36;
-        attackArea.height = 36;
+//        attackArea.width = 36;
+//        attackArea.height = 36;
 
         setDefaultValues();
         getPlayerImage();
@@ -70,19 +70,16 @@ public class Player extends Entity {
 
     }
 
-    public void setItems(){
+    public void setItems() {
 
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-        inventory.add(new Key(gamePanel));
-        inventory.add(new Key(gamePanel));
-        inventory.add(new Key(gamePanel));
-        inventory.add(new Key(gamePanel));
         inventory.add(new Key(gamePanel));
     }
 
     public int getAttack() {
 
+        attackArea = currentWeapon.attackArea;
         return strength * currentWeapon.attackValue;
     }
 
@@ -105,14 +102,27 @@ public class Player extends Entity {
 
     public void getPlayerAttackImage() {
 
-        attackUp1 = getScaledImage("/player/boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
-        attackUp2 = getScaledImage("/player/boy_attack_up_2", gamePanel.tileSize, gamePanel.tileSize * 2);
-        attackDown1 = getScaledImage("/player/boy_attack_down_1", gamePanel.tileSize, gamePanel.tileSize * 2);
-        attackDown2 = getScaledImage("/player/boy_attack_down_2", gamePanel.tileSize, gamePanel.tileSize * 2);
-        attackRight1 = getScaledImage("/player/boy_attack_right_1", gamePanel.tileSize * 2, gamePanel.tileSize);
-        attackRight2 = getScaledImage("/player/boy_attack_right_2", gamePanel.tileSize * 2, gamePanel.tileSize);
-        attackLeft1 = getScaledImage("/player/boy_attack_left_1", gamePanel.tileSize * 2, gamePanel.tileSize);
-        attackLeft2 = getScaledImage("/player/boy_attack_left_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+        if ( currentWeapon.type == typeSword ) {
+            attackUp1 = getScaledImage("/player/boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackUp2 = getScaledImage("/player/boy_attack_up_2", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDown1 = getScaledImage("/player/boy_attack_down_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDown2 = getScaledImage("/player/boy_attack_down_2", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackRight1 = getScaledImage("/player/boy_attack_right_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackRight2 = getScaledImage("/player/boy_attack_right_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackLeft1 = getScaledImage("/player/boy_attack_left_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackLeft2 = getScaledImage("/player/boy_attack_left_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+        }
+
+        if ( currentWeapon.type == typeAxe ) {
+            attackUp1 = getScaledImage("/player/boy_axe_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackUp2 = getScaledImage("/player/boy_axe_up_2", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDown1 = getScaledImage("/player/boy_axe_down_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDown2 = getScaledImage("/player/boy_axe_down_2", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackRight1 = getScaledImage("/player/boy_axe_right_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackRight2 = getScaledImage("/player/boy_axe_right_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackLeft1 = getScaledImage("/player/boy_axe_left_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackLeft2 = getScaledImage("/player/boy_axe_left_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+        }
     }
 
     public void update() {
@@ -134,13 +144,13 @@ public class Player extends Entity {
             collisionOn = false;
             gamePanel.collisionChecker.checkTile(this);
 
-            int indexTile = gamePanel.collisionChecker.checkObject(this, true);
+            int indexItem = gamePanel.collisionChecker.checkObject(this, true);
             int indexNpc = gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
             int indexMonster = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
 
             gamePanel.eventHandler.checkEvent();
 
-            objectInteraction(indexTile);
+            objectInteraction(indexItem);
             npcInteraction(indexNpc);
             monsterInteraction(indexMonster);
 
@@ -318,10 +328,49 @@ public class Player extends Entity {
         gamePanel.keyHandler.enterPressed = false;
     }
 
-    public void objectInteraction(int indexTile) {
+    public void objectInteraction(int indexItem) {
 
-        if ( indexTile != 999 ) {
-//
+        if ( indexItem != 999 ) {
+            String text;
+            if ( inventory.size() != maxInventorySize ) {
+                inventory.add(gamePanel.objects[indexItem]);
+                gamePanel.playSoundEffect(1);
+
+                text = "Got a " + gamePanel.objects[indexItem].name;
+            } else {
+                text = "You cannot carry anymore!";
+            }
+
+            gamePanel.userInterface.addMessage(text);
+            gamePanel.objects[indexItem] = null;
+
+        }
+    }
+
+    public void selectItem() {
+
+        int indexItem = gamePanel.userInterface.getItemIndexOnInventory();
+
+        if ( indexItem < inventory.size() ) {
+
+            Entity selectedItem = inventory.get(indexItem);
+
+            if ( selectedItem.type == typeSword || selectedItem.type == typeAxe ) {
+                currentWeapon = selectedItem;
+                attack = getAttack();
+                getPlayerAttackImage();
+            }
+
+            if ( selectedItem.type == typeShield ) {
+                currentShield = selectedItem;
+                defense = getDefense();
+            }
+
+            if ( selectedItem.type == typeConsumable ) {
+                selectedItem.use(this);
+
+                inventory.remove(indexItem);
+            }
         }
     }
 

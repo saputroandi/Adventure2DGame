@@ -2,10 +2,7 @@ package main;
 
 import entity.OldManNpc;
 import monster.GreenSlime;
-import object.Boots;
-import object.Chest;
-import object.Door;
-import object.Key;
+import object.*;
 
 public class AssetSetter {
 
@@ -18,6 +15,31 @@ public class AssetSetter {
 
     public void setObject() {
 
+        int i = 0;
+        gamePanel.objects[i] = new Key(gamePanel);
+        gamePanel.objects[i].worldX = gamePanel.tileSize * 25;
+        gamePanel.objects[i].worldY = gamePanel.tileSize * 19;
+        i++;
+        gamePanel.objects[i] = new Key(gamePanel);
+        gamePanel.objects[i].worldX = gamePanel.tileSize * 21;
+        gamePanel.objects[i].worldY = gamePanel.tileSize * 19;
+        i++;
+        gamePanel.objects[i] = new Key(gamePanel);
+        gamePanel.objects[i].worldX = gamePanel.tileSize * 26;
+        gamePanel.objects[i].worldY = gamePanel.tileSize * 21;
+        i++;
+        gamePanel.objects[i] = new Axe(gamePanel);
+        gamePanel.objects[i].worldX = gamePanel.tileSize * 33;
+        gamePanel.objects[i].worldY = gamePanel.tileSize * 21;
+        i++;
+        gamePanel.objects[i] = new ShieldBlue(gamePanel);
+        gamePanel.objects[i].worldX = gamePanel.tileSize * 35;
+        gamePanel.objects[i].worldY = gamePanel.tileSize * 21;
+        i++;
+        gamePanel.objects[i] = new PotionRed(gamePanel);
+        gamePanel.objects[i].worldX = gamePanel.tileSize * 22;
+        gamePanel.objects[i].worldY = gamePanel.tileSize * 27;
+        i++;
     }
 
     public void setNpc() {

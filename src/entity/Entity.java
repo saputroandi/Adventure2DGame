@@ -44,7 +44,6 @@ public class Entity {
     public String name;
     public boolean collision;
 
-    public int type;
     public int strength;
     public int dexterity;
     public int attack;
@@ -59,6 +58,15 @@ public class Entity {
     public int attackValue;
     public int defenseValue;
     public String description = "";
+
+    public int type;
+    public final int typePlayer = 0;
+    public final int typeNpc = 1;
+    public final int typeMonster = 2;
+    public final int typeSword = 3;
+    public final int typeAxe = 4;
+    public final int typeShield = 5;
+    public final int typeConsumable = 6;
 
     public Entity(GamePanel gamePanel) {
 
@@ -89,7 +97,11 @@ public class Entity {
         }
     }
 
-    public void damageReaction(){
+    public void use(Entity entity) {
+
+    }
+
+    public void damageReaction() {
 
     }
 
@@ -108,13 +120,13 @@ public class Entity {
         gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
         boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
 
-        if ( this.type == 2 && contactPlayer ) {
+        if ( this.type == typeMonster && contactPlayer ) {
             if ( !gamePanel.player.invisible ) {
                 gamePanel.playSoundEffect(6);
 
                 int damage = attack - gamePanel.player.defense;
 
-                if ( damage < 0  ){
+                if ( damage < 0 ) {
                     damage = 0;
                 }
                 gamePanel.player.life -= damage;
@@ -205,19 +217,19 @@ public class Entity {
                     break;
             }
 
-            if ( type == 2 && hpBarOn ){
-                double oneScale = (double ) gamePanel.tileSize / maxLife;
+            if ( type == 2 && hpBarOn ) {
+                double oneScale = ( double ) gamePanel.tileSize / maxLife;
                 double hpValue = oneScale * life;
 
                 graphics2D.setColor(new Color(35, 35, 35));
                 graphics2D.fillRect(screenX - 1, screenY - 16, gamePanel.tileSize - 2, 12);
 
                 graphics2D.setColor(new Color(255, 0, 30));
-                graphics2D.fillRect(screenX, screenY - 15, (int) hpValue, 10);
+                graphics2D.fillRect(screenX, screenY - 15, ( int ) hpValue, 10);
 
                 hpBarCounter++;
 
-                if ( hpBarCounter > 600 ){
+                if ( hpBarCounter > 600 ) {
                     hpBarCounter = 0;
                     hpBarOn = false;
                 }

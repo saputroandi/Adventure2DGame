@@ -15,7 +15,7 @@ public class GreenSlime extends Entity {
 
     public void init() {
 
-        type = 2;
+        type = typeMonster;
         name = "Green Slime";
         speed = 1;
         maxLife = 4;
