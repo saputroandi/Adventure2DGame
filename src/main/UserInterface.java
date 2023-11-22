@@ -2,6 +2,7 @@ package main;
 
 import entity.Entity;
 import object.Heart;
+import object.ManaCrystal;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -22,7 +23,7 @@ public class UserInterface {
 
     int commandNum = 0;
 
-    BufferedImage heartFull, heartHalf, heartBlank;
+    BufferedImage heartFull, heartHalf, heartBlank, crystalFull, crystalBlank;
 
     public int slotCol = 0;
     public int slotRow = 0;
@@ -45,10 +46,14 @@ public class UserInterface {
         }
 
         Entity heart = new Heart(gamePanel);
+        Entity crystal = new ManaCrystal(gamePanel);
 
         heartFull = heart.image;
         heartHalf = heart.image2;
         heartBlank = heart.image3;
+
+        crystalFull = crystal.image;
+        crystalBlank = crystal.image2;
     }
 
     public void addMessage(String text) {
@@ -104,6 +109,26 @@ public class UserInterface {
             }
             i++;
             x += gamePanel.tileSize;
+        }
+
+        x = (gamePanel.tileSize / 2) - 5;
+        y = (int) (gamePanel.tileSize * 1.5);
+        i = 0;
+
+        while ( i < gamePanel.player.maxMana ){
+            graphics2D.drawImage(crystalBlank, x, y, null);
+            i++;
+            x += 35;
+        }
+
+        x = (gamePanel.tileSize / 2) - 5;
+        y = (int) (gamePanel.tileSize * 1.5);
+        i = 0;
+
+        while ( i < gamePanel.player.mana ){
+            graphics2D.drawImage(crystalFull, x, y, null);
+            i++;
+            x += 35;
         }
     }
 
@@ -232,6 +257,8 @@ public class UserInterface {
         textY += lineHeight;
         graphics2D.drawString("Life", textX, textY);
         textY += lineHeight;
+        graphics2D.drawString("Mana", textX, textY);
+        textY += lineHeight;
         graphics2D.drawString("Strength", textX, textY);
         textY += lineHeight;
         graphics2D.drawString("Dexterity", textX, textY);
@@ -245,7 +272,7 @@ public class UserInterface {
         graphics2D.drawString("Next Level", textX, textY);
         textY += lineHeight;
         graphics2D.drawString("Coin", textX, textY);
-        textY += lineHeight + 20;
+        textY += lineHeight + 10;
         graphics2D.drawString("Weapon", textX, textY);
         textY += lineHeight + 15;
         graphics2D.drawString("Shield", textX, textY);
@@ -260,6 +287,11 @@ public class UserInterface {
         textY += lineHeight;
 
         value = String.valueOf(gamePanel.player.life + "/" + gamePanel.player.maxLife);
+        textX = getXForAlignToRightText(value, tailX);
+        graphics2D.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.player.mana + "/" + gamePanel.player.maxMana);
         textX = getXForAlignToRightText(value, tailX);
         graphics2D.drawString(value, textX, textY);
         textY += lineHeight;
@@ -299,9 +331,9 @@ public class UserInterface {
         graphics2D.drawString(value, textX, textY);
         textY += lineHeight;
 
-        graphics2D.drawImage(gamePanel.player.currentWeapon.down1, tailX - gamePanel.tileSize, textY - 13, null);
+        graphics2D.drawImage(gamePanel.player.currentWeapon.down1, tailX - gamePanel.tileSize, textY - 24, null);
         textY += gamePanel.tileSize;
-        graphics2D.drawImage(gamePanel.player.currentShield.down1, tailX - gamePanel.tileSize, textY - 13, null);
+        graphics2D.drawImage(gamePanel.player.currentShield.down1, tailX - gamePanel.tileSize, textY - 24, null);
 //        value = String.valueOf(gamePanel.player.currentWeapon.name);
 //        textX = getXForAlignToRightText(value, tailX);
 //        graphics2D.drawString(value, textX, textY);

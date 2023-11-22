@@ -36,6 +36,7 @@ public class Entity {
     public int life;
     public int maxMana;
     public int mana;
+    public int ammo;
     public boolean alive = true;
     public boolean dying = false;
     public int dyingCounter = 0;
@@ -126,17 +127,7 @@ public class Entity {
         boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
 
         if ( this.type == typeMonster && contactPlayer ) {
-            if ( !gamePanel.player.invisible ) {
-                gamePanel.playSoundEffect(6);
-
-                int damage = attack - gamePanel.player.defense;
-
-                if ( damage < 0 ) {
-                    damage = 0;
-                }
-                gamePanel.player.life -= damage;
-                gamePanel.player.invisible = true;
-            }
+           damagePlayer(attack);
         }
 
         if ( !collisionOn ) {
@@ -172,6 +163,24 @@ public class Entity {
                 invisible = false;
                 invisibleCounter = 0;
             }
+        }
+
+        if ( shotAvailableCounter < 30 ){
+            shotAvailableCounter++;
+        }
+    }
+
+    public void damagePlayer(int attack){
+        if ( !gamePanel.player.invisible ) {
+            gamePanel.playSoundEffect(6);
+
+            int damage = attack - gamePanel.player.defense;
+
+            if ( damage < 0 ) {
+                damage = 0;
+            }
+            gamePanel.player.life -= damage;
+            gamePanel.player.invisible = true;
         }
     }
 

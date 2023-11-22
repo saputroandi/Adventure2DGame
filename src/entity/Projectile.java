@@ -34,7 +34,12 @@ public class Projectile extends Entity {
         }
 
         if ( user != gamePanel.player ){
+            boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
 
+            if ( !gamePanel.player.invisible && contactPlayer ){
+                damagePlayer(attack);
+                alive = false;
+            }
         }
 
         switch ( direction ) {
@@ -66,5 +71,13 @@ public class Projectile extends Entity {
             }
             spriteCounter = 0;
         }
+    }
+
+    public boolean haveResource(Entity user){
+
+        return false;
+    }
+
+    public void subtractResource(Entity user){
     }
 }

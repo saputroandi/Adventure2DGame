@@ -2,10 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import object.Fireball;
-import object.Key;
-import object.ShieldWood;
-import object.SwordNormal;
+import object.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -56,6 +53,9 @@ public class Player extends Entity {
 
         maxLife = 6;
         life = maxLife;
+        maxMana = 4;
+        mana = maxMana;
+        ammo = 10;
 
         level = 1;
         strength = 1;
@@ -69,7 +69,8 @@ public class Player extends Entity {
         attack = getAttack();
         defense = getDefense();
 
-        projectile = new Fireball(gamePanel);
+//        projectile = new Fireball(gamePanel);
+        projectile = new Rock(gamePanel);
 
     }
 
@@ -194,8 +195,10 @@ public class Player extends Entity {
             }
         }
 
-        if ( keyHandler.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30 ) {
+        if ( keyHandler.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30 && projectile.haveResource(this) ) {
             projectile.set(worldX, worldY, direction, true, this);
+
+            projectile.subtractResource(this);
 
             gamePanel.projectiles.add(projectile);
 

@@ -54,6 +54,9 @@ public class EventHandler {
 //            if ( hit(23, 16, "any") ) {
 //                damagePit(23, 16, gamePanel.dialogueState);
 //            }
+            if ( hit(23, 12, "any") ) {
+                healingPool(23, 12, gamePanel.dialogueState);
+            }
         }
     }
 
@@ -93,5 +96,17 @@ public class EventHandler {
 
 //        eventRect[col][row].eventDone = true;
         canTouchEvent = false;
+    }
+
+    public void healingPool(int col, int row, int gameState){
+
+        if ( gamePanel.keyHandler.enterPressed ){
+            gamePanel.gameState = gameState;
+            gamePanel.player.attackCancel = true;
+            gamePanel.playSoundEffect(2);
+            gamePanel.userInterface.currentDialogue = "Heal ur life and mana";
+            gamePanel.player.life = gamePanel.player.maxLife;
+            gamePanel.player.mana = gamePanel.player.maxMana;
+        }
     }
 }

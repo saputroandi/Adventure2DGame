@@ -1,5 +1,6 @@
 package object;
 
+import entity.Entity;
 import entity.Projectile;
 import main.GamePanel;
 
@@ -32,5 +33,16 @@ public class Fireball extends Projectile {
         right2 = getScaledImage("/projectiles/fireball_right_2", gamePanel.tileSize, gamePanel.tileSize);
         left1 = getScaledImage("/projectiles/fireball_left_1", gamePanel.tileSize, gamePanel.tileSize);
         left2 = getScaledImage("/projectiles/fireball_left_2", gamePanel.tileSize, gamePanel.tileSize);
+    }
+
+    @Override
+    public boolean haveResource(Entity user){
+
+        return user.mana >= useCost;
+    }
+
+    @Override
+    public void subtractResource(Entity user){
+        user.mana -= useCost;
     }
 }
