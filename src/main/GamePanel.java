@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Entity[] objects = new Entity[10];
     public Entity[] npc = new Entity[10];
     public Entity[] monsters = new Entity[20];
+    public ArrayList<Entity> projectiles = new ArrayList<>();
     ArrayList<Entity> entities = new ArrayList<>();
 
     public AssetSetter assetSetter = new AssetSetter(this);
@@ -118,6 +119,17 @@ public class GamePanel extends JPanel implements Runnable {
                     }
                 }
             }
+
+            for ( int i = 0; i < projectiles.size(); i++ ) {
+                if ( projectiles.get(i) != null ) {
+                    if ( projectiles.get(i).alive ) {
+                        projectiles.get(i).update();
+                    }
+                    if ( !projectiles.get(i).alive ) {
+                        projectiles.remove(i);
+                    }
+                }
+            }
         }
     }
 
@@ -149,6 +161,12 @@ public class GamePanel extends JPanel implements Runnable {
             for ( int i = 0; i < monsters.length; i++ ) {
                 if ( monsters[i] != null ) {
                     entities.add(monsters[i]);
+                }
+            }
+
+            for ( int i = 0; i < projectiles.size(); i++ ) {
+                if ( projectiles.get(i) != null ) {
+                    entities.add(projectiles.get(i));
                 }
             }
 

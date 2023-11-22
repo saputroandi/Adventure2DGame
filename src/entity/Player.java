@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.Fireball;
 import object.Key;
 import object.ShieldWood;
 import object.SwordNormal;
@@ -67,6 +68,8 @@ public class Player extends Entity {
 
         attack = getAttack();
         defense = getDefense();
+
+        projectile = new Fireball(gamePanel);
 
     }
 
@@ -191,6 +194,14 @@ public class Player extends Entity {
             }
         }
 
+        if ( keyHandler.shotKeyPressed && !projectile.alive ) {
+            projectile.set(worldX, worldY, direction, true, this);
+
+            gamePanel.projectiles.add(projectile);
+
+            gamePanel.playSoundEffect(10);
+        }
+
         if ( invisible ) {
             invisibleCounter++;
             if ( invisibleCounter > 60 ) {
@@ -300,7 +311,7 @@ public class Player extends Entity {
     public void monsterInteraction(int indexMonster) {
 
         if ( indexMonster != 999 ) {
-            if ( !invisible ) {
+            if ( !invisible && !gamePanel.monsters[indexMonster].dying ) {
                 gamePanel.playSoundEffect(6);
 
                 int damage = gamePanel.monsters[indexMonster].attack - defense;

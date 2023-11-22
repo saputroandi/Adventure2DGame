@@ -7,7 +7,7 @@ public class KeyHandler implements KeyListener {
 
     GamePanel gamePanel;
 
-    public boolean upPressed, downPressed, rightPressed, leftPressed, enterPressed, spacePressed;
+    public boolean upPressed, downPressed, rightPressed, leftPressed, enterPressed, spacePressed, shotKeyPressed;
 
     public KeyHandler(GamePanel gamePanel) {
 
@@ -62,9 +62,9 @@ public class KeyHandler implements KeyListener {
             spacePressed = false;
         }
 
-//        if ( code == KeyEvent.VK_ENTER ) {
-//            enterPressed = false;
-//        }
+        if ( code == KeyEvent.VK_F ) {
+            shotKeyPressed = false;
+        }
     }
 
     public void titleState(int code) {
@@ -123,6 +123,10 @@ public class KeyHandler implements KeyListener {
 
         if ( code == KeyEvent.VK_C ) {
             gamePanel.gameState = gamePanel.characterState;
+        }
+
+        if ( code == KeyEvent.VK_F ) {
+            shotKeyPressed = true;
         }
     }
 

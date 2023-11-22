@@ -33,6 +33,8 @@ public class Entity {
 
     public int maxLife;
     public int life;
+    public int maxMana;
+    public int mana;
     public boolean alive = true;
     public boolean dying = false;
     public int dyingCounter = 0;
@@ -54,10 +56,12 @@ public class Entity {
     public int coin;
     public Entity currentWeapon;
     public Entity currentShield;
+    public Projectile projectile;
 
     public int attackValue;
     public int defenseValue;
     public String description = "";
+    public int useCost;
 
     public int type;
     public final int typePlayer = 0;
@@ -281,7 +285,6 @@ public class Entity {
             changeAlpha(graphics2D, 1f);
         }
         if ( dyingCounter > i * 8 ) {
-            dying = false;
             alive = false;
         }
     }
