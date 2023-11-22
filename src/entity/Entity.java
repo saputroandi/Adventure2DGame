@@ -26,6 +26,7 @@ public class Entity {
     public int actionLockCounter = 0;
     public boolean invisible = false;
     public int invisibleCounter = 0;
+    public int shotAvailableCounter = 0;
     boolean hpBarOn = false;
     int hpBarCounter = 0;
 

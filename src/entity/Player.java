@@ -194,10 +194,12 @@ public class Player extends Entity {
             }
         }
 
-        if ( keyHandler.shotKeyPressed && !projectile.alive ) {
+        if ( keyHandler.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30 ) {
             projectile.set(worldX, worldY, direction, true, this);
 
             gamePanel.projectiles.add(projectile);
+
+            shotAvailableCounter = 0;
 
             gamePanel.playSoundEffect(10);
         }
@@ -208,6 +210,10 @@ public class Player extends Entity {
                 invisible = false;
                 invisibleCounter = 0;
             }
+        }
+
+        if ( shotAvailableCounter < 30 ){
+            shotAvailableCounter++;
         }
     }
 
@@ -245,7 +251,7 @@ public class Player extends Entity {
 
             int indexMonster = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
 
-            damageMonster(indexMonster);
+            damageMonster(indexMonster, attack);
 
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -258,7 +264,7 @@ public class Player extends Entity {
         }
     }
 
-    public void damageMonster(int indexMonster) {
+    public void damageMonster(int indexMonster, int attack) {
 
         if ( indexMonster != 999 ) {
             if ( !gamePanel.monsters[indexMonster].invisible ) {
