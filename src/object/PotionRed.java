@@ -5,8 +5,6 @@ import main.GamePanel;
 
 public class PotionRed extends Entity {
 
-    int value = 5;
-
     public PotionRed(GamePanel gamePanel) {
 
         super(gamePanel);
@@ -17,6 +15,7 @@ public class PotionRed extends Entity {
 
         type = typeConsumable;
         name = "Red Potion";
+        value = 5;
         down1 = getScaledImage("/objects/potion_red", gamePanel.tileSize, gamePanel.tileSize);
         description = "[" + name + "]\nRed Potion\nHeals your life by " + value + ".";
     }

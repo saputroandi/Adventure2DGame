@@ -2,6 +2,9 @@ package monster;
 
 import entity.Entity;
 import main.GamePanel;
+import object.CoinBronze;
+import object.Heart;
+import object.ManaCrystal;
 import object.Rock;
 
 import java.util.Random;
@@ -71,7 +74,7 @@ public class GreenSlime extends Entity {
         }
         int i = new Random().nextInt(100) + 1;
 
-        if ( i > 99 && !projectile.alive && shotAvailableCounter == 30){
+        if ( i > 99 && !projectile.alive && shotAvailableCounter == 30 ) {
             projectile.set(worldX, worldY, direction, true, this);
             gamePanel.projectiles.add(projectile);
             shotAvailableCounter = 0;
@@ -83,5 +86,23 @@ public class GreenSlime extends Entity {
 
         actionLockCounter = 0;
         direction = gamePanel.player.direction;
+    }
+
+    @Override
+    public void checkDrop() {
+
+        int i = new Random().nextInt(100) + 1;
+
+        if ( i < 50 ) {
+            dropItem(new CoinBronze(gamePanel));
+        }
+
+        if ( i >= 50 && i < 75 ) {
+            dropItem(new Heart(gamePanel));
+        }
+
+        if ( i >= 75 && i < 100 ) {
+            dropItem(new ManaCrystal(gamePanel));
+        }
     }
 }

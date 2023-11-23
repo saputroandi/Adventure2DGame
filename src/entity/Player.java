@@ -69,8 +69,8 @@ public class Player extends Entity {
         attack = getAttack();
         defense = getDefense();
 
-//        projectile = new Fireball(gamePanel);
-        projectile = new Rock(gamePanel);
+        projectile = new Fireball(gamePanel);
+//        projectile = new Rock(gamePanel);
 
     }
 
@@ -215,8 +215,16 @@ public class Player extends Entity {
             }
         }
 
-        if ( shotAvailableCounter < 30 ){
+        if ( shotAvailableCounter < 30 ) {
             shotAvailableCounter++;
+        }
+
+        if ( life > maxLife ) {
+            life = maxLife;
+        }
+
+        if ( mana > maxMana ) {
+            mana = maxMana;
         }
     }
 
@@ -351,19 +359,24 @@ public class Player extends Entity {
     public void objectInteraction(int indexItem) {
 
         if ( indexItem != 999 ) {
-            String text;
-            if ( inventory.size() != maxInventorySize ) {
-                inventory.add(gamePanel.objects[indexItem]);
-                gamePanel.playSoundEffect(1);
 
-                text = "Got a " + gamePanel.objects[indexItem].name;
+            if ( gamePanel.objects[indexItem].type == typePickupOnly ) {
+                gamePanel.objects[indexItem].use(this);
+                gamePanel.objects[indexItem] = null;
             } else {
-                text = "You cannot carry anymore!";
+                String text;
+                if ( inventory.size() != maxInventorySize ) {
+                    inventory.add(gamePanel.objects[indexItem]);
+                    gamePanel.playSoundEffect(1);
+
+                    text = "Got a " + gamePanel.objects[indexItem].name;
+                } else {
+                    text = "You cannot carry anymore!";
+                }
+
+                gamePanel.userInterface.addMessage(text);
+                gamePanel.objects[indexItem] = null;
             }
-
-            gamePanel.userInterface.addMessage(text);
-            gamePanel.objects[indexItem] = null;
-
         }
     }
 

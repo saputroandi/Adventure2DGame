@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class Utility {
@@ -22,11 +23,14 @@ public class Utility {
     public BufferedImage loadImage(String imagePath) {
 
         BufferedImage originalImage = null;
-        try {
-            originalImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
-
-        } catch ( IOException error ) {
-            error.printStackTrace();
+        try ( InputStream inputStream = getClass().getResourceAsStream(imagePath) ) {
+            if ( inputStream != null ) {
+                originalImage = ImageIO.read(inputStream);
+            } else {
+                System.out.println("File not found: " + imagePath);
+            }
+        } catch ( IOException e ) {
+            e.printStackTrace();
         }
 
         return originalImage;

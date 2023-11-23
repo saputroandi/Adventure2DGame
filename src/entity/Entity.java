@@ -60,6 +60,7 @@ public class Entity {
     public Entity currentShield;
     public Projectile projectile;
 
+    public int value;
     public int attackValue;
     public int defenseValue;
     public String description = "";
@@ -73,6 +74,7 @@ public class Entity {
     public final int typeAxe = 4;
     public final int typeShield = 5;
     public final int typeConsumable = 6;
+    public final int typePickupOnly = 7;
 
     public Entity(GamePanel gamePanel) {
 
@@ -115,6 +117,22 @@ public class Entity {
 
     }
 
+    public void checkDrop() {
+
+    }
+
+    public void dropItem(Entity droppedItem) {
+
+        for ( int i = 0; i < gamePanel.objects.length; i++ ) {
+            if ( gamePanel.objects[i] == null ) {
+                gamePanel.objects[i] = droppedItem;
+                gamePanel.objects[i].worldX = worldX; // the X of dead monster position
+                gamePanel.objects[i].worldY = worldY; // the Y of dead monster position
+                break;
+            }
+        }
+    }
+
     public void update() {
 
         setAction();
@@ -127,7 +145,7 @@ public class Entity {
         boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
 
         if ( this.type == typeMonster && contactPlayer ) {
-           damagePlayer(attack);
+            damagePlayer(attack);
         }
 
         if ( !collisionOn ) {
@@ -165,12 +183,13 @@ public class Entity {
             }
         }
 
-        if ( shotAvailableCounter < 30 ){
+        if ( shotAvailableCounter < 30 ) {
             shotAvailableCounter++;
         }
     }
 
-    public void damagePlayer(int attack){
+    public void damagePlayer(int attack) {
+
         if ( !gamePanel.player.invisible ) {
             gamePanel.playSoundEffect(6);
 
@@ -259,7 +278,7 @@ public class Entity {
                 dyingAnimation(graphics2D);
             }
 
-            graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+            graphics2D.drawImage(image, screenX, screenY, null);
 
             changeAlpha(graphics2D, 1f);
         }
