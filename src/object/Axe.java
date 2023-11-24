@@ -15,7 +15,7 @@ public class Axe extends Entity {
         type = typeAxe;
         name = "Woodcutter's Axe";
         down1 = getScaledImage("/objects/axe", gamePanel.tileSize, gamePanel.tileSize);
-        attackValue = 2;
+        attackValue = 1;
         attackArea.width = 30;
         attackArea.height = 30;
         description = "[" + name + "]\nA bit rusty but still can\ncut trees.";

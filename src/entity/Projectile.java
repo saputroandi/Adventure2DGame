@@ -24,20 +24,22 @@ public class Projectile extends Entity {
 
     public void update() {
 
-        if ( user == gamePanel.player ){
+        if ( user == gamePanel.player ) {
             int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
 
-            if ( monsterIndex != 999 ){
+            if ( monsterIndex != 999 ) {
                 gamePanel.player.damageMonster(monsterIndex, attack);
+                generateParticle(user.projectile, gamePanel.monsters[monsterIndex]);
                 alive = false;
             }
         }
 
-        if ( user != gamePanel.player ){
+        if ( user != gamePanel.player ) {
             boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
 
-            if ( !gamePanel.player.invisible && contactPlayer ){
+            if ( !gamePanel.player.invisible && contactPlayer ) {
                 damagePlayer(attack);
+                generateParticle(user.projectile, gamePanel.player);
                 alive = false;
             }
         }
@@ -73,11 +75,12 @@ public class Projectile extends Entity {
         }
     }
 
-    public boolean haveResource(Entity user){
+    public boolean haveResource(Entity user) {
 
         return false;
     }
 
-    public void subtractResource(Entity user){
+    public void subtractResource(Entity user) {
+
     }
 }

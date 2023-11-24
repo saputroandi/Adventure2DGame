@@ -133,6 +133,44 @@ public class Entity {
         }
     }
 
+    public Color getParticleColor() {
+
+        return null;
+    }
+
+    public int getParticleSize() {
+
+        return 0;
+    }
+
+    public int getParticleSpeed() {
+
+        return 0;
+    }
+
+    public int getParticleMaxLife() {
+
+        return 0;
+    }
+
+    public void generateParticle(Entity generator, Entity target) {
+
+        Color particleColor = generator.getParticleColor();
+        int particleSize = generator.getParticleSize();
+        int particleSpeed = generator.getParticleSpeed();
+        int particleMaxLife = generator.getParticleMaxLife();
+
+        Particle particle1 = new Particle(gamePanel, generator, particleColor, particleSize, particleSpeed, particleMaxLife, -2, -1);
+        Particle particle2 = new Particle(gamePanel, generator, particleColor, particleSize, particleSpeed, particleMaxLife, 2, -1);
+        Particle particle3 = new Particle(gamePanel, generator, particleColor, particleSize, particleSpeed, particleMaxLife, -2, 1);
+        Particle particle4 = new Particle(gamePanel, generator, particleColor, particleSize, particleSpeed, particleMaxLife, 2, 1);
+
+        gamePanel.particles.add(particle1);
+        gamePanel.particles.add(particle2);
+        gamePanel.particles.add(particle3);
+        gamePanel.particles.add(particle4);
+    }
+
     public void update() {
 
         setAction();
@@ -142,6 +180,7 @@ public class Entity {
         gamePanel.collisionChecker.checkObject(this, false);
         gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
         gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.interactiveTiles);
         boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
 
         if ( this.type == typeMonster && contactPlayer ) {

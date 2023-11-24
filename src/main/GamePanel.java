@@ -2,6 +2,7 @@ package main;
 
 import entity.Entity;
 import entity.Player;
+import interactive.Tile;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -36,7 +37,9 @@ public class GamePanel extends JPanel implements Runnable {
     public Entity[] objects = new Entity[20];
     public Entity[] npc = new Entity[10];
     public Entity[] monsters = new Entity[20];
+    public Tile[] interactiveTiles = new Tile[50];
     public ArrayList<Entity> projectiles = new ArrayList<>();
+    public ArrayList<Entity> particles = new ArrayList<>();
     ArrayList<Entity> entities = new ArrayList<>();
 
     public AssetSetter assetSetter = new AssetSetter(this);
@@ -69,6 +72,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
 
         assetSetter.setObject();
+        assetSetter.setInteractiveTiles();
         assetSetter.setNpc();
         assetSetter.setMonster();
 //        playMusic(0);
@@ -131,6 +135,23 @@ public class GamePanel extends JPanel implements Runnable {
                     }
                 }
             }
+
+            for ( int i = 0; i < particles.size(); i++ ) {
+                if ( particles.get(i) != null ) {
+                    if ( particles.get(i).alive ) {
+                        particles.get(i).update();
+                    }
+                    if ( !particles.get(i).alive ) {
+                        particles.remove(i);
+                    }
+                }
+            }
+
+            for ( int i = 0; i < interactiveTiles.length; i++ ) {
+                if ( interactiveTiles[i] != null ) {
+                    interactiveTiles[i].update();
+                }
+            }
         }
     }
 
@@ -144,6 +165,12 @@ public class GamePanel extends JPanel implements Runnable {
             userInterface.draw(graphics2D);
         } else {
             tileManager.draw(graphics2D);
+
+            for ( int i = 0; i < interactiveTiles.length; i++ ) {
+                if ( interactiveTiles[i] != null ) {
+                    interactiveTiles[i].draw(graphics2D);
+                }
+            }
 
             entities.add(player);
 
@@ -168,6 +195,12 @@ public class GamePanel extends JPanel implements Runnable {
             for ( int i = 0; i < projectiles.size(); i++ ) {
                 if ( projectiles.get(i) != null ) {
                     entities.add(projectiles.get(i));
+                }
+            }
+
+            for ( int i = 0; i < particles.size(); i++ ) {
+                if ( particles.get(i) != null ) {
+                    entities.add(particles.get(i));
                 }
             }
 

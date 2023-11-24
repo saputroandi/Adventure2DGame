@@ -151,6 +151,7 @@ public class Player extends Entity {
             int indexItem = gamePanel.collisionChecker.checkObject(this, true);
             int indexNpc = gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
             int indexMonster = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
+            gamePanel.collisionChecker.checkEntity(this, gamePanel.interactiveTiles);
 
             gamePanel.eventHandler.checkEvent();
 
@@ -261,8 +262,10 @@ public class Player extends Entity {
             solidArea.height = attackArea.height;
 
             int indexMonster = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
+            int indexInteractiveTile = gamePanel.collisionChecker.checkEntity(this, gamePanel.interactiveTiles);
 
             damageMonster(indexMonster, attack);
+            damageInteractiveTile(indexInteractiveTile);
 
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -339,6 +342,21 @@ public class Player extends Entity {
 
                 life -= damage;
                 invisible = true;
+            }
+        }
+    }
+
+    public void damageInteractiveTile(int indexInteractiveTile) {
+
+        if ( indexInteractiveTile != 999 && gamePanel.interactiveTiles[indexInteractiveTile].destructible && gamePanel.interactiveTiles[indexInteractiveTile].isCorrectItem(this) && !gamePanel.interactiveTiles[indexInteractiveTile].invisible ) {
+            gamePanel.interactiveTiles[indexInteractiveTile].playSoundEffect();
+            gamePanel.interactiveTiles[indexInteractiveTile].life--;
+            gamePanel.interactiveTiles[indexInteractiveTile].invisible = true;
+
+            generateParticle(gamePanel.interactiveTiles[indexInteractiveTile], gamePanel.interactiveTiles[indexInteractiveTile]);
+
+            if ( gamePanel.interactiveTiles[indexInteractiveTile].life == 0 ) {
+                gamePanel.interactiveTiles[indexInteractiveTile] = gamePanel.interactiveTiles[indexInteractiveTile].getDestroyedForm();
             }
         }
     }
