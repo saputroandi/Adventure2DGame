@@ -171,7 +171,7 @@ public class UserInterface {
         graphics2D.setColor(Color.WHITE);
         graphics2D.drawString(text, x, y);
 
-        x = gamePanel.maxScreenWidth / 2 - ((gamePanel.tileSize * 2) / 2);
+        x = gamePanel.screenWidth / 2 - ((gamePanel.tileSize * 2) / 2);
         y += gamePanel.tileSize * 2;
         graphics2D.drawImage(gamePanel.player.down1, x, y, gamePanel.tileSize * 2, gamePanel.tileSize * 2, null);
 
@@ -212,7 +212,7 @@ public class UserInterface {
         graphics2D.setFont(graphics2D.getFont().deriveFont(Font.PLAIN, 80F));
         String text = "PAUSED";
         int x = getCenterOfText(text);
-        int y = gamePanel.maxScreenHeight / 2;
+        int y = gamePanel.screenHeight / 2;
 
         graphics2D.drawString(text, x, y);
     }
@@ -221,7 +221,7 @@ public class UserInterface {
 
         int x = gamePanel.tileSize * 2;
         int y = gamePanel.tileSize / 2;
-        int width = gamePanel.maxScreenWidth - (gamePanel.tileSize * 4);
+        int width = gamePanel.screenWidth - (gamePanel.tileSize * 4);
         int height = gamePanel.tileSize * 4;
 
         drawSubWindow(x, y, width, height);
@@ -239,7 +239,7 @@ public class UserInterface {
 
     public void drawCharacterScreen() {
 
-        final int frameX = gamePanel.tileSize;
+        final int frameX = gamePanel.tileSize*2;
         final int frameY = gamePanel.tileSize;
         final int frameWidth = gamePanel.tileSize * 5;
         final int frameHeight = gamePanel.tileSize * 10;
@@ -346,7 +346,7 @@ public class UserInterface {
 
     public void drawInventory() {
 
-        int frameX = gamePanel.tileSize * 9;
+        int frameX = gamePanel.tileSize * 12;
         int frameY = gamePanel.tileSize;
         int frameWidth = gamePanel.tileSize * 6;
         int frameHeight = gamePanel.tileSize * 5;
@@ -429,7 +429,7 @@ public class UserInterface {
     public int getCenterOfText(String text) {
 
         int length = ( int ) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
-        return gamePanel.maxScreenWidth / 2 - length / 2;
+        return gamePanel.screenWidth / 2 - length / 2;
     }
 
     public int getXForAlignToRightText(String text, int tailX) {

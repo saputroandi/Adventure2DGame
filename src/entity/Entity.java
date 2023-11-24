@@ -160,10 +160,10 @@ public class Entity {
         int particleSpeed = generator.getParticleSpeed();
         int particleMaxLife = generator.getParticleMaxLife();
 
-        Particle particle1 = new Particle(gamePanel, generator, particleColor, particleSize, particleSpeed, particleMaxLife, -2, -1);
-        Particle particle2 = new Particle(gamePanel, generator, particleColor, particleSize, particleSpeed, particleMaxLife, 2, -1);
-        Particle particle3 = new Particle(gamePanel, generator, particleColor, particleSize, particleSpeed, particleMaxLife, -2, 1);
-        Particle particle4 = new Particle(gamePanel, generator, particleColor, particleSize, particleSpeed, particleMaxLife, 2, 1);
+        Particle particle1 = new Particle(gamePanel, target, particleColor, particleSize, particleSpeed, particleMaxLife, -2, -1);
+        Particle particle2 = new Particle(gamePanel, target, particleColor, particleSize, particleSpeed, particleMaxLife, 2, -1);
+        Particle particle3 = new Particle(gamePanel, target, particleColor, particleSize, particleSpeed, particleMaxLife, -2, 1);
+        Particle particle4 = new Particle(gamePanel, target, particleColor, particleSize, particleSpeed, particleMaxLife, 2, 1);
 
         gamePanel.particles.add(particle1);
         gamePanel.particles.add(particle2);
