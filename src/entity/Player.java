@@ -371,7 +371,7 @@ public class Player extends Entity {
             }
         }
 
-        gamePanel.keyHandler.enterPressed = false;
+//        gamePanel.keyHandler.enterPressed = false;
     }
 
     public void objectInteraction(int indexItem) {

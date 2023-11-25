@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
 
+    public boolean fullScreen = false;
     public int screenWidth2 = screenWidth;
     public int screenHeight2 = screenHeight;
     BufferedImage tempScreen;
@@ -37,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int characterState = 4;
-
+    public final int optionsState = 5;
 
     public Entity[] objects = new Entity[20];
     public Entity[] npc = new Entity[10];
@@ -86,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         graphics2D = (Graphics2D ) tempScreen.getGraphics();
 
-        setFullScreen();
+//        setFullScreen();
     }
 
     @Override
