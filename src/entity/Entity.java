@@ -123,11 +123,11 @@ public class Entity {
 
     public void dropItem(Entity droppedItem) {
 
-        for ( int i = 0; i < gamePanel.objects.length; i++ ) {
-            if ( gamePanel.objects[i] == null ) {
-                gamePanel.objects[i] = droppedItem;
-                gamePanel.objects[i].worldX = worldX; // the X of dead monster position
-                gamePanel.objects[i].worldY = worldY; // the Y of dead monster position
+        for ( int i = 0; i < gamePanel.objects[1].length; i++ ) {
+            if ( gamePanel.objects[gamePanel.currentMap][i] == null ) {
+                gamePanel.objects[gamePanel.currentMap][i] = droppedItem;
+                gamePanel.objects[gamePanel.currentMap][i].worldX = worldX; // the X of dead monster position
+                gamePanel.objects[gamePanel.currentMap][i].worldY = worldY; // the Y of dead monster position
                 break;
             }
         }

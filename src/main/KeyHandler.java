@@ -86,7 +86,6 @@ public class KeyHandler implements KeyListener {
         } else if ( code == KeyEvent.VK_ENTER ) {
             if ( gamePanel.userInterface.commandNum == 0 ) {
                 gamePanel.gameState = gamePanel.playState;
-                gamePanel.playMusic(0);
             } else if ( gamePanel.userInterface.commandNum == 1 ) {
 //
             } else if ( gamePanel.userInterface.commandNum == 2 ) {
@@ -262,6 +261,7 @@ public class KeyHandler implements KeyListener {
 
         if ( code == KeyEvent.VK_UP ) {
             gamePanel.userInterface.commandNum--;
+            gamePanel.stopMusic();
             gamePanel.playSoundEffect(9);
             if ( gamePanel.userInterface.commandNum < 0 ) {
                 gamePanel.userInterface.commandNum = 1;

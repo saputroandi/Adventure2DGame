@@ -301,27 +301,27 @@ public class Player extends Entity {
     public void damageMonster(int indexMonster, int attack) {
 
         if ( indexMonster != 999 ) {
-            if ( !gamePanel.monsters[indexMonster].invisible ) {
+            if ( !gamePanel.monsters[gamePanel.currentMap][indexMonster].invisible ) {
 
                 gamePanel.playSoundEffect(5);
-                int damage = attack - gamePanel.monsters[indexMonster].defense;
+                int damage = attack - gamePanel.monsters[gamePanel.currentMap][indexMonster].defense;
 
                 if ( damage < 0 ) {
                     damage = 0;
                 }
-                gamePanel.monsters[indexMonster].life -= damage;
+                gamePanel.monsters[gamePanel.currentMap][indexMonster].life -= damage;
 
                 gamePanel.userInterface.addMessage(damage + "damage!");
 
-                gamePanel.monsters[indexMonster].invisible = true;
-                gamePanel.monsters[indexMonster].damageReaction();
+                gamePanel.monsters[gamePanel.currentMap][indexMonster].invisible = true;
+                gamePanel.monsters[gamePanel.currentMap][indexMonster].damageReaction();
 
-                if ( gamePanel.monsters[indexMonster].life <= 0 ) {
+                if ( gamePanel.monsters[gamePanel.currentMap][indexMonster].life <= 0 ) {
 //                    gamePanel.monsters[indexMonster] = null;
-                    gamePanel.monsters[indexMonster].dying = true;
-                    gamePanel.userInterface.addMessage("Killed the " + gamePanel.monsters[indexMonster].name + "!");
-                    exp += gamePanel.monsters[indexMonster].exp;
-                    gamePanel.userInterface.addMessage("Exp + " + gamePanel.monsters[indexMonster].exp);
+                    gamePanel.monsters[gamePanel.currentMap][indexMonster].dying = true;
+                    gamePanel.userInterface.addMessage("Killed the " + gamePanel.monsters[gamePanel.currentMap][indexMonster].name + "!");
+                    exp += gamePanel.monsters[gamePanel.currentMap][indexMonster].exp;
+                    gamePanel.userInterface.addMessage("Exp + " + gamePanel.monsters[gamePanel.currentMap][indexMonster].exp);
                     checkLevelUp();
                 }
             }
@@ -351,10 +351,10 @@ public class Player extends Entity {
     public void monsterInteraction(int indexMonster) {
 
         if ( indexMonster != 999 ) {
-            if ( !invisible && !gamePanel.monsters[indexMonster].dying ) {
+            if ( !invisible && !gamePanel.monsters[gamePanel.currentMap][indexMonster].dying ) {
                 gamePanel.playSoundEffect(6);
 
-                int damage = gamePanel.monsters[indexMonster].attack - defense;
+                int damage = gamePanel.monsters[gamePanel.currentMap][indexMonster].attack - defense;
 
                 if ( damage < 0 ) {
                     damage = 0;
@@ -368,15 +368,15 @@ public class Player extends Entity {
 
     public void damageInteractiveTile(int indexInteractiveTile) {
 
-        if ( indexInteractiveTile != 999 && gamePanel.interactiveTiles[indexInteractiveTile].destructible && gamePanel.interactiveTiles[indexInteractiveTile].isCorrectItem(this) && !gamePanel.interactiveTiles[indexInteractiveTile].invisible ) {
-            gamePanel.interactiveTiles[indexInteractiveTile].playSoundEffect();
-            gamePanel.interactiveTiles[indexInteractiveTile].life--;
-            gamePanel.interactiveTiles[indexInteractiveTile].invisible = true;
+        if ( indexInteractiveTile != 999 && gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile].destructible && gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile].isCorrectItem(this) && !gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile].invisible ) {
+            gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile].playSoundEffect();
+            gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile].life--;
+            gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile].invisible = true;
 
-            generateParticle(gamePanel.interactiveTiles[indexInteractiveTile], gamePanel.interactiveTiles[indexInteractiveTile]);
+            generateParticle(gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile], gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile]);
 
-            if ( gamePanel.interactiveTiles[indexInteractiveTile].life == 0 ) {
-                gamePanel.interactiveTiles[indexInteractiveTile] = gamePanel.interactiveTiles[indexInteractiveTile].getDestroyedForm();
+            if ( gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile].life == 0 ) {
+                gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile] = gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile].getDestroyedForm();
             }
         }
     }
@@ -387,7 +387,7 @@ public class Player extends Entity {
             if ( indexNpc != 999 ) {
                 attackCancel = true;
                 gamePanel.gameState = gamePanel.dialogueState;
-                gamePanel.npc[indexNpc].speak();
+                gamePanel.npc[gamePanel.currentMap][indexNpc].speak();
             }
         }
 
@@ -398,22 +398,22 @@ public class Player extends Entity {
 
         if ( indexItem != 999 ) {
 
-            if ( gamePanel.objects[indexItem].type == typePickupOnly ) {
-                gamePanel.objects[indexItem].use(this);
-                gamePanel.objects[indexItem] = null;
+            if ( gamePanel.objects[gamePanel.currentMap][indexItem].type == typePickupOnly ) {
+                gamePanel.objects[gamePanel.currentMap][indexItem].use(this);
+                gamePanel.objects[gamePanel.currentMap][indexItem] = null;
             } else {
                 String text;
                 if ( inventory.size() != maxInventorySize ) {
-                    inventory.add(gamePanel.objects[indexItem]);
+                    inventory.add(gamePanel.objects[gamePanel.currentMap][indexItem]);
                     gamePanel.playSoundEffect(1);
 
-                    text = "Got a " + gamePanel.objects[indexItem].name;
+                    text = "Got a " + gamePanel.objects[gamePanel.currentMap][indexItem].name;
                 } else {
                     text = "You cannot carry anymore!";
                 }
 
                 gamePanel.userInterface.addMessage(text);
-                gamePanel.objects[indexItem] = null;
+                gamePanel.objects[gamePanel.currentMap][indexItem] = null;
             }
         }
     }

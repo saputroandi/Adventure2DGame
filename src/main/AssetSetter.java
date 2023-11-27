@@ -17,15 +17,16 @@ public class AssetSetter {
 
     public void setObject() {
 
+        int mapNum = 0;
         int i = 0;
-        gamePanel.objects[i] = new CoinBronze(gamePanel);
-        gamePanel.objects[i].worldX = gamePanel.tileSize * 25;
-        gamePanel.objects[i].worldY = gamePanel.tileSize * 19;
+        gamePanel.objects[mapNum][i] = new CoinBronze(gamePanel);
+        gamePanel.objects[mapNum][i].worldX = gamePanel.tileSize * 25;
+        gamePanel.objects[mapNum][i].worldY = gamePanel.tileSize * 19;
         i++;
 
-        gamePanel.objects[i] = new Axe(gamePanel);
-        gamePanel.objects[i].worldX = gamePanel.tileSize * 26;
-        gamePanel.objects[i].worldY = gamePanel.tileSize * 22;
+        gamePanel.objects[mapNum][i] = new Axe(gamePanel);
+        gamePanel.objects[mapNum][i].worldX = gamePanel.tileSize * 26;
+        gamePanel.objects[mapNum][i].worldY = gamePanel.tileSize * 22;
         i++;
 
 //        gamePanel.objects[i] = new ManaCrystal(gamePanel);
@@ -36,56 +37,59 @@ public class AssetSetter {
 
     public void setNpc() {
 
-        gamePanel.npc[0] = new OldManNpc(gamePanel);
-        gamePanel.npc[0].worldX = gamePanel.tileSize * 21;
-        gamePanel.npc[0].worldY = gamePanel.tileSize * 21;
+        int mapNum = 0;
+        gamePanel.npc[mapNum][0] = new OldManNpc(gamePanel);
+        gamePanel.npc[mapNum][0].worldX = gamePanel.tileSize * 21;
+        gamePanel.npc[mapNum][0].worldY = gamePanel.tileSize * 21;
     }
 
     public void setMonster() {
 
+        int mapNum = 0;
         int i = 0;
-        gamePanel.monsters[i] = new GreenSlime(gamePanel);
-        gamePanel.monsters[i].worldX = gamePanel.tileSize * 23;
-        gamePanel.monsters[i].worldY = gamePanel.tileSize * 36;
+        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 23;
+        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 36;
         i++;
 
-        gamePanel.monsters[i] = new GreenSlime(gamePanel);
-        gamePanel.monsters[i].worldX = gamePanel.tileSize * 23;
-        gamePanel.monsters[i].worldY = gamePanel.tileSize * 37;
+        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 23;
+        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
         i++;
 
-        gamePanel.monsters[i] = new GreenSlime(gamePanel);
-        gamePanel.monsters[i].worldX = gamePanel.tileSize * 36;
-        gamePanel.monsters[i].worldY = gamePanel.tileSize * 37;
+        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 36;
+        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
         i++;
 
-        gamePanel.monsters[i] = new GreenSlime(gamePanel);
-        gamePanel.monsters[i].worldX = gamePanel.tileSize * 35;
-        gamePanel.monsters[i].worldY = gamePanel.tileSize * 37;
+        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 35;
+        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
     }
 
     public void setInteractiveTiles() {
 
+        int mapNum = 0;
         int i = 0;
-        gamePanel.interactiveTiles[i] = new DryTree(gamePanel, 27, 12);
+        gamePanel.interactiveTiles[mapNum][i] = new DryTree(gamePanel, 27, 12);
         i++;
 
-        gamePanel.interactiveTiles[i] = new DryTree(gamePanel, 28, 12);
+        gamePanel.interactiveTiles[mapNum][i] = new DryTree(gamePanel, 28, 12);
         i++;
 
-        gamePanel.interactiveTiles[i] = new DryTree(gamePanel, 29, 12);
+        gamePanel.interactiveTiles[mapNum][i] = new DryTree(gamePanel, 29, 12);
         i++;
 
-        gamePanel.interactiveTiles[i] = new DryTree(gamePanel, 30, 12);
+        gamePanel.interactiveTiles[mapNum][i] = new DryTree(gamePanel, 30, 12);
         i++;
 
-        gamePanel.interactiveTiles[i] = new DryTree(gamePanel, 31, 12);
+        gamePanel.interactiveTiles[mapNum][i] = new DryTree(gamePanel, 31, 12);
         i++;
 
-        gamePanel.interactiveTiles[i] = new DryTree(gamePanel, 32, 12);
+        gamePanel.interactiveTiles[mapNum][i] = new DryTree(gamePanel, 32, 12);
         i++;
 
-        gamePanel.interactiveTiles[i] = new DryTree(gamePanel, 33, 12);
+        gamePanel.interactiveTiles[mapNum][i] = new DryTree(gamePanel, 33, 12);
         i++;
     }
 }

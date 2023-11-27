@@ -22,6 +22,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxScreenRow = 12;
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
+    public final int maxMap = 10;
+    public int currentMap = 0;
     public final int tileSize = originalTileSize * scale;
     public final int screenWidth = tileSize * maxScreenCol;
     public int screenWidth2 = screenWidth;
@@ -40,10 +42,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int optionsState = 5;
     public final int gameOverState = 6;
 
-    public Entity[] objects = new Entity[20];
-    public Entity[] npc = new Entity[10];
-    public Entity[] monsters = new Entity[20];
-    public Tile[] interactiveTiles = new Tile[50];
+    public Entity[][] objects = new Entity[maxMap][20];
+    public Entity[][] npc = new Entity[maxMap][10];
+    public Entity[][] monsters = new Entity[maxMap][20];
+    public Tile[][] interactiveTiles = new Tile[maxMap][50];
     public ArrayList<Entity> projectiles = new ArrayList<>();
     public ArrayList<Entity> particles = new ArrayList<>();
     ArrayList<Entity> entities = new ArrayList<>();
@@ -82,7 +84,7 @@ public class GamePanel extends JPanel implements Runnable {
         assetSetter.setInteractiveTiles();
         assetSetter.setNpc();
         assetSetter.setMonster();
-//        playMusic(0);
+        playMusic(0);
         gameState = titleState;
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
@@ -141,20 +143,21 @@ public class GamePanel extends JPanel implements Runnable {
         if ( gameState == playState ) {
             player.update();
 
-            Arrays.stream(npc).forEach(object -> {
-                if ( object != null ) {
-                    object.update();
+            for ( int i = 0; i < npc[1].length; i++ ){
+                if ( npc[currentMap][i] != null ){
+                    npc[currentMap][i].update();
                 }
-            });
+            }
 
-            for ( int i = 0; i < monsters.length; i++ ) {
-                if ( monsters[i] != null ) {
-                    if ( monsters[i].alive && !monsters[i].dying ) {
-                        monsters[i].update();
+
+                for ( int i = 0; i < monsters[1].length; i++ ) {
+                if ( monsters[currentMap][i] != null ) {
+                    if ( monsters[currentMap][i].alive && !monsters[currentMap][i].dying ) {
+                        monsters[currentMap][i].update();
                     }
-                    if ( !monsters[i].alive ) {
-                        monsters[i].checkDrop();
-                        monsters[i] = null;
+                    if ( !monsters[currentMap][i].alive ) {
+                        monsters[currentMap][i].checkDrop();
+                        monsters[currentMap][i] = null;
                     }
                 }
             }
@@ -181,9 +184,9 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-            for ( int i = 0; i < interactiveTiles.length; i++ ) {
-                if ( interactiveTiles[i] != null ) {
-                    interactiveTiles[i].update();
+            for ( int i = 0; i < interactiveTiles[1].length; i++ ) {
+                if ( interactiveTiles[currentMap][i] != null ) {
+                    interactiveTiles[currentMap][i].update();
                 }
             }
         }
@@ -196,29 +199,29 @@ public class GamePanel extends JPanel implements Runnable {
         } else {
             tileManager.draw(graphics2D);
 
-            for ( int i = 0; i < interactiveTiles.length; i++ ) {
-                if ( interactiveTiles[i] != null ) {
-                    interactiveTiles[i].draw(graphics2D);
+            for ( int i = 0; i < interactiveTiles[1].length; i++ ) {
+                if ( interactiveTiles[currentMap][i] != null ) {
+                    interactiveTiles[currentMap][i].draw(graphics2D);
                 }
             }
 
             entities.add(player);
 
-            for ( int i = 0; i < npc.length; i++ ) {
-                if ( npc[i] != null ) {
-                    entities.add(npc[i]);
+            for ( int i = 0; i < npc[1].length; i++ ) {
+                if ( npc[currentMap][i] != null ) {
+                    entities.add(npc[currentMap][i]);
                 }
             }
 
-            for ( int i = 0; i < objects.length; i++ ) {
-                if ( objects[i] != null ) {
-                    entities.add(objects[i]);
+            for ( int i = 0; i < objects[1].length; i++ ) {
+                if ( objects[currentMap][i] != null ) {
+                    entities.add(objects[currentMap][i]);
                 }
             }
 
-            for ( int i = 0; i < monsters.length; i++ ) {
-                if ( monsters[i] != null ) {
-                    entities.add(monsters[i]);
+            for ( int i = 0; i < monsters[1].length; i++ ) {
+                if ( monsters[currentMap][i] != null ) {
+                    entities.add(monsters[currentMap][i]);
                 }
             }
 
