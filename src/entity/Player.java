@@ -74,8 +74,23 @@ public class Player extends Entity {
 
     }
 
+    public void setDefaultPosition() {
+
+        worldX = gamePanel.tileSize * 23;
+        worldY = gamePanel.tileSize * 21;
+        direction = "down";
+    }
+
+    public void restoreLifeAndMana() {
+
+        life = maxLife;
+        mana = maxMana;
+        invisible = false;
+    }
+
     public void setItems() {
 
+        inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
         inventory.add(new Key(gamePanel));
@@ -226,6 +241,11 @@ public class Player extends Entity {
 
         if ( mana > maxMana ) {
             mana = maxMana;
+        }
+
+        if ( life <= 0 ) {
+            gamePanel.gameState = gamePanel.gameOverState;
+            gamePanel.playSoundEffect(12);
         }
     }
 

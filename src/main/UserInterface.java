@@ -87,6 +87,8 @@ public class UserInterface {
             drawInventory();
         } else if ( gamePanel.gameState == gamePanel.optionsState ) {
             drawOptionsScreen();
+        } else if ( gamePanel.gameState == gamePanel.gameOverState ) {
+            drawGameOverScreen();
         }
     }
 
@@ -116,20 +118,20 @@ public class UserInterface {
         }
 
         x = (gamePanel.tileSize / 2) - 5;
-        y = (int) (gamePanel.tileSize * 1.5);
+        y = ( int ) (gamePanel.tileSize * 1.5);
         i = 0;
 
-        while ( i < gamePanel.player.maxMana ){
+        while ( i < gamePanel.player.maxMana ) {
             graphics2D.drawImage(crystalBlank, x, y, null);
             i++;
             x += 35;
         }
 
         x = (gamePanel.tileSize / 2) - 5;
-        y = (int) (gamePanel.tileSize * 1.5);
+        y = ( int ) (gamePanel.tileSize * 1.5);
         i = 0;
 
-        while ( i < gamePanel.player.mana ){
+        while ( i < gamePanel.player.mana ) {
             graphics2D.drawImage(crystalFull, x, y, null);
             i++;
             x += 35;
@@ -162,6 +164,9 @@ public class UserInterface {
     }
 
     public void drawTitleScreen() {
+
+        graphics2D.setColor(Color.BLACK);
+        graphics2D.fillRect(0, 0, gamePanel.screenWidth, gamePanel.screenHeight);
 
         String text = "Blue Boy Adventure";
         graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 92F));
@@ -243,7 +248,7 @@ public class UserInterface {
 
     public void drawCharacterScreen() {
 
-        final int frameX = gamePanel.tileSize*2;
+        final int frameX = gamePanel.tileSize * 2;
         final int frameY = gamePanel.tileSize;
         final int frameWidth = gamePanel.tileSize * 5;
         final int frameHeight = gamePanel.tileSize * 10;
@@ -412,7 +417,7 @@ public class UserInterface {
         }
     }
 
-    public void drawOptionsScreen(){
+    public void drawOptionsScreen() {
 
         graphics2D.setColor(Color.WHITE);
         graphics2D.setFont(graphics2D.getFont().deriveFont(32F));
@@ -422,9 +427,9 @@ public class UserInterface {
         int frameWidth = gamePanel.tileSize * 8;
         int frameHeight = gamePanel.tileSize * 10;
 
-        drawSubWindow(frameX, frameY,frameWidth, frameHeight);
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
-        switch ( subState ){
+        switch ( subState ) {
             case 0:
                 optionsTop(frameX, frameY);
                 break;
@@ -442,7 +447,8 @@ public class UserInterface {
         gamePanel.keyHandler.enterPressed = false;
     }
 
-    public void optionsTop(int frameX, int frameY){
+    public void optionsTop(int frameX, int frameY) {
+
         int textX;
         int textY;
 
@@ -457,10 +463,10 @@ public class UserInterface {
         graphics2D.drawString(text, textX, textY);
         if ( commandNum == 0 ) {
             graphics2D.drawString(">", textX - 25, textY);
-            if ( gamePanel.keyHandler.enterPressed ){
-                if ( !gamePanel.fullScreen ){
+            if ( gamePanel.keyHandler.enterPressed ) {
+                if ( !gamePanel.fullScreen ) {
                     gamePanel.fullScreen = true;
-                } else if ( gamePanel.fullScreen ){
+                } else if ( gamePanel.fullScreen ) {
                     gamePanel.fullScreen = false;
                 }
                 subState = 1;
@@ -470,7 +476,7 @@ public class UserInterface {
         text = "Music";
         textY += gamePanel.tileSize;
         graphics2D.drawString(text, textX, textY);
-        if ( commandNum == 1) {
+        if ( commandNum == 1 ) {
             graphics2D.drawString(">", textX - 25, textY);
         }
 
@@ -486,7 +492,7 @@ public class UserInterface {
         graphics2D.drawString(text, textX, textY);
         if ( commandNum == 3 ) {
             graphics2D.drawString(">", textX - 25, textY);
-            if ( gamePanel.keyHandler.enterPressed ){
+            if ( gamePanel.keyHandler.enterPressed ) {
                 subState = 2;
                 commandNum = 0;
             }
@@ -497,7 +503,7 @@ public class UserInterface {
         graphics2D.drawString(text, textX, textY);
         if ( commandNum == 4 ) {
             graphics2D.drawString(">", textX - 25, textY);
-            if ( gamePanel.keyHandler.enterPressed ){
+            if ( gamePanel.keyHandler.enterPressed ) {
                 subState = 3;
                 commandNum = 0;
             }
@@ -508,56 +514,58 @@ public class UserInterface {
         graphics2D.drawString(text, textX, textY);
         if ( commandNum == 5 ) {
             graphics2D.drawString(">", textX - 25, textY);
-            if ( gamePanel.keyHandler.enterPressed ){
+            if ( gamePanel.keyHandler.enterPressed ) {
                 gamePanel.gameState = gamePanel.playState;
                 commandNum = 0;
             }
         }
 
-        textX = frameX + (int)(gamePanel.tileSize * 4.5);
+        textX = frameX + ( int ) (gamePanel.tileSize * 4.5);
         textY = frameY + gamePanel.tileSize * 2 + 24;
-        graphics2D.setStroke( new BasicStroke(3) );
+        graphics2D.setStroke(new BasicStroke(3));
         graphics2D.drawRect(textX, textY, 24, 24);
-        if ( gamePanel.fullScreen ){
+        if ( gamePanel.fullScreen ) {
             graphics2D.fillRect(textX, textY, 24, 24);
         }
 
         textY += gamePanel.tileSize;
         graphics2D.drawRect(textX, textY, 120, 24);
         int volumeWidth = 24 * gamePanel.music.volumeScale;
-        graphics2D.fillRect(textX,textY, volumeWidth, 24);
+        graphics2D.fillRect(textX, textY, volumeWidth, 24);
 
         textY += gamePanel.tileSize;
         graphics2D.drawRect(textX, textY, 120, 24);
         volumeWidth = 24 * gamePanel.soundEffect.volumeScale;
-        graphics2D.fillRect(textX,textY, volumeWidth, 24);
+        graphics2D.fillRect(textX, textY, volumeWidth, 24);
+
+        gamePanel.config.saveConfig();
 
     }
 
-    public void optionsFullScreenNotification(int frameX, int frameY){
+    public void optionsFullScreenNotification(int frameX, int frameY) {
 
         int textX = frameX + gamePanel.tileSize;
         int textY = frameY + gamePanel.tileSize * 3;
 
         currentDialogue = "The change will take\neffect after restarting\nthe game";
 
-        for ( String line :  currentDialogue.split("\n")){
+        for ( String line : currentDialogue.split("\n") ) {
             graphics2D.drawString(line, textX, textY);
-            textY+=40;
+            textY += 40;
         }
 
         textY = frameY + gamePanel.tileSize * 9;
         graphics2D.drawString("Back", textX, textY);
 
-        if ( commandNum == 0 ){
+        if ( commandNum == 0 ) {
             graphics2D.drawString(">", textX - 25, textY);
-            if ( gamePanel.keyHandler.enterPressed ){
+            if ( gamePanel.keyHandler.enterPressed ) {
                 subState = 0;
             }
         }
     }
 
-    public void optionsControl(int frameX, int frameY){
+    public void optionsControl(int frameX, int frameY) {
 
         int textX;
         int textY;
@@ -589,34 +597,34 @@ public class UserInterface {
         textY = frameY + gamePanel.tileSize * 9;
         graphics2D.drawString("Back", textX, textY);
 
-        if ( commandNum == 0 ){
+        if ( commandNum == 0 ) {
             graphics2D.drawString(">", textX - 25, textY);
-            if ( gamePanel.keyHandler.enterPressed ){
+            if ( gamePanel.keyHandler.enterPressed ) {
                 subState = 0;
                 commandNum = 3;
             }
         }
     }
 
-    public void optionsEndGameConfirmation(int frameX, int frameY){
+    public void optionsEndGameConfirmation(int frameX, int frameY) {
 
         int textX = frameX + gamePanel.tileSize;
         int textY = frameY + gamePanel.tileSize * 3;
 
         currentDialogue = "Quit the game and\nreturn to the title screen";
 
-        for ( String line :  currentDialogue.split("\n")){
+        for ( String line : currentDialogue.split("\n") ) {
             graphics2D.drawString(line, textX, textY);
-            textY+=40;
+            textY += 40;
         }
 
         String text = "Yes";
         textX = getCenterOfText(text);
         textY += gamePanel.tileSize * 3;
         graphics2D.drawString(text, textX, textY);
-        if ( commandNum == 0 ){
+        if ( commandNum == 0 ) {
             graphics2D.drawString(">", textX - 25, textY);
-            if ( gamePanel.keyHandler.enterPressed ){
+            if ( gamePanel.keyHandler.enterPressed ) {
                 subState = 0;
                 gamePanel.gameState = gamePanel.titleState;
             }
@@ -626,12 +634,49 @@ public class UserInterface {
         textX = getCenterOfText(text);
         textY += gamePanel.tileSize;
         graphics2D.drawString(text, textX, textY);
-        if ( commandNum == 1 ){
+        if ( commandNum == 1 ) {
             graphics2D.drawString(">", textX - 25, textY);
-            if ( gamePanel.keyHandler.enterPressed ){
+            if ( gamePanel.keyHandler.enterPressed ) {
                 subState = 0;
                 commandNum = 4;
             }
+        }
+    }
+
+    public void drawGameOverScreen() {
+
+        graphics2D.setColor(new Color(0, 0, 0, 150));
+        graphics2D.fillRect(0, 0, gamePanel.screenWidth, gamePanel.screenHeight);
+
+        int x;
+        int y;
+        String text;
+        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 110F));
+
+        text = "Game Over";
+        graphics2D.setColor(Color.BLACK);
+        x = getCenterOfText(text);
+        y = gamePanel.tileSize * 4;
+        graphics2D.drawString(text, x, y);
+
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.drawString(text, x - 4, y - 4);
+
+        graphics2D.setFont(graphics2D.getFont().deriveFont(50F));
+        text = "Retry";
+        x = getCenterOfText(text);
+        y += gamePanel.tileSize * 4;
+        graphics2D.drawString(text, x, y);
+        if ( commandNum == 0 ) {
+            graphics2D.drawString(">", x - 40, y);
+        }
+
+        text = "Quit";
+        x = getCenterOfText(text);
+        y += 55;
+        graphics2D.drawString(text, x, y);
+        if ( commandNum == 1 ) {
+            graphics2D.drawString(">", x - 40, y);
         }
     }
 

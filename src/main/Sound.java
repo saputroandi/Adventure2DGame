@@ -37,6 +37,7 @@ public class Sound {
         soundUrl[9] = getClass().getResource("/sounds/cursor.wav");
         soundUrl[10] = getClass().getResource("/sounds/burning.wav");
         soundUrl[11] = getClass().getResource("/sounds/cuttree.wav");
+        soundUrl[12] = getClass().getResource("/sounds/gameover.wav");
 
     }
 
@@ -48,7 +49,7 @@ public class Sound {
             clip = AudioSystem.getClip();
 
             clip.open(audioInputStream);
-            floatControl = (FloatControl ) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            floatControl = ( FloatControl ) clip.getControl(FloatControl.Type.MASTER_GAIN);
             checkVolume();
         } catch ( Exception exception ) {
             exception.printStackTrace();
@@ -70,10 +71,10 @@ public class Sound {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
-    public void checkVolume(){
+    public void checkVolume() {
 
 
-        switch ( volumeScale ){
+        switch ( volumeScale ) {
             case 0:
                 volume = -80f;
                 break;

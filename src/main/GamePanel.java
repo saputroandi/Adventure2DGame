@@ -24,11 +24,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldRow = 50;
     public final int tileSize = originalTileSize * scale;
     public final int screenWidth = tileSize * maxScreenCol;
-    public final int screenHeight = tileSize * maxScreenRow;
-
-    public boolean fullScreen = false;
     public int screenWidth2 = screenWidth;
+    public final int screenHeight = tileSize * maxScreenRow;
     public int screenHeight2 = screenHeight;
+    public boolean fullScreen = false;
     BufferedImage tempScreen;
     Graphics2D graphics2D;
 
@@ -39,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int dialogueState = 3;
     public final int characterState = 4;
     public final int optionsState = 5;
+    public final int gameOverState = 6;
 
     public Entity[] objects = new Entity[20];
     public Entity[] npc = new Entity[10];
@@ -54,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyHandler);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public EventHandler eventHandler = new EventHandler(this);
+    Config config = new Config(this);
 
     TileManager tileManager = new TileManager(this);
     Sound music = new Sound();
@@ -85,9 +86,29 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = titleState;
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
-        graphics2D = (Graphics2D ) tempScreen.getGraphics();
+        graphics2D = ( Graphics2D ) tempScreen.getGraphics();
 
-//        setFullScreen();
+        if ( fullScreen ) {
+            setFullScreen();
+        }
+    }
+
+    public void retry() {
+
+        player.setDefaultPosition();
+        player.restoreLifeAndMana();
+        assetSetter.setMonster();
+        assetSetter.setNpc();
+    }
+
+    public void restart() {
+
+        player.setDefaultValues();
+        player.setItems();
+        assetSetter.setObject();
+        assetSetter.setInteractiveTiles();
+        assetSetter.setNpc();
+        assetSetter.setMonster();
     }
 
     @Override
@@ -168,7 +189,8 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void drawToTempScreen(){
+    public void drawToTempScreen() {
+
         if ( gameState == titleState ) {
             userInterface.draw(graphics2D);
         } else {
@@ -299,14 +321,16 @@ public class GamePanel extends JPanel implements Runnable {
 //        graphics2D.dispose();
 //    }
 
-    public void drawToScreen(){
+    public void drawToScreen() {
+
         Graphics graphics = getGraphics();
 
         graphics.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
         graphics.dispose();
     }
 
-    public void setFullScreen(){
+    public void setFullScreen() {
+
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
 
