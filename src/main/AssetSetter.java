@@ -1,5 +1,6 @@
 package main;
 
+import entity.MerchantNpc;
 import entity.OldManNpc;
 import interactive.DryTree;
 import interactive.Tile;
@@ -38,33 +39,40 @@ public class AssetSetter {
     public void setNpc() {
 
         int mapNum = 0;
-        gamePanel.npc[mapNum][0] = new OldManNpc(gamePanel);
-        gamePanel.npc[mapNum][0].worldX = gamePanel.tileSize * 21;
-        gamePanel.npc[mapNum][0].worldY = gamePanel.tileSize * 21;
+        int i = 0;
+        gamePanel.npc[mapNum][i] = new OldManNpc(gamePanel);
+        gamePanel.npc[mapNum][i].worldX = gamePanel.tileSize * 21;
+        gamePanel.npc[mapNum][i].worldY = gamePanel.tileSize * 21;
+
+        mapNum = 1;
+        i = 0;
+        gamePanel.npc[mapNum][i] = new MerchantNpc(gamePanel);
+        gamePanel.npc[mapNum][i].worldX = gamePanel.tileSize * 12;
+        gamePanel.npc[mapNum][i].worldY = gamePanel.tileSize * 7;
     }
 
     public void setMonster() {
 
-        int mapNum = 0;
-        int i = 0;
-        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
-        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 23;
-        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 36;
-        i++;
-
-        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
-        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 23;
-        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
-        i++;
-
-        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
-        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 36;
-        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
-        i++;
-
-        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
-        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 35;
-        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
+//        int mapNum = 0;
+//        int i = 0;
+//        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+//        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 23;
+//        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 36;
+//        i++;
+//
+//        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+//        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 23;
+//        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
+//        i++;
+//
+//        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+//        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 36;
+//        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
+//        i++;
+//
+//        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+//        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 35;
+//        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
     }
 
     public void setInteractiveTiles() {

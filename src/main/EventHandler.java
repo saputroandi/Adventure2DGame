@@ -8,6 +8,7 @@ public class EventHandler {
 
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
+    int tempMap, tempCol, tempRow;
 
     public EventHandler(GamePanel gamePanel) {
 
@@ -23,7 +24,7 @@ public class EventHandler {
         int col = 0;
         int row = 0;
 
-        while (map < gamePanel.maxMap && col < gamePanel.maxWorldCol && row < gamePanel.maxWorldRow ) {
+        while ( map < gamePanel.maxMap && col < gamePanel.maxWorldCol && row < gamePanel.maxWorldRow ) {
 
             eventRect[map][col][row] = new EventRect();
             eventRect[map][col][row].x = 23;
@@ -38,7 +39,7 @@ public class EventHandler {
                 col = 0;
                 row++;
 
-                if ( row == gamePanel.maxWorldRow ){
+                if ( row == gamePanel.maxWorldRow ) {
                     row = 0;
                     map++;
                 }
@@ -57,11 +58,11 @@ public class EventHandler {
         }
 
         if ( canTouchEvent ) {
-            if ( hit(0,23, 12, "any") ) {
+            if ( hit(0, 23, 12, "any") ) {
                 healingPool(gamePanel.dialogueState);
-            }else if ( hit(0, 10, 39, "any") ){
+            } else if ( hit(0, 10, 39, "any") ) {
                 teleport(1, 12, 13);
-            } else if ( hit(1, 12, 13, "any") ){
+            } else if ( hit(1, 12, 13, "any") ) {
                 teleport(0, 10, 39);
             }
         }
@@ -71,7 +72,7 @@ public class EventHandler {
 
         boolean hit = false;
 
-        if ( map == gamePanel.currentMap ){
+        if ( map == gamePanel.currentMap ) {
             gamePanel.player.solidArea.x = gamePanel.player.worldX + gamePanel.player.solidArea.x;
             gamePanel.player.solidArea.y = gamePanel.player.worldY + gamePanel.player.solidArea.y;
 
@@ -107,9 +108,9 @@ public class EventHandler {
         canTouchEvent = false;
     }
 
-    public void healingPool(int gameState){
+    public void healingPool(int gameState) {
 
-        if ( gamePanel.keyHandler.enterPressed ){
+        if ( gamePanel.keyHandler.enterPressed ) {
             gamePanel.gameState = gameState;
             gamePanel.player.attackCancel = true;
             gamePanel.playSoundEffect(2);
@@ -119,12 +120,12 @@ public class EventHandler {
         }
     }
 
-    public void teleport(int map, int col, int row){
-        gamePanel.currentMap = map;
-        gamePanel.player.worldX = gamePanel.tileSize * col;
-        gamePanel.player.worldY = gamePanel.tileSize * row;
-        previousEventX = gamePanel.player.worldX;
-        previousEventY = gamePanel.player.worldY;
+    public void teleport(int map, int col, int row) {
+
+        gamePanel.gameState = gamePanel.transitionState;
+        tempMap = map;
+        tempCol = col;
+        tempRow = row;
         canTouchEvent = false;
         gamePanel.playSoundEffect(13);
     }

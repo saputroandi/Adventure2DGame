@@ -41,6 +41,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int characterState = 4;
     public final int optionsState = 5;
     public final int gameOverState = 6;
+    public final int transitionState = 7;
+    public final int tradeState = 8;
 
     public Entity[][] objects = new Entity[maxMap][20];
     public Entity[][] npc = new Entity[maxMap][10];
@@ -143,14 +145,14 @@ public class GamePanel extends JPanel implements Runnable {
         if ( gameState == playState ) {
             player.update();
 
-            for ( int i = 0; i < npc[1].length; i++ ){
-                if ( npc[currentMap][i] != null ){
+            for ( int i = 0; i < npc[1].length; i++ ) {
+                if ( npc[currentMap][i] != null ) {
                     npc[currentMap][i].update();
                 }
             }
 
 
-                for ( int i = 0; i < monsters[1].length; i++ ) {
+            for ( int i = 0; i < monsters[1].length; i++ ) {
                 if ( monsters[currentMap][i] != null ) {
                     if ( monsters[currentMap][i].alive && !monsters[currentMap][i].dying ) {
                         monsters[currentMap][i].update();

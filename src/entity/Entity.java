@@ -5,6 +5,7 @@ import main.Utility;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Entity {
 
@@ -40,6 +41,9 @@ public class Entity {
     public boolean alive = true;
     public boolean dying = false;
     public int dyingCounter = 0;
+
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int maxInventorySize = 20;
 
     public int dialogueIndex = 0;
     String[] dialogues = new String[20];
@@ -205,7 +209,7 @@ public class Entity {
         }
 
         spriteCounter++;
-        if ( spriteCounter > 10 ) {
+        if ( spriteCounter > 24 ) {
             if ( spriteNum == 1 ) {
                 spriteNum = 2;
             } else if ( spriteNum == 2 ) {

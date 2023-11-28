@@ -29,6 +29,9 @@ public class UserInterface {
     public int slotRow = 0;
 
     int subState = 0;
+    int counter = 0;
+
+    public Entity npc;
 
     public UserInterface(GamePanel gamePanel) {
 
@@ -89,6 +92,8 @@ public class UserInterface {
             drawOptionsScreen();
         } else if ( gamePanel.gameState == gamePanel.gameOverState ) {
             drawGameOverScreen();
+        } else if ( gamePanel.gameState == gamePanel.transitionState ) {
+            drawTransition();
         }
     }
 
@@ -677,6 +682,23 @@ public class UserInterface {
         graphics2D.drawString(text, x, y);
         if ( commandNum == 1 ) {
             graphics2D.drawString(">", x - 40, y);
+        }
+    }
+
+    public void drawTransition() {
+
+        counter++;
+        graphics2D.setColor(new Color(0, 0, 0, counter * 5));
+        graphics2D.fillRect(0, 0, gamePanel.screenWidth, gamePanel.screenHeight);
+
+        if ( counter == 50 ) {
+            counter = 0;
+            gamePanel.gameState = gamePanel.playState;
+            gamePanel.currentMap = gamePanel.eventHandler.tempMap;
+            gamePanel.player.worldX = gamePanel.tileSize * gamePanel.eventHandler.tempCol;
+            gamePanel.player.worldY = gamePanel.tileSize * gamePanel.eventHandler.tempRow;
+            gamePanel.eventHandler.previousEventX = gamePanel.player.worldX;
+            gamePanel.eventHandler.previousEventY = gamePanel.player.worldY;
         }
     }
 

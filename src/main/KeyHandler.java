@@ -86,6 +86,7 @@ public class KeyHandler implements KeyListener {
         } else if ( code == KeyEvent.VK_ENTER ) {
             if ( gamePanel.userInterface.commandNum == 0 ) {
                 gamePanel.gameState = gamePanel.playState;
+                gamePanel.restart();
             } else if ( gamePanel.userInterface.commandNum == 1 ) {
 //
             } else if ( gamePanel.userInterface.commandNum == 2 ) {

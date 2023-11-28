@@ -6,15 +6,12 @@ import object.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
     public boolean attackCancel = false;
-    public ArrayList<Entity> inventory = new ArrayList<>();
-    public final int maxInventorySize = 20;
 
     KeyHandler keyHandler;
 
@@ -391,7 +388,7 @@ public class Player extends Entity {
             }
         }
 
-//        gamePanel.keyHandler.enterPressed = false;
+        gamePanel.keyHandler.enterPressed = false;
     }
 
     public void objectInteraction(int indexItem) {
