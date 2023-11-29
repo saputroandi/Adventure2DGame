@@ -296,6 +296,13 @@ public class KeyHandler implements KeyListener {
                 gamePanel.userInterface.subState = 0;
             }
         }
+
+        if ( gamePanel.userInterface.subState == 2 ) {
+            playerInventory(code);
+            if ( code == KeyEvent.VK_ESCAPE ) {
+                gamePanel.userInterface.subState = 0;
+            }
+        }
     }
 
     public void playerInventory(int code) {

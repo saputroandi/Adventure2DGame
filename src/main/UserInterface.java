@@ -89,7 +89,7 @@ public class UserInterface {
             drawPlayerLife();
             drawPauseScreen();
         } else if ( gamePanel.gameState == gamePanel.dialogueState ) {
-            drawPlayerLife();
+//            drawPlayerLife();
             drawDialogueScreen();
         } else if ( gamePanel.gameState == gamePanel.characterState ) {
             drawCharacterScreen();
@@ -781,7 +781,7 @@ public class UserInterface {
             if ( gamePanel.keyHandler.enterPressed ) {
 //                subState = 0;
                 commandNum = 0;
-                currentDialogue = "Come again, hehe.";
+                currentDialogue = "Come again, haha.";
                 gamePanel.gameState = gamePanel.dialogueState;
             }
         }
@@ -826,7 +826,13 @@ public class UserInterface {
                     currentDialogue = "You need more coin to buy that!";
                     gamePanel.gameState = gamePanel.dialogueState;
                     drawDialogueScreen();
-
+                } else if ( gamePanel.player.inventory.size() == gamePanel.player.maxInventorySize ){
+                    subState = 0;
+                    currentDialogue = "You cannot carry anymore.";
+                    gamePanel.gameState = gamePanel.dialogueState;
+                } else {
+                    gamePanel.player.coin -= npc.inventory.get(indexItemNpc).price;
+                    gamePanel.player.inventory.add(npc.inventory.get(indexItemNpc));
                 }
             }
         }
@@ -834,6 +840,52 @@ public class UserInterface {
 
     public void tradeSell() {
 
+        drawInventory(gamePanel.player, true);
+
+        int x;
+        int y;
+        int width;
+        int height;
+
+        x = gamePanel.tileSize * 2;
+        y = gamePanel.tileSize * 9;
+        width = gamePanel.tileSize * 6;
+        height = gamePanel.tileSize * 2;
+
+        drawSubWindow(x, y, width, height);
+        graphics2D.drawString("[ESC] Back", x + 24, y + 60);
+
+        x = gamePanel.tileSize * 12;
+        drawSubWindow(x, y, width, height);
+        graphics2D.drawString("Ur coin: " + gamePanel.player.coin, x + 24, y + 60);
+
+        int indexItemPlayer = getItemIndexOnInventory(playerSlotCol, playerSlotRow);
+        if ( indexItemPlayer < gamePanel.player.inventory.size() ) {
+            x = ( int ) (gamePanel.tileSize * 15.5);
+            y = ( int ) (gamePanel.tileSize * 5.5);
+            width = ( int ) (gamePanel.tileSize * 2.5);
+            height = gamePanel.tileSize;
+
+            drawSubWindow(x, y, width, height);
+            graphics2D.drawImage(coin, x + 10, y + 8, 32, 32, null);
+
+            int price = gamePanel.player.inventory.get(indexItemPlayer).price / 2;
+            String text = "" + price;
+            x = getXForAlignToRightText(text, gamePanel.tileSize * 18 - 20);
+            graphics2D.drawString(text, x, y + 34);
+
+            if ( gamePanel.keyHandler.enterPressed ) {
+                if ( gamePanel.player.inventory.get(indexItemPlayer) == gamePanel.player.currentWeapon || gamePanel.player.inventory.get(indexItemPlayer) == gamePanel.player.currentShield){
+                    commandNum = 0;
+                    subState = 0;
+                    currentDialogue = "You cannot sell an equipped item!.";
+                    gamePanel.gameState = gamePanel.dialogueState;
+                } else {
+                    gamePanel.player.inventory.remove(indexItemPlayer);
+                    gamePanel.player.coin += price;
+                }
+            }
+        }
     }
 
     public int getItemIndexOnInventory(int slotCol, int slotRow) {
