@@ -18,5 +18,6 @@ public class ShieldBlue extends Entity {
         down1 = getScaledImage("/objects/shield_blue", gamePanel.tileSize, gamePanel.tileSize);
         defenseValue = 2;
         description = "[" + name + "]\nShiny blue shield.";
+        price = 80;
     }
 }

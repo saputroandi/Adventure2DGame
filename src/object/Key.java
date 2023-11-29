@@ -16,5 +16,6 @@ public class Key extends Entity {
         name = "Key";
         down1 = getScaledImage("/objects/key", gamePanel.tileSize, gamePanel.tileSize);
         description = "[" + name + "]\nMade to open the door.";
+        price = 10;
     }
 }

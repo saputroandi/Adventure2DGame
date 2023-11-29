@@ -17,5 +17,6 @@ public class ShieldWood extends Entity {
         down1 = getScaledImage("/objects/shield_wood", gamePanel.tileSize, gamePanel.tileSize);
         defenseValue = 1;
         description = "[" + name + "]\nMade by wood.";
+        price = 50;
     }
 }

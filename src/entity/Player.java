@@ -43,8 +43,12 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
 
-        worldX = gamePanel.tileSize * 23;
-        worldY = gamePanel.tileSize * 21;
+//        worldX = gamePanel.tileSize * 23;
+//        worldY = gamePanel.tileSize * 21;
+
+        gamePanel.currentMap = 1;
+        worldX = gamePanel.tileSize * 12;
+        worldY = gamePanel.tileSize * 10;
         speed = 3;
         direction = "down";
 
@@ -417,7 +421,7 @@ public class Player extends Entity {
 
     public void selectItem() {
 
-        int indexItem = gamePanel.userInterface.getItemIndexOnInventory();
+        int indexItem = gamePanel.userInterface.getItemIndexOnInventory(gamePanel.userInterface.playerSlotCol, gamePanel.userInterface.playerSlotRow);
 
         if ( indexItem < inventory.size() ) {
 

@@ -1,5 +1,7 @@
 package main;
 
+import entity.Entity;
+
 public class EventHandler {
 
     GamePanel gamePanel;
@@ -64,6 +66,8 @@ public class EventHandler {
                 teleport(1, 12, 13);
             } else if ( hit(1, 12, 13, "any") ) {
                 teleport(0, 10, 39);
+            } else if ( hit(1, 12, 9, "any") ) {
+                speak(gamePanel.npc[1][0]);
             }
         }
     }
@@ -128,5 +132,14 @@ public class EventHandler {
         tempRow = row;
         canTouchEvent = false;
         gamePanel.playSoundEffect(13);
+    }
+
+    public void speak(Entity entity) {
+
+        if ( gamePanel.keyHandler.enterPressed ) {
+            gamePanel.gameState = gamePanel.dialogueState;
+            gamePanel.player.attackCancel = true;
+            entity.speak();
+        }
     }
 }

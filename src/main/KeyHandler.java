@@ -38,6 +38,8 @@ public class KeyHandler implements KeyListener {
             optionsState(code);
         } else if ( gamePanel.gameState == gamePanel.gameOverState ) {
             gameOverState(code);
+        } else if ( gamePanel.gameState == gamePanel.tradeState ) {
+            tradeState(code);
         }
     }
 
@@ -159,37 +161,11 @@ public class KeyHandler implements KeyListener {
 //            gamePanel.playSoundEffect(9);
         }
 
-        if ( code == KeyEvent.VK_UP ) {
-            if ( gamePanel.userInterface.slotRow != 0 ) {
-                gamePanel.userInterface.slotRow--;
-                gamePanel.playSoundEffect(9);
-            }
-        }
-
-        if ( code == KeyEvent.VK_DOWN ) {
-            if ( gamePanel.userInterface.slotRow != 3 ) {
-                gamePanel.userInterface.slotRow++;
-                gamePanel.playSoundEffect(9);
-            }
-        }
-
-        if ( code == KeyEvent.VK_RIGHT ) {
-            if ( gamePanel.userInterface.slotCol != 4 ) {
-                gamePanel.userInterface.slotCol++;
-                gamePanel.playSoundEffect(9);
-            }
-        }
-
-        if ( code == KeyEvent.VK_LEFT ) {
-            if ( gamePanel.userInterface.slotCol != 0 ) {
-                gamePanel.userInterface.slotCol--;
-                gamePanel.playSoundEffect(9);
-            }
-        }
-
         if ( code == KeyEvent.VK_ENTER ) {
             gamePanel.player.selectItem();
         }
+
+        playerInventory(code);
     }
 
     public void optionsState(int code) {
@@ -286,6 +262,100 @@ public class KeyHandler implements KeyListener {
                 gamePanel.userInterface.commandNum = 0;
                 gamePanel.gameState = gamePanel.titleState;
                 gamePanel.restart();
+            }
+        }
+    }
+
+    public void tradeState(int code) {
+
+        if ( code == KeyEvent.VK_ENTER ) {
+            enterPressed = true;
+        }
+
+        if ( gamePanel.userInterface.subState == 0 ) {
+            if ( code == KeyEvent.VK_UP ) {
+                gamePanel.userInterface.commandNum--;
+                if ( gamePanel.userInterface.commandNum < 0 ) {
+                    gamePanel.userInterface.commandNum = 2;
+                }
+                gamePanel.playSoundEffect(9);
+            }
+
+            if ( code == KeyEvent.VK_DOWN ) {
+                gamePanel.userInterface.commandNum++;
+                if ( gamePanel.userInterface.commandNum > 2 ) {
+                    gamePanel.userInterface.commandNum = 0;
+                }
+                gamePanel.playSoundEffect(9);
+            }
+        }
+
+        if ( gamePanel.userInterface.subState == 1 ) {
+            npcInventory(code);
+            if ( code == KeyEvent.VK_ESCAPE ) {
+                gamePanel.userInterface.subState = 0;
+            }
+        }
+    }
+
+    public void playerInventory(int code) {
+
+        if ( code == KeyEvent.VK_UP ) {
+            if ( gamePanel.userInterface.playerSlotRow != 0 ) {
+                gamePanel.userInterface.playerSlotRow--;
+                gamePanel.playSoundEffect(9);
+            }
+        }
+
+        if ( code == KeyEvent.VK_DOWN ) {
+            if ( gamePanel.userInterface.playerSlotRow != 3 ) {
+                gamePanel.userInterface.playerSlotRow++;
+                gamePanel.playSoundEffect(9);
+            }
+        }
+
+        if ( code == KeyEvent.VK_RIGHT ) {
+            if ( gamePanel.userInterface.playerSlotCol != 4 ) {
+                gamePanel.userInterface.playerSlotCol++;
+                gamePanel.playSoundEffect(9);
+            }
+        }
+
+        if ( code == KeyEvent.VK_LEFT ) {
+            if ( gamePanel.userInterface.playerSlotCol != 0 ) {
+                gamePanel.userInterface.playerSlotCol--;
+                gamePanel.playSoundEffect(9);
+            }
+        }
+    }
+
+    public void npcInventory(int code) {
+
+        if ( code == KeyEvent.VK_UP ) {
+            if ( gamePanel.userInterface.npcSlotRow != 0 ) {
+                gamePanel.userInterface.npcSlotRow--;
+                gamePanel.playSoundEffect(9);
+            }
+        }
+
+        if ( code == KeyEvent.VK_DOWN ) {
+            if ( gamePanel.userInterface.npcSlotRow != 3 ) {
+                gamePanel.userInterface.npcSlotRow++;
+                gamePanel.playSoundEffect(9);
+            }
+        }
+
+        if ( code == KeyEvent.VK_RIGHT ) {
+            if ( gamePanel.userInterface.npcSlotCol != 4 ) {
+                gamePanel.userInterface.npcSlotCol++;
+                gamePanel.playSoundEffect(9);
+            }
+        }
+
+        if ( code == KeyEvent.VK_LEFT ) {
+            if ( gamePanel.userInterface.npcSlotCol != 0 ) {
+                gamePanel.userInterface.npcSlotCol--;
+                gamePanel.playSoundEffect(9);
             }
         }
     }

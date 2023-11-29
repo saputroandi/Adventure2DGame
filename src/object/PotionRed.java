@@ -18,6 +18,7 @@ public class PotionRed extends Entity {
         value = 5;
         down1 = getScaledImage("/objects/potion_red", gamePanel.tileSize, gamePanel.tileSize);
         description = "[" + name + "]\nRed Potion\nHeals your life by " + value + ".";
+        price = 20;
     }
 
     @Override
