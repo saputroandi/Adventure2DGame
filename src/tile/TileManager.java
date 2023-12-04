@@ -14,6 +14,7 @@ public class TileManager {
     public Tile[] tiles;
 
     public int[][][] mapTileNum;
+    public boolean drawPath = true;
 
     GamePanel gamePanel;
 
@@ -160,6 +161,20 @@ public class TileManager {
             if ( worldCol == gamePanel.maxWorldCol ) {
                 worldCol = 0;
                 worldRow++;
+            }
+        }
+
+        if ( drawPath ){
+            graphics2D.setColor(new Color(255, 0, 0, 70));
+
+            for ( int i = 0; i < gamePanel.pathFinder.pathList.size(); i++ ){
+
+                int worldX = gamePanel.pathFinder.pathList.get(i).col * gamePanel.tileSize;
+                int worldY = gamePanel.pathFinder.pathList.get(i).row * gamePanel.tileSize;
+                int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX;
+                int screenY = worldY - gamePanel.player.worldY + gamePanel.player.screenY;
+
+                graphics2D.fillRect(screenX, screenY, gamePanel.tileSize, gamePanel.tileSize);
             }
         }
     }

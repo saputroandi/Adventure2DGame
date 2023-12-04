@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 
+import java.awt.*;
 import java.util.Random;
 
 public class OldManNpc extends Entity {
@@ -17,6 +18,13 @@ public class OldManNpc extends Entity {
 
         direction = "down";
         speed = 1;
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+        solidArea.height = 28;
+        solidArea.width = 28;
 
         getImage();
         setDialogue();
@@ -39,7 +47,7 @@ public class OldManNpc extends Entity {
 
         if ( onPath ) {
 
-            int goalCol = 23;
+            int goalCol = 12;
             int goalRow = 9;
 
             searchPath(goalCol, goalRow);

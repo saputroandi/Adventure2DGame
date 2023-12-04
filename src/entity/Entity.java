@@ -376,8 +376,8 @@ public class Entity {
 
         if ( gamePanel.pathFinder.search() ) {
 
-            int nextX = gamePanel.pathFinder.pathList.get(0).col + gamePanel.tileSize;
-            int nextY = gamePanel.pathFinder.pathList.get(0).row + gamePanel.tileSize;
+            int nextX = gamePanel.pathFinder.pathList.get(0).col * gamePanel.tileSize;
+            int nextY = gamePanel.pathFinder.pathList.get(0).row * gamePanel.tileSize;
 
             int entityLeftX = worldX + solidArea.x;
             int entityRightX = worldX + solidArea.x + solidArea.width;
@@ -427,6 +427,7 @@ public class Entity {
 
             if ( nextCol == goalCol && nextRow == goalRow ) {
                 onPath = false;
+                gamePanel.tileManager.drawPath = false;
             }
         }
     }

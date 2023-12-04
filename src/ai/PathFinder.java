@@ -52,8 +52,8 @@ public class PathFinder {
 
             col++;
             if ( col == gamePanel.maxWorldCol ) {
-                row++;
                 col = 0;
+                row++;
             }
         }
 
@@ -117,7 +117,7 @@ public class PathFinder {
 
     public boolean search() {
 
-        while ( !goalReached && step < 600 ) {
+        while ( !goalReached && step < 500 ) {
 
             int col = currentNode.col;
             int row = currentNode.row;
@@ -144,10 +144,6 @@ public class PathFinder {
             int bestNodeIndex = 0;
             int bestNodeFCost = 999;
 
-            if ( openList.isEmpty() ) {
-                break;
-            }
-
             for ( int i = 0; i < openList.size(); i++ ) {
 
                 if ( openList.get(i).fCost < bestNodeFCost ) {
@@ -156,6 +152,10 @@ public class PathFinder {
                 } else if ( openList.get(i).fCost == bestNodeFCost && openList.get(i).gCost < openList.get(bestNodeIndex).gCost ) {
                     bestNodeIndex = i;
                 }
+            }
+
+            if ( openList.isEmpty() ) {
+                break;
             }
 
             currentNode = openList.get(bestNodeIndex);
