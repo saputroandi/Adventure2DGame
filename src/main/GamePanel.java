@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
     public EventHandler eventHandler = new EventHandler(this);
     Config config = new Config(this);
 
-    TileManager tileManager = new TileManager(this);
+    public TileManager tileManager = new TileManager(this);
     Sound music = new Sound();
     Sound soundEffect = new Sound();
     Thread gameThread;
@@ -209,7 +209,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             entities.add(player);
 
-            for ( int i = 0; i < npc[1].length; i++ ) {
+            for ( int i = 0; i < npc[currentMap].length; i++ ) {
                 if ( npc[currentMap][i] != null ) {
                     entities.add(npc[currentMap][i]);
                 }
