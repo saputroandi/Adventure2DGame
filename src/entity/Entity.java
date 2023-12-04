@@ -30,6 +30,7 @@ public class Entity {
     public int shotAvailableCounter = 0;
     boolean hpBarOn = false;
     int hpBarCounter = 0;
+    public boolean onPath = false;
 
     public boolean attacking = false;
 
@@ -179,18 +180,7 @@ public class Entity {
     public void update() {
 
         setAction();
-
-        collisionOn = false;
-        gamePanel.collisionChecker.checkTile(this);
-        gamePanel.collisionChecker.checkObject(this, false);
-        gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
-        gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
-        gamePanel.collisionChecker.checkEntity(this, gamePanel.interactiveTiles);
-        boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
-
-        if ( this.type == typeMonster && contactPlayer ) {
-            damagePlayer(attack);
-        }
+        checkCollision();
 
         if ( !collisionOn ) {
             switch ( direction ) {
@@ -229,6 +219,21 @@ public class Entity {
 
         if ( shotAvailableCounter < 30 ) {
             shotAvailableCounter++;
+        }
+    }
+
+    public void checkCollision() {
+
+        collisionOn = false;
+        gamePanel.collisionChecker.checkTile(this);
+        gamePanel.collisionChecker.checkObject(this, false);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.interactiveTiles);
+        boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
+
+        if ( this.type == typeMonster && contactPlayer ) {
+            damagePlayer(attack);
         }
     }
 
@@ -359,6 +364,70 @@ public class Entity {
         }
         if ( dyingCounter > i * 8 ) {
             alive = false;
+        }
+    }
+
+    public void searchPath(int goalCol, int goalRow) {
+
+        int startCol = (worldX + solidArea.x) / gamePanel.tileSize;
+        int startRow = (worldY + solidArea.y) / gamePanel.tileSize;
+
+        gamePanel.pathFinder.setNodes(startCol, startRow, goalCol, goalRow);
+
+        if ( gamePanel.pathFinder.search() ) {
+
+            int nextX = gamePanel.pathFinder.pathList.get(0).col + gamePanel.tileSize;
+            int nextY = gamePanel.pathFinder.pathList.get(0).row + gamePanel.tileSize;
+
+            int entityLeftX = worldX + solidArea.x;
+            int entityRightX = worldX + solidArea.x + solidArea.width;
+            int entityTopY = worldY + solidArea.y;
+            int entityBottomY = worldY + solidArea.y + solidArea.height;
+
+            if ( entityTopY > nextY && entityLeftX >= nextX && entityRightX < nextX + gamePanel.tileSize ) {
+                direction = "up";
+            } else if ( entityTopY < nextY && entityLeftX >= nextX && entityRightX < nextX + gamePanel.tileSize ) {
+                direction = "down";
+            } else if ( entityTopY >= nextY && entityBottomY < nextY + gamePanel.tileSize ) {
+                if ( entityLeftX > nextX ) {
+                    direction = "left";
+                }
+
+                if ( entityLeftX < nextX ) {
+                    direction = "right";
+                }
+            } else if ( entityTopY > nextY && entityLeftX > nextX ) {
+                direction = "up";
+                checkCollision();
+                if ( collisionOn ) {
+                    direction = "left";
+                }
+            } else if ( entityTopY > nextY && entityLeftX < nextX ) {
+                direction = "up";
+                checkCollision();
+                if ( collisionOn ) {
+                    direction = "right";
+                }
+            } else if ( entityTopY < nextY && entityLeftX > nextX ) {
+                direction = "down";
+                checkCollision();
+                if ( collisionOn ) {
+                    direction = "left";
+                }
+            } else if ( entityTopY < nextY && entityLeftX < nextX ) {
+                direction = "down";
+                checkCollision();
+                if ( collisionOn ) {
+                    direction = "right";
+                }
+            }
+
+            int nextCol = gamePanel.pathFinder.pathList.get(0).col;
+            int nextRow = gamePanel.pathFinder.pathList.get(0).row;
+
+            if ( nextCol == goalCol && nextRow == goalRow ) {
+                onPath = false;
+            }
         }
     }
 

@@ -37,22 +37,30 @@ public class OldManNpc extends Entity {
     @Override
     public void setAction() {
 
-        actionLockCounter++;
-        if ( actionLockCounter > 120 ) {
-            Random random = new Random();
-            int i = random.nextInt(100) + 1;
+        if ( onPath ) {
 
-            if ( i <= 25 ) {
-                direction = "up";
-            } else if ( i <= 50 ) {
-                direction = "down";
-            } else if ( i <= 75 ) {
-                direction = "left";
-            } else {
-                direction = "right";
+            int goalCol = 23;
+            int goalRow = 9;
+
+            searchPath(goalCol, goalRow);
+        } else {
+            actionLockCounter++;
+            if ( actionLockCounter > 120 ) {
+                Random random = new Random();
+                int i = random.nextInt(100) + 1;
+
+                if ( i <= 25 ) {
+                    direction = "up";
+                } else if ( i <= 50 ) {
+                    direction = "down";
+                } else if ( i <= 75 ) {
+                    direction = "left";
+                } else {
+                    direction = "right";
+                }
+
+                actionLockCounter = 0;
             }
-
-            actionLockCounter = 0;
         }
     }
 
@@ -64,5 +72,7 @@ public class OldManNpc extends Entity {
     public void speak() {
 
         super.speak();
+
+        onPath = true;
     }
 }

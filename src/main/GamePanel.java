@@ -1,5 +1,6 @@
 package main;
 
+import ai.PathFinder;
 import entity.Entity;
 import entity.Player;
 import interactive.Tile;
@@ -63,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
     public TileManager tileManager = new TileManager(this);
     Sound music = new Sound();
     Sound soundEffect = new Sound();
+    public PathFinder pathFinder = new PathFinder(this);
     Thread gameThread;
 
     public GamePanel() {
