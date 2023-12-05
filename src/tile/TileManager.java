@@ -14,7 +14,7 @@ public class TileManager {
     public Tile[] tiles;
 
     public int[][][] mapTileNum;
-    public boolean drawPath = true;
+    public boolean drawPath = false;
 
     GamePanel gamePanel;
 
@@ -164,10 +164,10 @@ public class TileManager {
             }
         }
 
-        if ( drawPath ){
+        if ( drawPath ) {
             graphics2D.setColor(new Color(255, 0, 0, 70));
 
-            for ( int i = 0; i < gamePanel.pathFinder.pathList.size(); i++ ){
+            for ( int i = 0; i < gamePanel.pathFinder.pathList.size(); i++ ) {
 
                 int worldX = gamePanel.pathFinder.pathList.get(i).col * gamePanel.tileSize;
                 int worldY = gamePanel.pathFinder.pathList.get(i).row * gamePanel.tileSize;

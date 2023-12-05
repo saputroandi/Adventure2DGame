@@ -11,7 +11,6 @@ public class Entity {
 
     public GamePanel gamePanel;
     public int worldX, worldY;
-    public int speed;
 
     public BufferedImage up1, up2, down1, down2, right1, right2, left1, left2;
     public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackRight1, attackRight2, attackLeft1, attackLeft2;
@@ -31,6 +30,7 @@ public class Entity {
     boolean hpBarOn = false;
     int hpBarCounter = 0;
     public boolean onPath = false;
+    public boolean knockBack = false;
 
     public boolean attacking = false;
 
@@ -42,6 +42,7 @@ public class Entity {
     public boolean alive = true;
     public boolean dying = false;
     public int dyingCounter = 0;
+    public int knockBackCounter = 0;
 
     public ArrayList<Entity> inventory = new ArrayList<>();
     public final int maxInventorySize = 20;
@@ -53,6 +54,8 @@ public class Entity {
     public String name;
     public boolean collision;
 
+    public int defaultSpeed;
+    public int speed;
     public int strength;
     public int dexterity;
     public int attack;
@@ -71,6 +74,7 @@ public class Entity {
     public String description = "";
     public int useCost;
     public int price;
+    public int knockBackPower = 0;
 
     public int type;
     public final int typePlayer = 0;
@@ -179,23 +183,55 @@ public class Entity {
 
     public void update() {
 
-        setAction();
-        checkCollision();
+        if ( knockBack ) {
 
-        if ( !collisionOn ) {
-            switch ( direction ) {
-                case "up":
-                    worldY -= speed;
-                    break;
-                case "down":
-                    worldY += speed;
-                    break;
-                case "right":
-                    worldX += speed;
-                    break;
-                case "left":
-                    worldX -= speed;
-                    break;
+            checkCollision();
+            if ( collisionOn ) {
+                knockBackCounter = 0;
+                knockBack = false;
+                speed = defaultSpeed;
+            } else if ( !collisionOn ) {
+                switch ( gamePanel.player.direction ) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                }
+            }
+
+            knockBackCounter++;
+            if ( knockBackCounter == 10 ) {
+                knockBackCounter = 0;
+                knockBack = false;
+                speed = defaultSpeed;
+            }
+        } else {
+            setAction();
+            checkCollision();
+
+            if ( !collisionOn ) {
+                switch ( direction ) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                }
             }
         }
 
@@ -369,6 +405,10 @@ public class Entity {
 
     public void searchPath(int goalCol, int goalRow) {
 
+        if ( !gamePanel.tileManager.drawPath ) {
+            gamePanel.tileManager.drawPath = true;
+        }
+
         int startCol = (worldX + solidArea.x) / gamePanel.tileSize;
         int startRow = (worldY + solidArea.y) / gamePanel.tileSize;
 
@@ -422,13 +462,15 @@ public class Entity {
                 }
             }
 
-            int nextCol = gamePanel.pathFinder.pathList.get(0).col;
-            int nextRow = gamePanel.pathFinder.pathList.get(0).row;
-
-            if ( nextCol == goalCol && nextRow == goalRow ) {
-                onPath = false;
-                gamePanel.tileManager.drawPath = false;
-            }
+//            int nextCol = gamePanel.pathFinder.pathList.get(0).col;
+//            int nextRow = gamePanel.pathFinder.pathList.get(0).row;
+//
+//            if ( nextCol == goalCol && nextRow == goalRow ) {
+//                onPath = false;
+//                if ( gamePanel.tileManager.drawPath ) {
+//                    gamePanel.tileManager.drawPath = false;
+//                }
+//            }
         }
     }
 

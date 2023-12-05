@@ -3,6 +3,7 @@ package main;
 import ai.PathFinder;
 import entity.Entity;
 import entity.Player;
+import entity.Projectile;
 import interactive.Tile;
 import tile.TileManager;
 
@@ -49,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Entity[][] npc = new Entity[maxMap][10];
     public Entity[][] monsters = new Entity[maxMap][20];
     public Tile[][] interactiveTiles = new Tile[maxMap][50];
-    public ArrayList<Entity> projectiles = new ArrayList<>();
+    public Entity[][] projectiles = new Entity[maxMap][20];
     public ArrayList<Entity> particles = new ArrayList<>();
     ArrayList<Entity> entities = new ArrayList<>();
 
@@ -166,13 +167,24 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-            for ( int i = 0; i < projectiles.size(); i++ ) {
-                if ( projectiles.get(i) != null ) {
-                    if ( projectiles.get(i).alive ) {
-                        projectiles.get(i).update();
+//            for ( int i = 0; i < projectiles.size(); i++ ) {
+//                if ( projectiles.get(i) != null ) {
+//                    if ( projectiles.get(i).alive ) {
+//                        projectiles.get(i).update();
+//                    }
+//                    if ( !projectiles.get(i).alive ) {
+//                        projectiles.remove(i);
+//                    }
+//                }
+//            }
+
+            for ( int i = 0; i < projectiles[0].length; i++ ) {
+                if ( projectiles[currentMap][i] != null ) {
+                    if ( projectiles[currentMap][i].alive ) {
+                        projectiles[currentMap][i].update();
                     }
-                    if ( !projectiles.get(i).alive ) {
-                        projectiles.remove(i);
+                    if ( !projectiles[currentMap][i].alive ) {
+                        projectiles[currentMap][i] = null;
                     }
                 }
             }
@@ -229,9 +241,9 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-            for ( int i = 0; i < projectiles.size(); i++ ) {
-                if ( projectiles.get(i) != null ) {
-                    entities.add(projectiles.get(i));
+            for ( int i = 0; i < projectiles[0].length; i++ ) {
+                if ( projectiles[currentMap][i] != null ) {
+                    entities.add(projectiles[currentMap][i]);
                 }
             }
 

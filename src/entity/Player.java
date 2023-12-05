@@ -49,7 +49,8 @@ public class Player extends Entity {
 //        gamePanel.currentMap = 1;
 //        worldX = gamePanel.tileSize * 12;
 //        worldY = gamePanel.tileSize * 10;
-        speed = 3;
+        defaultSpeed = 3;
+        speed = defaultSpeed;
         direction = "down";
 
         maxLife = 6;
@@ -217,8 +218,13 @@ public class Player extends Entity {
 
             projectile.subtractResource(this);
 
-            gamePanel.projectiles.add(projectile);
-
+//            gamePanel.projectiles.add(projectile);
+            for ( int i = 0; i < gamePanel.projectiles[0].length; i++ ) {
+                if ( gamePanel.projectiles[gamePanel.currentMap][i] == null ) {
+                    gamePanel.projectiles[gamePanel.currentMap][i] = projectile;
+                    break;
+                }
+            }
             shotAvailableCounter = 0;
 
             gamePanel.playSoundEffect(10);
@@ -284,9 +290,11 @@ public class Player extends Entity {
 
             int indexMonster = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
             int indexInteractiveTile = gamePanel.collisionChecker.checkEntity(this, gamePanel.interactiveTiles);
+            int indexProjectile = gamePanel.collisionChecker.checkEntity(this, gamePanel.projectiles);
 
-            damageMonster(indexMonster, attack);
+            damageMonster(indexMonster, attack, currentWeapon.knockBackPower);
             damageInteractiveTile(indexInteractiveTile);
+            damageProjectile(indexProjectile);
 
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -299,12 +307,15 @@ public class Player extends Entity {
         }
     }
 
-    public void damageMonster(int indexMonster, int attack) {
+    public void damageMonster(int indexMonster, int attack, int knockBackPower) {
 
         if ( indexMonster != 999 ) {
             if ( !gamePanel.monsters[gamePanel.currentMap][indexMonster].invisible ) {
 
                 gamePanel.playSoundEffect(5);
+                if ( knockBackPower > 0 ) {
+                    knockBack(gamePanel.monsters[gamePanel.currentMap][indexMonster], knockBackPower);
+                }
                 int damage = attack - gamePanel.monsters[gamePanel.currentMap][indexMonster].defense;
 
                 if ( damage < 0 ) {
@@ -327,6 +338,13 @@ public class Player extends Entity {
                 }
             }
         }
+    }
+
+    public void knockBack(Entity entity, int knockBackPower) {
+
+        entity.direction = direction;
+        entity.speed += knockBackPower;
+        entity.knockBack = true;
     }
 
     public void checkLevelUp() {
@@ -379,6 +397,15 @@ public class Player extends Entity {
             if ( gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile].life == 0 ) {
                 gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile] = gamePanel.interactiveTiles[gamePanel.currentMap][indexInteractiveTile].getDestroyedForm();
             }
+        }
+    }
+
+    public void damageProjectile(int indexProjectile) {
+
+        if ( indexProjectile != 999 ) {
+            Entity projectile = gamePanel.projectiles[gamePanel.currentMap][indexProjectile];
+            projectile.alive = false;
+            generateParticle(projectile, projectile);
         }
     }
 

@@ -53,26 +53,26 @@ public class AssetSetter {
 
     public void setMonster() {
 
-//        int mapNum = 0;
-//        int i = 0;
-//        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
-//        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 23;
-//        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 36;
-//        i++;
-//
-//        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
-//        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 23;
-//        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
-//        i++;
-//
-//        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
-//        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 36;
-//        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
-//        i++;
-//
-//        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
-//        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 35;
-//        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
+        int mapNum = 0;
+        int i = 0;
+        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 23;
+        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 36;
+        i++;
+
+        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 23;
+        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
+        i++;
+
+        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 36;
+        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
+        i++;
+
+        gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
+        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 35;
+        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
     }
 
     public void setInteractiveTiles() {
