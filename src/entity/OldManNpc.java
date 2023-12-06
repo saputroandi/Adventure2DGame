@@ -18,7 +18,7 @@ public class OldManNpc extends Entity {
 
         direction = "down";
         speed = 1;
-        solidArea = new Rectangle();
+
         solidArea.x = 8;
         solidArea.y = 16;
         solidAreaDefaultX = solidArea.x;

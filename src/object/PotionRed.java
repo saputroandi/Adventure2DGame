@@ -19,10 +19,11 @@ public class PotionRed extends Entity {
         down1 = getScaledImage("/objects/potion_red", gamePanel.tileSize, gamePanel.tileSize);
         description = "[" + name + "]\nRed Potion\nHeals your life by " + value + ".";
         price = 20;
+        stackable = true;
     }
 
     @Override
-    public void use(Entity entity) {
+    public boolean use(Entity entity) {
 
         gamePanel.gameState = gamePanel.dialogueState;
         gamePanel.userInterface.currentDialogue = "You drink the " + name + "!\n"
@@ -34,5 +35,6 @@ public class PotionRed extends Entity {
             gamePanel.player.life = gamePanel.player.maxLife;
         }
         gamePanel.playSoundEffect(2);
+        return true;
     }
 }

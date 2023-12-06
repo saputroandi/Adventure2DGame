@@ -75,6 +75,8 @@ public class Entity {
     public int useCost;
     public int price;
     public int knockBackPower = 0;
+    public boolean stackable = false;
+    public int amount = 1;
 
     public int type;
     public final int typePlayer = 0;
@@ -85,11 +87,43 @@ public class Entity {
     public final int typeShield = 5;
     public final int typeConsumable = 6;
     public final int typePickupOnly = 7;
+    public final int typeObstacle = 8;
 
     public Entity(GamePanel gamePanel) {
 
         this.gamePanel = gamePanel;
     }
+
+    public int getLeftX() {
+
+        return worldX + solidArea.x;
+    }
+
+    public int getRightX() {
+
+        return worldX + solidArea.x + solidArea.width;
+    }
+
+    public int getTopY() {
+
+        return worldY + solidArea.y;
+    }
+
+    public int getBottomY() {
+
+        return worldY + solidArea.y + solidArea.height;
+    }
+
+    public int getCol() {
+
+        return (worldX + solidArea.x) / gamePanel.tileSize;
+    }
+
+    public int getRow() {
+
+        return (worldY + solidArea.y) / gamePanel.tileSize;
+    }
+
 
     public void speak() {
 
@@ -115,8 +149,13 @@ public class Entity {
         }
     }
 
-    public void use(Entity entity) {
+    public void interaction() {
 
+    }
+
+    public boolean use(Entity entity) {
+
+        return false;
     }
 
     public void damageReaction() {
@@ -129,6 +168,43 @@ public class Entity {
 
     public void checkDrop() {
 
+    }
+
+    public int getDetected(Entity user, Entity[][] targets, String targetName) {
+
+        int index = 999;
+
+        int nextWorldX = user.getLeftX();
+        int nextWorldY = user.getTopY();
+
+        switch ( user.direction ) {
+            case "up":
+                nextWorldY = user.getTopY() - 1;
+                break;
+            case "down":
+                nextWorldY = user.getBottomY() + 1;
+                break;
+            case "left":
+                nextWorldX = user.getLeftX() - 1;
+                break;
+            case "right":
+                nextWorldX = user.getRightX() + 1;
+                break;
+        }
+
+        int col = nextWorldX / gamePanel.tileSize;
+        int row = nextWorldY / gamePanel.tileSize;
+
+        for ( int i = 0; i < targets[0].length; i++ ) {
+            if ( targets[gamePanel.currentMap][i] != null ) {
+                if ( targets[gamePanel.currentMap][i].getCol() == col && targets[gamePanel.currentMap][i].getRow() == row && targets[gamePanel.currentMap][i].name.equals(targetName) ) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        return index;
     }
 
     public void dropItem(Entity droppedItem) {

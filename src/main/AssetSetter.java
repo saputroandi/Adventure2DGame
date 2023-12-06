@@ -20,19 +20,28 @@ public class AssetSetter {
 
         int mapNum = 0;
         int i = 0;
-        gamePanel.objects[mapNum][i] = new CoinBronze(gamePanel);
+        gamePanel.objects[mapNum][i] = new Door(gamePanel);
+        gamePanel.objects[mapNum][i].worldX = gamePanel.tileSize * 14;
+        gamePanel.objects[mapNum][i].worldY = gamePanel.tileSize * 28;
+        i++;
+
+        gamePanel.objects[mapNum][i] = new Door(gamePanel);
+        gamePanel.objects[mapNum][i].worldX = gamePanel.tileSize * 12;
+        gamePanel.objects[mapNum][i].worldY = gamePanel.tileSize * 12;
+        i++;
+
+        gamePanel.objects[mapNum][i] = new PotionRed(gamePanel);
         gamePanel.objects[mapNum][i].worldX = gamePanel.tileSize * 25;
-        gamePanel.objects[mapNum][i].worldY = gamePanel.tileSize * 19;
+        gamePanel.objects[mapNum][i].worldY = gamePanel.tileSize * 12;
         i++;
-
-        gamePanel.objects[mapNum][i] = new Axe(gamePanel);
+        gamePanel.objects[mapNum][i] = new PotionRed(gamePanel);
         gamePanel.objects[mapNum][i].worldX = gamePanel.tileSize * 26;
-        gamePanel.objects[mapNum][i].worldY = gamePanel.tileSize * 22;
+        gamePanel.objects[mapNum][i].worldY = gamePanel.tileSize * 12;
         i++;
 
-//        gamePanel.objects[i] = new ManaCrystal(gamePanel);
-//        gamePanel.objects[i].worldX = gamePanel.tileSize * 22;
-//        gamePanel.objects[i].worldY = gamePanel.tileSize * 32;
+//        gamePanel.objects[mapNum][i] = new Chest(gamePanel, new Key(gamePanel));
+//        gamePanel.objects[mapNum][i].worldX = gamePanel.tileSize * 25;
+//        gamePanel.objects[mapNum][i].worldY = gamePanel.tileSize * 11;
 //        i++;
     }
 

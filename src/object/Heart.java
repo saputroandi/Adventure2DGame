@@ -24,10 +24,11 @@ public class Heart extends Entity {
     }
 
     @Override
-    public void use(Entity entity) {
+    public boolean use(Entity entity) {
 
         gamePanel.playSoundEffect(2);
         gamePanel.userInterface.addMessage("Life + " + value);
         entity.life += value;
+        return true;
     }
 }

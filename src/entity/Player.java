@@ -24,7 +24,6 @@ public class Player extends Entity {
         screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize / 2);
         screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize / 2);
 
-        solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
         solidAreaDefaultX = solidArea.x;
@@ -64,7 +63,7 @@ public class Player extends Entity {
         dexterity = 1;
         exp = 0;
         nextLevelExp = 5;
-        coin = 0;
+        coin = 200;
         currentWeapon = new SwordNormal(gamePanel);
         currentShield = new ShieldWood(gamePanel);
 
@@ -429,10 +428,14 @@ public class Player extends Entity {
             if ( gamePanel.objects[gamePanel.currentMap][indexItem].type == typePickupOnly ) {
                 gamePanel.objects[gamePanel.currentMap][indexItem].use(this);
                 gamePanel.objects[gamePanel.currentMap][indexItem] = null;
+            } else if ( gamePanel.objects[gamePanel.currentMap][indexItem].type == typeObstacle ) {
+                if ( keyHandler.enterPressed ) {
+                    attackCancel = true;
+                    gamePanel.objects[gamePanel.currentMap][indexItem].interaction();
+                }
             } else {
                 String text;
-                if ( inventory.size() != maxInventorySize ) {
-                    inventory.add(gamePanel.objects[gamePanel.currentMap][indexItem]);
+                if ( canObtainItem(gamePanel.objects[gamePanel.currentMap][indexItem]) ) {
                     gamePanel.playSoundEffect(1);
 
                     text = "Got a " + gamePanel.objects[gamePanel.currentMap][indexItem].name;
@@ -466,11 +469,55 @@ public class Player extends Entity {
             }
 
             if ( selectedItem.type == typeConsumable ) {
-                selectedItem.use(this);
-
-                inventory.remove(indexItem);
+                if ( selectedItem.use(this) ) {
+                    if ( selectedItem.amount > 1 ) {
+                        selectedItem.amount--;
+                    } else {
+                        inventory.remove(indexItem);
+                    }
+                }
             }
         }
+    }
+
+    public int searchItemInInventory(String itemName) {
+
+        int itemIndex = 999;
+
+        for ( int i = 0; i < inventory.size(); i++ ) {
+            if ( inventory.get(i).name.equals(itemName) ) {
+                itemIndex = i;
+                break;
+            }
+        }
+
+        return itemIndex;
+    }
+
+    public boolean canObtainItem(Entity item) {
+
+        boolean canObtain = false;
+
+        if ( item.stackable ) {
+            int index = searchItemInInventory(item.name);
+
+            if ( index != 999 ) {
+                inventory.get(index).amount++;
+                canObtain = true;
+            } else {
+                if ( inventory.size() != maxInventorySize ) {
+                    inventory.add(item);
+                    canObtain = true;
+                }
+            }
+        } else {
+            if ( inventory.size() != maxInventorySize ) {
+                inventory.add(item);
+                canObtain = true;
+            }
+        }
+
+        return canObtain;
     }
 
     public void draw(Graphics2D graphics2D) {

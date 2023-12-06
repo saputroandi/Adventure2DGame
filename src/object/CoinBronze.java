@@ -19,10 +19,11 @@ public class CoinBronze extends Entity {
     }
 
     @Override
-    public void use(Entity entity) {
+    public boolean use(Entity entity) {
 
         gamePanel.playSoundEffect(1);
         gamePanel.userInterface.addMessage("Coin + " + value);
         entity.coin += value;
+        return true;
     }
 }

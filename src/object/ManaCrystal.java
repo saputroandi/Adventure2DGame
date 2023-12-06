@@ -22,10 +22,11 @@ public class ManaCrystal extends Entity {
     }
 
     @Override
-    public void use(Entity entity) {
+    public boolean use(Entity entity) {
 
         gamePanel.playSoundEffect(2);
         gamePanel.userInterface.addMessage("Mana + " + value);
         entity.mana += value;
+        return true;
     }
 }
