@@ -4,6 +4,7 @@ import ai.PathFinder;
 import entity.Entity;
 import entity.Player;
 import entity.Projectile;
+import environment.EnvironmentManager;
 import interactive.Tile;
 import tile.TileManager;
 
@@ -63,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
     Config config = new Config(this);
 
     public TileManager tileManager = new TileManager(this);
+    EnvironmentManager environmentManager = new EnvironmentManager(this);
     Sound music = new Sound();
     Sound soundEffect = new Sound();
     public PathFinder pathFinder = new PathFinder(this);
@@ -90,6 +92,7 @@ public class GamePanel extends JPanel implements Runnable {
         assetSetter.setNpc();
         assetSetter.setMonster();
         playMusic(0);
+        environmentManager.setup();
         gameState = titleState;
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
@@ -205,6 +208,8 @@ public class GamePanel extends JPanel implements Runnable {
                     interactiveTiles[currentMap][i].update();
                 }
             }
+
+            environmentManager.update();
         }
     }
 
@@ -266,6 +271,8 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             entities.clear();
+
+            environmentManager.draw(graphics2D);
 
             userInterface.draw(graphics2D);
         }

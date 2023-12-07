@@ -400,7 +400,7 @@ public class UserInterface {
         int slotSize = gamePanel.tileSize + 3;
 
         for ( int i = 0; i < entity.inventory.size(); i++ ) {
-            if ( entity.inventory.get(i) == entity.currentWeapon || entity.inventory.get(i) == entity.currentShield ) {
+            if ( entity.inventory.get(i) == entity.currentWeapon || entity.inventory.get(i) == entity.currentShield || entity.inventory.get(i) == entity.currentLight ) {
                 graphics2D.setColor(new Color(240, 190, 90));
                 graphics2D.fillRoundRect(slotX, slotY, gamePanel.tileSize, gamePanel.tileSize, 10, 10);
             }
@@ -421,7 +421,6 @@ public class UserInterface {
                 graphics2D.drawString(string, amountX, amountY);
                 graphics2D.setColor(Color.WHITE);
                 graphics2D.drawString(string, amountX - 3, amountY - 3);
-
 
             }
 

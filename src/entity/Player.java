@@ -12,6 +12,7 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
     public boolean attackCancel = false;
+    public boolean lightUpdated = false;
 
     KeyHandler keyHandler;
 
@@ -466,6 +467,16 @@ public class Player extends Entity {
             if ( selectedItem.type == typeShield ) {
                 currentShield = selectedItem;
                 defense = getDefense();
+            }
+
+            if ( selectedItem.type == typeLight ) {
+                if ( currentLight == selectedItem ) {
+                    currentLight = null;
+                } else {
+                    currentLight = selectedItem;
+                }
+
+                lightUpdated = true;
             }
 
             if ( selectedItem.type == typeConsumable ) {
