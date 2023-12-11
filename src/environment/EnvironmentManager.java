@@ -7,7 +7,7 @@ import java.awt.*;
 public class EnvironmentManager {
 
     GamePanel gamePanel;
-    Lighting lighting;
+    public Lighting lighting;
 
     public EnvironmentManager(GamePanel gamePanel) {
 

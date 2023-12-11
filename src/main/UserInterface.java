@@ -102,6 +102,8 @@ public class UserInterface {
             drawTransition();
         } else if ( gamePanel.gameState == gamePanel.tradeState ) {
             drawTradeScreen();
+        } else if ( gamePanel.gameState == gamePanel.sleepState ) {
+            drawSleepScreen();
         }
     }
 
@@ -913,6 +915,29 @@ public class UserInterface {
     public int getItemIndexOnInventory(int slotCol, int slotRow) {
 
         return slotCol + (slotRow * 5);
+    }
+
+    public void drawSleepScreen(){
+        counter++;
+
+        if ( counter < 120 ){
+            gamePanel.environmentManager.lighting.filterAlpha += 0.01f;
+            if ( gamePanel.environmentManager.lighting.filterAlpha > 1f ){
+                gamePanel.environmentManager.lighting.filterAlpha = 1f;
+            }
+        }
+
+        if ( counter >= 120 ){
+            gamePanel.environmentManager.lighting.filterAlpha -= 0.01f;
+            if ( gamePanel.environmentManager.lighting.filterAlpha < 0f ){
+                gamePanel.environmentManager.lighting.filterAlpha = 0f;
+                counter = 0;
+                gamePanel.environmentManager.lighting.dayState = gamePanel.environmentManager.lighting.day;
+                gamePanel.environmentManager.lighting.dayCounter = 0;
+                gamePanel.gameState = gamePanel.playState;
+                gamePanel.player.getPlayerImage();
+            }
+        }
     }
 
     public void drawSubWindow(int x, int y, int width, int height) {

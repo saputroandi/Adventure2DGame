@@ -121,6 +121,18 @@ public class Player extends Entity {
         left2 = getScaledImage("/player/boy_left_2", gamePanel.tileSize, gamePanel.tileSize);
     }
 
+    public void getPlayerSleepImage(BufferedImage bufferedImage){
+
+        up1 = bufferedImage;
+        up2 = bufferedImage;
+        down1 = bufferedImage;
+        down2 = bufferedImage;
+        right1 = bufferedImage;
+        right2 = bufferedImage;
+        left1 = bufferedImage;
+        left2 = bufferedImage;
+    }
+
     public void getPlayerAttackImage() {
 
         if ( currentWeapon.type == typeSword ) {
