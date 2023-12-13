@@ -138,6 +138,14 @@ public class KeyHandler implements KeyListener {
         if ( code == KeyEvent.VK_F ) {
             shotKeyPressed = true;
         }
+
+        if ( code == KeyEvent.VK_X ) {
+            if ( !gamePanel.map.minimapOn ){
+                gamePanel.map.minimapOn = true;
+            } else {
+                gamePanel.map.minimapOn = false;
+            }
+        }
     }
 
     public void pauseState(int code) {

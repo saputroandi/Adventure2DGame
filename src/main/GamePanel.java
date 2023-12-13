@@ -6,6 +6,7 @@ import entity.Player;
 import entity.Projectile;
 import environment.EnvironmentManager;
 import interactive.Tile;
+import tile.Map;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -66,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public TileManager tileManager = new TileManager(this);
     EnvironmentManager environmentManager = new EnvironmentManager(this);
+    Map map = new Map(this);
     Sound music = new Sound();
     Sound soundEffect = new Sound();
     public PathFinder pathFinder = new PathFinder(this);
@@ -274,6 +276,8 @@ public class GamePanel extends JPanel implements Runnable {
             entities.clear();
 
             environmentManager.draw(graphics2D);
+
+            map.drawMinimap(graphics2D);
 
             userInterface.draw(graphics2D);
         }
