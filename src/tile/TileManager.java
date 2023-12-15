@@ -5,8 +5,10 @@ import main.Utility;
 
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class TileManager {
@@ -15,6 +17,8 @@ public class TileManager {
 
     public int[][][] mapTileNum;
     public boolean drawPath = false;
+    ArrayList<String> fileNames = new ArrayList<>();
+    ArrayList<String> collisionStatus = new ArrayList<>();
 
     GamePanel gamePanel;
 
@@ -26,12 +30,38 @@ public class TileManager {
 
     public void init() {
 
-        tiles = new Tile[50];
-        mapTileNum = new int[gamePanel.maxMap][gamePanel.maxWorldCol][gamePanel.maxWorldRow];
+        try(InputStream inputStream = getClass().getResourceAsStream("/maps/tiledata.txt");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream)))) {
+            String line;
+            while ( ( line = bufferedReader.readLine()) != null ){
 
+                fileNames.add(line);
+                collisionStatus.add(bufferedReader.readLine());
+            }
+        } catch ( IOException e ) {
+            throw new RuntimeException(e);
+        }
+
+        tiles = new Tile[fileNames.size()];
         getTileImage();
-        loadMaps("/maps/worldV3.txt", 0);
-        loadMaps("/maps/interior01.txt", 1);
+
+        try(InputStream inputStream = getClass().getResourceAsStream("/maps/worldmap.txt");
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream)))) {
+            String line = bufferedReader.readLine();
+            String[] maxTile = line.split(" ");
+
+            gamePanel.maxWorldCol = maxTile.length;
+            gamePanel.maxWorldRow = maxTile.length;
+
+            mapTileNum = new int[gamePanel.maxMap][gamePanel.maxWorldCol][gamePanel.maxWorldRow];
+
+        } catch ( IOException e ) {
+            throw new RuntimeException(e);
+        }
+
+
+        loadMaps("/maps/worldmap.txt", 0);
+        loadMaps("/maps/indoor01.txt", 1);
 //        Tile tile = getTile("road00", false);
 //        System.out.println(tile);
 
@@ -39,55 +69,15 @@ public class TileManager {
 
     public void getTileImage() {
 
-//        placeholder
-        tiles[0] = getTile("grass00", false);
-        tiles[1] = getTile("grass00", false);
-        tiles[2] = getTile("grass00", false);
-        tiles[3] = getTile("grass00", false);
-        tiles[4] = getTile("grass00", false);
-        tiles[5] = getTile("grass00", false);
-        tiles[6] = getTile("grass00", false);
-        tiles[7] = getTile("grass00", false);
-        tiles[8] = getTile("grass00", false);
-        tiles[9] = getTile("grass00", false);
+        for ( int i = 0; i < fileNames.size(); i++){
+            String fileName = fileNames.get(i);
+            boolean collision = false;
 
-//        used tiles
-        tiles[10] = getTile("grass00", false);
-        tiles[11] = getTile("grass01", false);
-        tiles[12] = getTile("water00", true);
-        tiles[13] = getTile("water01", true);
-        tiles[14] = getTile("water02", true);
-        tiles[15] = getTile("water03", true);
-        tiles[16] = getTile("water04", true);
-        tiles[17] = getTile("water05", true);
-        tiles[18] = getTile("water06", true);
-        tiles[19] = getTile("water07", true);
-        tiles[20] = getTile("water08", true);
-        tiles[21] = getTile("water09", true);
-        tiles[22] = getTile("water10", true);
-        tiles[23] = getTile("water11", true);
-        tiles[24] = getTile("water12", true);
-        tiles[25] = getTile("water13", true);
-        tiles[26] = getTile("road00", false);
-        tiles[27] = getTile("road01", false);
-        tiles[28] = getTile("road02", false);
-        tiles[29] = getTile("road03", false);
-        tiles[30] = getTile("road04", false);
-        tiles[31] = getTile("road05", false);
-        tiles[32] = getTile("road06", false);
-        tiles[33] = getTile("road07", false);
-        tiles[34] = getTile("road08", false);
-        tiles[35] = getTile("road09", false);
-        tiles[36] = getTile("road10", false);
-        tiles[37] = getTile("road11", false);
-        tiles[38] = getTile("road12", false);
-        tiles[39] = getTile("earth", false);
-        tiles[40] = getTile("wall", true);
-        tiles[41] = getTile("tree", true);
-        tiles[42] = getTile("hut", false);
-        tiles[43] = getTile("floor01", false);
-        tiles[44] = getTile("table01", true);
-
+            if ( collisionStatus.get(i).equals("true") ){
+                collision = true;
+            }
+            tiles[i] = getTile(fileName, collision);
+        }
 
     }
 
@@ -96,7 +86,7 @@ public class TileManager {
         Utility utility = new Utility();
         Tile tile = new Tile();
 
-        tile.image = utility.loadImage("/tiles/" + ImageName + ".png");
+        tile.image = utility.loadImage("/tiles/" + ImageName);
         tile.image = utility.scaleImage(tile.image, gamePanel.tileSize, gamePanel.tileSize);
         tile.collision = collision;
 

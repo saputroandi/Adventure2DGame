@@ -52,80 +52,26 @@ public class GreenSlime extends Entity {
         left2 = getScaledImage("/monster/greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
     }
 
-    public void update() {
-
-        super.update();
-
-        int xDistance = Math.abs(worldX - gamePanel.player.worldX);
-        int yDistance = Math.abs(worldY - gamePanel.player.worldY);
-        int tileDistance = (xDistance + yDistance) / gamePanel.tileSize;
-
-        if ( !onPath && tileDistance < 3 ) {
-
-            int i = new Random().nextInt(100) + 1;
-            if ( i > 50 ) {
-                onPath = true;
-            }
-        }
-        if ( onPath && tileDistance > 10 ) {
-            onPath = false;
-        }
-    }
-
     @Override
     public void setAction() {
 
-        if ( onPath ) {
+        if ( onPath ){
+            checkChasing(gamePanel.player, 8, 100, false);
 
-//            int goalCol = 12;
-//            int goalRow = 9;
+            searchPath(getGoalCol(gamePanel.player), getGoalRow(gamePanel.player));
 
-            int goalCol = (gamePanel.player.worldX + gamePanel.player.solidArea.x) / gamePanel.tileSize;
-            int goalRow = (gamePanel.player.worldY + gamePanel.player.solidArea.y) / gamePanel.tileSize;
-            ;
-
-            searchPath(goalCol, goalRow);
-
-            int i = new Random().nextInt(200) + 1;
-
-            if ( i > 197 && !projectile.alive && shotAvailableCounter == 30 ) {
-                projectile.set(worldX, worldY, direction, true, this);
-//                gamePanel.projectiles.add(projectile);
-                for ( int j = 0; j < gamePanel.projectiles[0].length; j++ ) {
-                    if ( gamePanel.projectiles[gamePanel.currentMap][j] == null ) {
-                        gamePanel.projectiles[gamePanel.currentMap][j] = projectile;
-                        break;
-                    }
-                }
-                shotAvailableCounter = 0;
-            }
+            checkShootOrNot(200, 30);
         } else {
-            actionLockCounter++;
-            if ( actionLockCounter > 120 ) {
-                Random random = new Random();
-                int i = random.nextInt(100) + 1;
+            checkChasing(gamePanel.player, 5, 100, true);
 
-                if ( i <= 25 ) {
-                    direction = "up";
-                } else if ( i <= 50 ) {
-                    direction = "down";
-                } else if ( i <= 75 ) {
-                    direction = "left";
-                } else {
-                    direction = "right";
-                }
-
-                actionLockCounter = 0;
-            }
+            getRandomDirection();
         }
-
     }
 
     @Override
     public void damageReaction() {
 
         actionLockCounter = 0;
-//        direction = gamePanel.player.direction;
         onPath = true;
     }
 

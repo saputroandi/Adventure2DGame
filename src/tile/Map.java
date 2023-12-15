@@ -25,7 +25,7 @@ public class Map extends TileManager{
         for ( int i = 0; i < gamePanel.maxMap; i++ ){
 
             worldMap[i] = new BufferedImage(worldMapWidth, worldMapHeight, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D graphics2D = (Graphics2D)  worldMap[i].createGraphics();
+            Graphics2D graphics2D = worldMap[i].createGraphics();
 
             int col = 0;
             int row = 0;
@@ -44,6 +44,8 @@ public class Map extends TileManager{
                     row++;
                 }
             }
+
+            graphics2D.dispose();
         }
     }
 
@@ -62,7 +64,7 @@ public class Map extends TileManager{
             double scale = (double ) (gamePanel.tileSize * gamePanel.maxWorldCol) / width;
             int playerX = (int) (x + gamePanel.player.worldX / scale);
             int playerY = (int) (y + gamePanel.player.worldY / scale);
-            int playerSize = (int) (gamePanel.tileSize / 3);
+            int playerSize = gamePanel.tileSize / 3;
             graphics2D.drawImage(gamePanel.player.down1, playerX - 6, playerY - 6, playerSize, playerSize, null);
 
             graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));

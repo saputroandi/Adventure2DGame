@@ -5,6 +5,7 @@ import entity.OldManNpc;
 import interactive.DryTree;
 import interactive.Tile;
 import monster.GreenSlime;
+import monster.Orc;
 import object.*;
 
 public class AssetSetter {
@@ -92,6 +93,11 @@ public class AssetSetter {
         gamePanel.monsters[mapNum][i] = new GreenSlime(gamePanel);
         gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 35;
         gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 37;
+        i++;
+
+        gamePanel.monsters[mapNum][i] = new Orc(gamePanel);
+        gamePanel.monsters[mapNum][i].worldX = gamePanel.tileSize * 12;
+        gamePanel.monsters[mapNum][i].worldY = gamePanel.tileSize * 33;
     }
 
     public void setInteractiveTiles() {

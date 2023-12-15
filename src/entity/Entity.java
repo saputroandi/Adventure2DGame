@@ -6,6 +6,7 @@ import main.Utility;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Entity {
 
@@ -127,6 +128,25 @@ public class Entity {
         return (worldY + solidArea.y) / gamePanel.tileSize;
     }
 
+    public int getXDistance(Entity target){
+        return Math.abs(worldX - target.worldX);
+    }
+
+    public int getYDistance(Entity target){
+        return Math.abs(worldY - target.worldY);
+    }
+
+    public int getTileDistance(Entity target){
+        return (getXDistance(target) + getYDistance(target)) / gamePanel.tileSize ;
+    }
+
+    public int getGoalCol(Entity target){
+        return (target.worldX + target.solidArea.x) / gamePanel.tileSize;
+    }
+
+    public int getGoalRow(Entity target){
+        return (target.worldY + target.solidArea.y) / gamePanel.tileSize;
+    }
 
     public void speak() {
 
@@ -334,6 +354,52 @@ public class Entity {
 
         if ( shotAvailableCounter < 30 ) {
             shotAvailableCounter++;
+        }
+    }
+
+    public void checkChasing(Entity target, int distance, int rate, boolean startChasing) {
+        int tileDistance = getTileDistance(target);
+        boolean condition = (startChasing) ? (tileDistance < distance) : (tileDistance > distance);
+
+        int randomInt = new Random().nextInt(rate);
+        if (randomInt == 0 && condition) {
+            onPath = startChasing;
+        }
+    }
+
+    public void checkShootOrNot(int rate, int setInterval){
+        int i = new Random().nextInt(rate);
+
+        if ( i == 0 && !projectile.alive && shotAvailableCounter == setInterval ) {
+            projectile.set(worldX, worldY, direction, true, this);
+            for ( int j = 0; j < gamePanel.projectiles[0].length; j++ ) {
+                if ( gamePanel.projectiles[gamePanel.currentMap][j] == null ) {
+                    gamePanel.projectiles[gamePanel.currentMap][j] = projectile;
+                    break;
+                }
+            }
+            shotAvailableCounter = 0;
+        }
+    }
+
+    public void getRandomDirection(){
+
+        actionLockCounter++;
+        if ( actionLockCounter > 120 ) {
+            Random random = new Random();
+            int i = random.nextInt(100) + 1;
+
+            if ( i <= 25 ) {
+                direction = "up";
+            } else if ( i <= 50 ) {
+                direction = "down";
+            } else if ( i <= 75 ) {
+                direction = "left";
+            } else {
+                direction = "right";
+            }
+
+            actionLockCounter = 0;
         }
     }
 
