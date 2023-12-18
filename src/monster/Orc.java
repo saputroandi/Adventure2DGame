@@ -27,6 +27,8 @@ public class Orc extends Entity {
         attack = 8;
         defense = 2;
         exp = 10;
+        motionDuration1 = 40;
+        motionDuration2 = 85;
 
         solidArea.x = 4;
         solidArea.y = 4;
@@ -76,6 +78,10 @@ public class Orc extends Entity {
             checkChasing(gamePanel.player, 5, 100, true);
 
             getRandomDirection();
+        }
+
+        if ( !attacking ){
+            checkAttackOrNot(30, gamePanel.tileSize * 4, gamePanel.tileSize );
         }
     }
 

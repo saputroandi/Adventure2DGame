@@ -100,6 +100,8 @@ public class Player extends Entity {
 
     public int getAttack() {
 
+        motionDuration1 = currentWeapon.motionDuration1;
+        motionDuration2 = currentWeapon.motionDuration2;
         attackArea = currentWeapon.attackArea;
         return strength * currentWeapon.attackValue;
     }
@@ -188,7 +190,7 @@ public class Player extends Entity {
             npcInteraction(indexNpc);
             monsterInteraction(indexMonster);
 
-            if ( !collisionOn && !keyHandler.enterPressed ) {
+            if ( !collisionOn && !keyHandler.enterPressed && !keyHandler.spacePressed ) {
                 switch ( direction ) {
                     case "up":
                         worldY -= speed;
@@ -268,65 +270,16 @@ public class Player extends Entity {
         }
     }
 
-    public void attacking() {
 
-        spriteCounter++;
 
-        if ( spriteCounter <= 5 ) {
-            spriteNum = 1;
-        } else if ( spriteCounter <= 25 ) {
-            spriteNum = 2;
-
-            int currentWorldX = worldX;
-            int currentWorldY = worldY;
-            int solidAreaWidth = solidArea.width;
-            int solidAreaHeight = solidArea.height;
-
-            switch ( direction ) {
-                case "up":
-                    worldY -= attackArea.height;
-                    break;
-                case "down":
-                    worldY += attackArea.height;
-                    break;
-                case "right":
-                    worldX += attackArea.width;
-                    break;
-                case "left":
-                    worldX -= attackArea.width;
-                    break;
-            }
-
-            solidArea.width = attackArea.width;
-            solidArea.height = attackArea.height;
-
-            int indexMonster = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
-            int indexInteractiveTile = gamePanel.collisionChecker.checkEntity(this, gamePanel.interactiveTiles);
-            int indexProjectile = gamePanel.collisionChecker.checkEntity(this, gamePanel.projectiles);
-
-            damageMonster(indexMonster, attack, currentWeapon.knockBackPower);
-            damageInteractiveTile(indexInteractiveTile);
-            damageProjectile(indexProjectile);
-
-            worldX = currentWorldX;
-            worldY = currentWorldY;
-            solidArea.width = solidAreaWidth;
-            solidArea.height = solidAreaHeight;
-        } else {
-            spriteNum = 1;
-            spriteCounter = 0;
-            attacking = false;
-        }
-    }
-
-    public void damageMonster(int indexMonster, int attack, int knockBackPower) {
+    public void damageMonster(int indexMonster, Entity attacker, int attack, int knockBackPower) {
 
         if ( indexMonster != 999 ) {
             if ( !gamePanel.monsters[gamePanel.currentMap][indexMonster].invisible ) {
 
                 gamePanel.playSoundEffect(5);
                 if ( knockBackPower > 0 ) {
-                    knockBack(gamePanel.monsters[gamePanel.currentMap][indexMonster], knockBackPower);
+                    setKnockBack(gamePanel.monsters[gamePanel.currentMap][indexMonster], attacker, knockBackPower);
                 }
                 int damage = attack - gamePanel.monsters[gamePanel.currentMap][indexMonster].defense;
 
@@ -350,13 +303,6 @@ public class Player extends Entity {
                 }
             }
         }
-    }
-
-    public void knockBack(Entity entity, int knockBackPower) {
-
-        entity.direction = direction;
-        entity.speed += knockBackPower;
-        entity.knockBack = true;
     }
 
     public void checkLevelUp() {
